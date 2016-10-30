@@ -28,7 +28,7 @@ export default class HelloWorldWidget extends React.Component {
         <hr />
         <form className="form-horizontal">
           <label>
-            Say hello to:
+            Say hello to:me
           </label>
           <input
             type="text"
