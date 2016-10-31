@@ -38,7 +38,7 @@ module.exports = {
             "warn"
         ],
         "no-undef": [
-            "warn"
+            2
         ],
         "no-empty": [
             "warn"

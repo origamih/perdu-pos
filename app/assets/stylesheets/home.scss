@@ -1,0 +1,103 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#pos_main{
+  .container {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  h2 {
+    margin: 0;
+  }
+}
+
+#react_content {
+  overflow: auto;
+}
+
+.nav-tabs > li > a.active, .nav-tabs > li > a.active:hover, .nav-tabs > li > a.active:focus {
+    color: #555555;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+
+#orderBody {
+  padding-left: 0;
+  padding-right: 0;
+}
+#utilityButtons {
+  text-align: right;
+  button {
+    width: 130px;
+    margin-bottom: 10px;
+  }
+}
+#menuCategories {
+  text-align: right;
+  button {
+    width: 130px;
+    margin-bottom: 10px;
+  }
+}
+#menuItems {
+  button {
+    // width: 130px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}
+#menuItemUtilityInput {
+  width: 270px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+#orderMainFooter {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#orderListBody {
+  height: 353px;
+  table {
+    td {
+      padding: 0;
+      border-top: 1px solid #fff
+    }
+    font-weight: bold;
+    .order-name {
+      margin: 0;
+    }
+    .order-status {
+      font-weight: normal;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+#menuItemsBody {
+  height: 300px;
+}
+
+#menuItems {
+  min-width: 450px;
+}
+
+#orderItems {
+  li {
+    list-style-type: none;
+  }
+}

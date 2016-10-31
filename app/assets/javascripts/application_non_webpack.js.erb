@@ -4,5 +4,17 @@
 
 // NOTE: We've got this in the /spec/dummy app because our CI supports testing with and
 // without Turbolinks.
-
-
+//= require bootstrap-sprockets
+var setHeight = function() {
+  var height = window.innerHeight;
+  var headerHeight = $('#pos_main_header').outerHeight(true);
+  var footerHeight = $('#pos_main_footer').outerHeight(true);
+  $('#pos_main > .container').css("height", height);
+  $('#react_content').css("height", height - headerHeight - footerHeight);
+};
+$(function() {
+  setHeight();
+});
+$(window).resize(function() {
+  setHeight();
+});
