@@ -1,0 +1,26 @@
+<div id="pos_main">
+  <div class="container" >
+    <!-- Header -->
+    <div class='row alert alert-info' id="pos_main_header">
+      <span class='pull-left'>
+        <h2>Perdu POS</h2>
+      </span>
+      <span class='pull-right'>
+        <h2><%= Date.today().to_s %></h2>
+      </span>
+    </div>
+    
+    <!-- Body -->
+    <div id='react_content' class="row">
+<!--       <%= react_component 'ReactHome' %> -->
+    </div>
+    
+    <!-- Footer -->
+    <div class='panel-footer row' id="pos_main_footer">
+      <div class='pull-right'>
+        <span>User: <%= current_user.email %></span>
+        <%= link_to 'Main Menu', root_url, class: 'btn btn-danger' %>
+      </div>
+    </div>
+  </div>
+</div>
