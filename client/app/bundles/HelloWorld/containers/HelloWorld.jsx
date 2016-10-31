@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import HelloWorldWidget from '../components/HelloWorldWidget';
 
+import styles from './HelloWorld.scss'
+
 // Simple example of a React "smart" component
 export default class HelloWorld extends React.Component {
   static propTypes = {

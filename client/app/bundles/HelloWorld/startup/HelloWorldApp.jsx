@@ -2,7 +2,7 @@ import React from 'react';
 import ReactOnRails from 'react-on-rails';
 
 import HelloWorld from '../containers/HelloWorld';
-
+import styles from './HelloWorldApp.scss'
 const HelloWorldApp = (props) => (
   <HelloWorld {...props} />
 );
