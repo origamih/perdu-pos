@@ -1,0 +1,69 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+/* ==========================================================================
+   index
+   ========================================================================== */
+
+// Slider
+
+.carousel-inner {
+  .item {
+    height: 100%;
+    img {
+      max-width: none !important;
+    }
+  }
+}
+
+
+// Parallax Scroll
+#slide-3 {
+  .bcg {
+    background-image: image-url('slider3.jpg');
+  }
+}
+
+#slide-4 {
+  .bcg {
+    background-image: image-url('slider4.jpg');
+  }
+}
+
+/* ==========================================================================
+   about
+   ========================================================================== */
+
+#slide-2 {
+  height: 350px;
+  .bcg {
+    background-image: image-url('slider2.jpg');
+  }
+}
+
+
+/* ==========================================================================
+   location
+   ========================================================================== */
+
+.google-map {
+  padding-bottom: 150px;
+  iframe {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+#reservation_info {
+  padding-top: 80px;
+}
+
+#reservation_form {
+  .form-control {
+    background-color: #dcdcdc;
+  }
+}
+
+
