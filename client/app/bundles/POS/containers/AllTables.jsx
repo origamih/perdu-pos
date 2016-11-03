@@ -1,22 +1,14 @@
-import React from 'react';
+import { connect } from 'react-redux';
 import AllTablesWidget from '../components/AllTablesWidget';
+import { fetchTables } from '../actions/index'
 
-export default class AllTables extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { tables: [] };
-  }
-  componentDidMount() {
-    // Get all tables
-    $.get(
-      '/tables',
-      function(data) {
-        this.setState({ tables: data });
-      }.bind(this),
-      'JSON'
-    );
-  }
-  render() {
-    return <AllTablesWidget tables={this.state.tables}/>;
-  }
+const mapStateToProps = (state) => {
+  return { tables: state.tables }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return { getTables: dispatch(fetchTables()) }
+}
+
+const AllTables = connect(mapStateToProps, mapDispatchToProps)(AllTablesWidget);
+export default AllTables;
