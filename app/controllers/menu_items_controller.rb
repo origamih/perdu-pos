@@ -12,6 +12,7 @@ class MenuItemsController < ApplicationController
   def show
   end
 
+  # GET
   def show_by_category
     @menu_items = MenuItem.where(menu_category_id: params[:menu_category_id])
     render json: @menu_items

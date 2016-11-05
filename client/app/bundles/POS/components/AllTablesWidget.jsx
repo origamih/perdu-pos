@@ -1,17 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-export default class AllTablesWidget extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this.props.getTables;
-  }
-
-  render() {
-    var tables = this.props.tables.map(function(table) {
+const AllTablesWidget = ({ tables }) => {
+  if(tables instanceof Array){
+    var tableLinks = tables.map(function(table) {
       var status = '';
       switch(table.status) {
       case 'available':
@@ -25,9 +17,14 @@ export default class AllTablesWidget extends React.Component {
         break;
       }
       return <Link to={`/all_tables/${table.id}`} key={table.id} className={`btn btn-${status}`}>{table.name}</Link>
-    })
-    return (
-      <div>{tables}</div>
-    );
+    });
   }
+
+  return (
+    <div>{tableLinks}</div>
+  );
 }
+
+AllTablesWidget.propTypes = { tables: PropTypes.array.isRequired }
+
+export default AllTablesWidget

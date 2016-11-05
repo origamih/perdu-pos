@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
   resources :menu_items do
     collection do
-      post 'show_by_category'
+      get 'show_by_category'
     end
   end
   resources :menu_categories

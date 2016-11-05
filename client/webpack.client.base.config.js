@@ -21,6 +21,7 @@ module.exports = {
       'es5-shim/es5-sham',
       'jquery-ujs',
       'jquery',
+      'whatwg-fetch'
     ],
 
     // This will contain the app entry points defined by

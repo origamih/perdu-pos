@@ -7,10 +7,12 @@ import thunkMiddleware from 'redux-thunk';
 import POSIndexWidget from '../components/POSIndexWidget';
 import POSHomeWidget from '../components/POSHomeWidget';
 import AllTables from '../containers/AllTables';
-import posApp from '../reducers/index'
-import style from './POSRouter' 
-
+import OrdersWidget from '../components/OrdersWidget'
+import posApp from '../reducers/index';
+ 
 // Import at least once style so that webpack will render an output css
+import style from './POSRouter';
+
 
 // Store
 let store = createStore(posApp, applyMiddleware(thunkMiddleware));
@@ -37,7 +39,7 @@ class POSRouter extends React.Component {
               <Route path="customer_tickets" ></Route>
               <Route path="all_tickets" ></Route>
             </Route>
-            <Route path="/all_tables/:table_id" ></Route>
+            <Route path="/all_tables/:table_id" component={OrdersWidget}></Route>
           </Route>
         </Router>
       </Provider>
