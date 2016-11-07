@@ -23,22 +23,26 @@ export const fetchTables = function(testURL = '') {
   return dispatch => {
     return fetch(url + '/tables.json')
     .then(response => response.json())
-    .then(json => dispatch({ type: ActionTypes.GET_TABLES, tables: json }));
+    .then(json => dispatch(getTables(json)));
   }
 }
 
 export const fetchMenuCategories = function(testURL = '') {
+  const url = testURL ? testURL : '';
   return dispatch => {
-    return fetch('/menu_categories.json')
+    return fetch(url + '/menu_categories.json')
     .then(response => response.json())
     .then(json => dispatch(getMenuCategories(json)));
   }
 }
 
 export const fetchMenuItems = function(id, testURL = '') {
-  let url = '/menu_items/show_by_category?' + $.param({ menu_category_id: id });
+  let url = testURL ? testURL : '';
   return dispatch => {
-    return fetch(url)
+    return fetch(url + '/menu_items/show_by_category', { 
+      method: 'POST',
+      body: JSON.stringify({ menu_category_id: id })
+    })
     .then(response => response.json())
     .then(json => dispatch(getMenuItems(json)));
   }

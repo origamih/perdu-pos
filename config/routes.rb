@@ -6,17 +6,17 @@ Rails.application.routes.draw do
   resources :customers
   resources :orders do
     collection do
-      get 'show_by_params'
+      post 'show_by_params'
     end
   end
   resources :tickets do
     collection do
-      get 'show_by_params'
+      post 'show_by_params'
     end
   end
   resources :menu_items do
     collection do
-      get 'show_by_category'
+      post 'show_by_category'
     end
   end
   resources :menu_categories
