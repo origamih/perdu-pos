@@ -2,7 +2,7 @@ import { Router, Route, IndexRedirect, hashHistory } from 'react-router';
 import ReactOnRails from 'react-on-rails';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import POSIndexWidget from '../components/POSIndexWidget';
 import POSHomeWidget from '../components/POSHomeWidget';
@@ -13,9 +13,12 @@ import posApp from '../reducers/index';
 // Import at least once style so that webpack will render an output css
 import style from './POSRouter';
 
+// Using dev Tool
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(posApp, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 // Store
-let store = createStore(posApp, applyMiddleware(thunkMiddleware));
+// let store = createStore(posApp, applyMiddleware(thunkMiddleware));
 
 // Enable Webpack hot module replacement for reducers
 if (module.hot) {
