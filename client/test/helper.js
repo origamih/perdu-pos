@@ -2,6 +2,7 @@ require('babel-core/register')({
   ignore: /node_modules/
 }); 
 require('isomorphic-fetch');
+global.expect = require('chai').expect;
 
 // var jsdom = require("jsdom");
 // global.document = jsdom.jsdom("hello world");

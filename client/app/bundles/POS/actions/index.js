@@ -5,15 +5,15 @@ export const ActionTypes = {
 }
 
 // Action Creator 
-function getTables(tables) {
+export function getTables(tables) {
   return { type: ActionTypes.GET_TABLES, tables: tables };
 }
 
-function getMenuCategories(menuCategories) {
+export function getMenuCategories(menuCategories) {
   return { type: ActionTypes.GET_MENU_CATEGORIES, menuCategories: menuCategories };
 }
 
-function getMenuItems(menuItems) {
+export function getMenuItems(menuItems) {
   return { type: ActionTypes.GET_MENU_ITEMS, menuItems: menuItems }
 }
 

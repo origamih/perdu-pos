@@ -3,8 +3,11 @@ import AllTablesWidget from '../components/AllTablesWidget';
 import { fetchTables } from '../actions/index'
 import React, { Component } from 'react';
 
-class AllTables extends Component {
-  static propTypes = { tables: React.PropTypes.array.isRequired }
+export class AllTables extends Component {
+  static propTypes = { 
+    tables: React.PropTypes.array.isRequired,
+    dispatch: React.PropTypes.func.isRequired
+  }
   constructor(props)
   {
     super(props);

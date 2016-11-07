@@ -3,7 +3,7 @@ import { fetchMenuCategories, fetchMenuItems } from '../actions/index';
 import React, { Component, PropTypes } from 'react';
 import MenuCategoriesWidget from '../components/MenuCategoriesWidget';
 
-class MenuCategories extends Component {
+export class MenuCategories extends Component {
   static propTypes = {
     menuCategories: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired

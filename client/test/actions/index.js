@@ -1,7 +1,6 @@
 import * as actions from '../../app/bundles/POS/actions/index';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { expect } from 'chai';
 import nock from 'nock';
 
 const mockStore = configureMockStore([ thunk ]);
