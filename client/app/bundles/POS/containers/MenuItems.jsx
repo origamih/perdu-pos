@@ -7,6 +7,5 @@ function mapStateToProps(state) {
   return { menuItems: state.menuItems }
 }
 let MenuItems = connect(mapStateToProps)(MenuItemsWidget);
-MenuItems.propTypes = { menuItems: PropTypes.array.isRequired }
 
 export default MenuItems;

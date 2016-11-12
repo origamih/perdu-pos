@@ -1,6 +1,7 @@
 require 'byebug/core'
 Rails.application.configure do
   Byebug.start_server('localhost', 1024)
+  # byebug -R localhost:1024
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

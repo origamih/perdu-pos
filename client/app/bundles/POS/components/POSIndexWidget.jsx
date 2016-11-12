@@ -1,11 +1,11 @@
 import React from 'react';
 
-const POSIndexWidget = () => {
+const POSIndexWidget = ({ children }) => {
   return (
     <div className="container">
-      {this.props.children}
+      {children}
     </div>
   );
 }
-
+POSIndexWidget.propTypes = { children: React.PropTypes.object.isRequired }
 export default POSIndexWidget

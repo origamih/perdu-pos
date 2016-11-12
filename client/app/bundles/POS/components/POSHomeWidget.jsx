@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import React from 'react';
 
-const POSHomeWidget = () => {
+const POSHomeWidget = ({ children }) => {
   return (
     <div>
       <ul className="nav nav-tabs">
@@ -11,9 +11,11 @@ const POSHomeWidget = () => {
         <li><Link to='/home/all_tickets' activeClassName="active">All Tickets</Link></li>
       </ul>
       <div className="tab-content">
-        {this.props.children}
+        {children}
       </div>
     </div>
   );
 }
+POSHomeWidget.propTypes = { children: React.PropTypes.object.isRequired }
+
 export default POSHomeWidget

@@ -12,10 +12,10 @@ class MenuItemsController < ApplicationController
   def show
   end
 
-  # GET
+  # POST
   def show_by_category
-    @menu_items = MenuItem.where(menu_category_id: params[:menu_category_id])
-    render json: @menu_items
+    @menu_items = MenuItem.where(menu_category_id: menu_item_params[:menu_category_id])
+    render :json => @menu_items
   end
   # GET /menu_items/new
   def new

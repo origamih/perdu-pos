@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
 
-const OrdersWidget = () => {
+const OrdersWidget = ({ params }) => {
   return (
     <div className='row' id='orderBody'>
 
@@ -14,7 +14,7 @@ const OrdersWidget = () => {
       <div id='orderItems' className='col-sm-8 col-md-4'>
         <div className='panel panel-default'>
           <div className='panel-heading'>
-            <p>Table: </p>
+            <p>Table: {params.table_id}</p>
             <p>Customer: </p>
             <p>Status: </p>
           </div>
