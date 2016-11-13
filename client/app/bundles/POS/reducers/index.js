@@ -28,6 +28,15 @@ function menuItems(menuItems = [], action) {
   }
 }
 
+function orderItems(orderItems = [], action) {
+  switch (action.type) {
+  case ActionTypes.GET_ORDER_ITEMS:
+    return action.orderItems;
+  default:
+    return orderItems;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -35,5 +44,5 @@ function menuItems(menuItems = [], action) {
 
 // Using combineReducers,  slices of state selected according to their keys
 // Or state.'tables' must match 'tables' reducer 
-const posApp = combineReducers({ tables, menuCategories, menuItems });
+const posApp = combineReducers({ tables, menuCategories, menuItems, orderItems });
 export default posApp

@@ -62,8 +62,9 @@ describe('middleware:', function () {
 
     beforeEach(function () {
       dispatch = sinon.stub();
-      nock(url).post('/menu_items/show_by_category')
-      .query({ menu_category_id: 1 }).reply(200, menuItems);
+      nock(url)
+      .post('/menu_items/show_by_category', { menu_item: { menu_category_id: 1 } })
+      .reply(200, menuItems);
     });
     afterEach(function () {
       nock.cleanAll();
@@ -79,6 +80,81 @@ describe('middleware:', function () {
       actions.fetchMenuItems(1, url)(dispatch).then(() => {
         expect(dispatch.calledWith(getMenuItems)).to.be.true;
         done();
+      });
+    });
+  });
+
+  describe('fetchOpenedTicket', function () {
+    let dispatch;
+    beforeEach(function () {
+      dispatch = sinon.stub();
+      nock(url)
+      .post('/tickets/show_by_params', { ticket: { table_id: '', customer_id: '', status: 'open' } })
+      .reply(200, fixtureObject);
+    });
+    afterEach(function () {
+      nock.cleanAll();
+    });
+
+    it('should return a promise', function () {
+      let promise = actions.fetchOpenedTicket('', '', url)(dispatch);
+      expect(promise).to.be.an.instanceof(Promise);
+    });
+    
+    it('dispatch getOpenedTicket action when success', function () {
+      let getOpenedTicket = { type: 'GET_OPENED_TICKET', ticket: fixtureObject };
+      return actions.fetchOpenedTicket('', '', url)(dispatch).then(() => {
+        expect(dispatch.calledWith(getOpenedTicket)).to.be.true;
+      });
+    });
+  });
+
+  describe('fetchOrderGroup', function () {
+    let dispatch;
+    beforeEach(function () {
+      dispatch = sinon.stub();
+      nock(url)
+      .post('/order_groups/show_by_params', { order_group: { ticket_id: '', user_id: '' } })
+      .reply(200, fixtureObject);
+    });
+    afterEach(function () {
+      nock.cleanAll();
+    });
+
+    it('should return a promise', function () {
+      let promise = actions.fetchOrderGroup('', '', url)(dispatch);
+      expect(promise).to.be.an.instanceof(Promise);
+    });
+    
+    it('dispatch getOrderGroup action when success', function () {
+      let getOrderGroup = { type: 'GET_ORDER_GROUP', orderGroup: fixtureObject };
+      actions.fetchOrderGroup('', '', url)(dispatch).then(() => {
+        expect(dispatch.calledWith(getOrderGroup)).to.be.true;
+      });
+    });
+  });
+
+  describe('fetchOrderItems', function () {
+    let dispatch;
+    beforeEach(function () {
+      dispatch = sinon.stub();
+      nock(url)
+      .post('/orders/show_by_params', { order: { order_groups_id: '' } })
+      .reply(200, fixtureObject);
+    });
+    afterEach(function () {
+      nock.cleanAll();
+    });
+
+    it('should return a promise', function () {
+      let promise = actions.fetchOrderItems('', url)(dispatch);
+      expect(promise).to.be.an.instanceof(Promise);
+    });
+    
+    it('dispatch getOrderItems action when success', function () {
+      let getOrderItems = { type: 'GET_ORDER_ITEMS', orderItems: fixtureObject };
+      actions.fetchOrderItems('', url)(dispatch).then(() => {
+        expect(dispatch.calledWith(getOrderItems)).to.be.true;
       });
     });
   });

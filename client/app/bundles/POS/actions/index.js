@@ -2,7 +2,7 @@ export const ActionTypes = {
   GET_TABLES: 'GET_TABLES',
   GET_MENU_CATEGORIES: 'GET_MENU_CATEGORIES',
   GET_MENU_ITEMS: 'GET_MENU_ITEMS',
-  GET_OPENED_TICKETS: 'GET_OPENED_TICKETS',
+  GET_OPENED_TICKET: 'GET_OPENED_TICKET',
   GET_ORDER_GROUP: 'GET_ORDER_GROUP',
   GET_ORDER_ITEMS: 'GET_ORDER_ITEMS'
 }
@@ -20,8 +20,8 @@ export function getMenuItems(menuItems) {
   return { type: ActionTypes.GET_MENU_ITEMS, menuItems: menuItems }
 }
 
-export function getOpenedTickets(tickets) {
-  return { type: ActionTypes.GET_OPENED_TICKETS, tickets: tickets }
+export function getOpenedTicket(ticket) {
+  return { type: ActionTypes.GET_OPENED_TICKET, ticket: ticket }
 }
 
 export function getOrderGroup(orderGroup) {
@@ -33,13 +33,16 @@ export function getOrderItems(orderItems) {
 }
  
 
-let token = global.$ ? $('meta[name="csrf-token"]').attr('content') : '';
-let headers = {
-  'X-Requested-With': 'XMLHttpRequest',
-  'X-CSRF-Token': token,
-  'Content-Type': 'application/json',
-  'Accept': 'application/json'
-};
+function getHeaders(){
+  let token = global.$ ? $('meta[name="csrf-token"]').attr('content') : '';
+  const headers = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-Token': token,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+  return headers
+}
 
 // thunks
 export const fetchTables = function(testURL = '') {
@@ -64,7 +67,7 @@ export const fetchMenuItems = function(id, testURL = '') {
   return dispatch => {
     return fetch(testURL + '/menu_items/show_by_category', { 
       method: 'POST',
-      headers: headers,
+      headers: getHeaders(),
       body: JSON.stringify({ menu_item: { menu_category_id: id } }),
       credentials: 'same-origin'
     })
@@ -74,27 +77,28 @@ export const fetchMenuItems = function(id, testURL = '') {
   }
 }
 
-export const fetchOpenedTickets = function(tableId = '', customerId = '', testURL = '') {
+export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   return dispatch => {
-    return fetch(testURL + 'tickets/show_by_params', {
+    return fetch(testURL + '/tickets/show_by_params', {
       method: 'POST',
-      headers: headers,
+      headers: getHeaders(),
       credentials: 'same-origin',
-      body: JSON.stringify({ tickets: { table_id: tableId, customer_id: customerId, status: 'open' } })
+      body: JSON.stringify({ ticket: { table_id: tableId, customer_id: customerId, status: 'open' } })
     })
     .then(response => response.json())
-    .then(json => dispatch(getOpenedTickets(json)))
+    .then(json => dispatch(getOpenedTicket(json)))
     .catch(err => console.log(err));
   }
 }
 
-export const fetchOrderGroup = function(ticketId, userId, testURL = '') {
+export const fetchOrderGroup = function(ticket, userId, testURL = '') {
+  const ticketId = ticket ? ticket.id : '';
   return dispatch => {
-    return fetch(testURL + 'order_groups/show_by_params', {
+    return fetch(testURL + '/order_groups/show_by_params', {
       method: 'POST',
-      headers: headers,
+      headers: getHeaders(),
       credentials: 'same-origin',
-      body: JSON.stringify({ order_groups: { ticket_id: ticketId, user_id: userId } })
+      body: JSON.stringify({ order_group: { ticket_id: ticketId, user_id: userId } })
     })
     .then(response => response.json())
     .then(json => dispatch(getOrderGroup(json)))
@@ -102,13 +106,14 @@ export const fetchOrderGroup = function(ticketId, userId, testURL = '') {
   }
 }
 
-export const fetchOrderItems = function(orderGroupId, testURL = '') {
+export const fetchOrderItems = function(orderGroup, testURL = '') {
+  const orderGroupId = orderGroup ? orderGroup.id : '';
   return dispatch => {
-    return fetch(testURL + 'orders/show_by_params', {
+    return fetch(testURL + '/orders/show_by_params', {
       method: 'POST',
-      headers: headers,
+      headers: getHeaders(),
       credentials: 'same-origin',
-      body: JSON.stringify({ orders: { order_groups_id: orderGroupId } })
+      body: JSON.stringify({ order: { order_groups_id: orderGroupId } })
     })
     .then(response => response.json())
     .then(json => dispatch(getOrderItems(json)))

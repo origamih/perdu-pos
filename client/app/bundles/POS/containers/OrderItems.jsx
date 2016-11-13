@@ -6,7 +6,7 @@ import OrderItemsWidget from '../components/OrderItemsWidget'
 export class OrderItems extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    orderItems: PropTypes.object.isRequired,
+    orderItems: PropTypes.array.isRequired,
     tableId: PropTypes.string.isRequired,
     customerId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired
@@ -14,8 +14,8 @@ export class OrderItems extends Component {
   componentDidMount() {
     const { dispatch, tableId, customerId, userId } = this.props; 
     dispatch(fetchOpenedTicket(tableId, customerId))
-    .then(action => dispatch(fetchOrderGroup(action.ticket.id, userId)))
-    .then(action => dispatch(fetchOrderItems(action.orderGroup.id)));
+    .then(action => dispatch(fetchOrderGroup(action.ticket, userId)))
+    .then(action => dispatch(fetchOrderItems(action.orderGroup)));
   }
   render() {
     return (

@@ -8,12 +8,14 @@ describe('Reducers', function () {
     initialState = {
       menuCategories: [],
       menuItems: [],
-      tables: []
+      tables: [],
+      orderItems: []
     }
   });
 
   it('should return the default state when the action is unknown', function () {
     let action = { type: 'unknown' };
+    // undefined is the initial state pass to the reducer
     let newState = posApp(undefined, action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -30,5 +32,11 @@ describe('Reducers', function () {
     let menuCategories = 'foo';
     let newState = posApp(undefined, actions.getMenuCategories(menuCategories));
     expect(newState.menuCategories).to.equal(menuCategories);
+  });
+
+  it('should handle orderItems reducer', function () {
+    let orderItems = 'foo';
+    let newState = posApp(undefined, actions.getOrderItems(orderItems));
+    expect(newState.orderItems).to.equal(orderItems);
   });
 });

@@ -19,11 +19,9 @@ class OrdersController < ApplicationController
     @orders = orders.map { |order|
       {
         id: order.id,
-        ticket_id: order.ticket_id,
         quantity: order.quantity,
         menu_item: MenuItem.where(id: order.menu_item_id).first,
         status: order.status,
-        user_id: order.user_id,
         is_gift: order.is_gift,
         is_void: order.is_void
       }
