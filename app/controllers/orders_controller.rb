@@ -12,6 +12,7 @@ class OrdersController < ApplicationController
   def show
   end
 
+  # POST
   def show_by_params
     orders = Array.new
     orders = Order.where(order_params).order(:created_at)
@@ -88,6 +89,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:quantity, :ticket_id, :menu_item_id, :user_id, :status, :is_gift, :is_void)
+      params.require(:order).permit(:quantity, :menu_item_id, :order_group_id, :status, :is_gift, :is_void)
     end
 end

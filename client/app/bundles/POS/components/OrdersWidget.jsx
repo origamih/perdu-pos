@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
+import OrderItems from '../containers/OrderItems'
 
 const OrdersWidget = ({ params }) => {
   return (
@@ -21,7 +22,7 @@ const OrdersWidget = ({ params }) => {
           <div id='orderListBody' className='panel-body'>
             <table className="table table-hover">
               <tbody>
-                orderItems
+                <OrderItems tableId={params.table_id || ''} customerId={params.customer_id || ''} userId=''></OrderItems>
               </tbody>
             </table>
             <div>

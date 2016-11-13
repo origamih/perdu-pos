@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   get 'hello_world', to: 'hello_world#index'
 
-  resources :order_groups
+  resources :order_groups do
+    collection do
+      post 'show_by_params'
+    end
+  end
   resources :customers
   resources :orders do
     collection do

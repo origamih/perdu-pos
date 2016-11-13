@@ -14,7 +14,7 @@ class MenuItemsController < ApplicationController
 
   # POST
   def show_by_category
-    @menu_items = MenuItem.where(menu_category_id: menu_item_params[:menu_category_id])
+    @menu_items = MenuItem.where(menu_item_params)
     render :json => @menu_items
   end
   # GET /menu_items/new

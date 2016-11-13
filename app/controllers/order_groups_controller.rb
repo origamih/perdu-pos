@@ -12,6 +12,12 @@ class OrderGroupsController < ApplicationController
   def show
   end
 
+  # POST
+  def show_by_params
+    @order_group = OrderGroup.where(order_group_params).first
+    render json: @order_group
+  end
+
   # GET /order_groups/new
   def new
     @order_group = OrderGroup.new

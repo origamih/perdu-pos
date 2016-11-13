@@ -12,6 +12,7 @@ class TicketsController < ApplicationController
   def show
   end
 
+  #POST
   def show_by_params
     @tickets = Ticket.where(ticket_params).first
     respond_to do |format|
