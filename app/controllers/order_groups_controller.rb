@@ -14,7 +14,7 @@ class OrderGroupsController < ApplicationController
 
   # POST
   def show_by_params
-    @order_group = OrderGroup.where(order_group_params).first
+    @order_group = OrderGroup.where(order_group_params).to_a
     render json: @order_group
   end
 

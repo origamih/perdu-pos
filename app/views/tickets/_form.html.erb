@@ -16,16 +16,12 @@
     <%= f.text_field :note %>
   </div>
   <div class="field">
-    <%= f.label :status %><br>
-    <%= f.select :status, Ticket.statuses.keys %>
-  </div>
-  <div class="field">
     <%= f.label :table_id %><br>
     <%= f.collection_select(:table_id, Table.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :customer_id %><br>
-    <%= f.collection_select :customer_id, Customer.all, :id, :name %>
+    <%= f.collection_select(:customer_id, Customer.all, :id, :name) %>
   </div>
   <div class="actions">
     <%= f.submit %>

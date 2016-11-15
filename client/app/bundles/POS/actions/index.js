@@ -3,8 +3,10 @@ export const ActionTypes = {
   GET_MENU_CATEGORIES: 'GET_MENU_CATEGORIES',
   GET_MENU_ITEMS: 'GET_MENU_ITEMS',
   GET_OPENED_TICKET: 'GET_OPENED_TICKET',
-  GET_ORDER_GROUP: 'GET_ORDER_GROUP',
-  GET_ORDER_ITEMS: 'GET_ORDER_ITEMS'
+  GET_ORDER_GROUPS: 'GET_ORDER_GROUPS',
+  GET_ORDER_ITEMS: 'GET_ORDER_ITEMS',
+  GET_NEW_ORDERS: 'GET_NEW_ORDERS',
+  GET_USER: 'GET_USER'
 }
 
 // Action Creator 
@@ -24,14 +26,21 @@ export function getOpenedTicket(ticket) {
   return { type: ActionTypes.GET_OPENED_TICKET, ticket: ticket }
 }
 
-export function getOrderGroup(orderGroup) {
-  return { type: ActionTypes.GET_ORDER_GROUP, orderGroup: orderGroup }
+export function getOrderGroups(orderGroups) {
+  return { type: ActionTypes.GET_ORDER_GROUPS, orderGroups: orderGroups }
 }
 
 export function getOrderItems(orderItems) {
   return { type: ActionTypes.GET_ORDER_ITEMS, orderItems: orderItems }
 }
- 
+
+export function getNewOrder(newOrders) {
+  return { type: ActionTypes.GET_NEW_ORDERS, newOrders: newOrders }
+}
+
+export function getUser(user) {
+  return { type: ActionTypes.GET_USER, user: user }
+}
 
 function getHeaders(){
   let token = global.$ ? $('meta[name="csrf-token"]').attr('content') : '';
@@ -83,7 +92,7 @@ export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
       method: 'POST',
       headers: getHeaders(),
       credentials: 'same-origin',
-      body: JSON.stringify({ ticket: { table_id: tableId, customer_id: customerId, status: 'open' } })
+      body: JSON.stringify({ ticket: { table_id: tableId, customer_id: customerId, is_open: true } })
     })
     .then(response => response.json())
     .then(json => dispatch(getOpenedTicket(json)))
@@ -91,8 +100,9 @@ export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   }
 }
 
-export const fetchOrderGroup = function(ticket, userId, testURL = '') {
-  const ticketId = ticket ? ticket.id : '';
+export const fetchOrderGroups = function(ticket, user, testURL = '') {
+  const ticketId = ticket ? ticket.id : null;
+  const userId = user ? user.id : null;
   return dispatch => {
     return fetch(testURL + '/order_groups/show_by_params', {
       method: 'POST',
@@ -101,13 +111,13 @@ export const fetchOrderGroup = function(ticket, userId, testURL = '') {
       body: JSON.stringify({ order_group: { ticket_id: ticketId, user_id: userId } })
     })
     .then(response => response.json())
-    .then(json => dispatch(getOrderGroup(json)))
+    .then(json => dispatch(getOrderGroups(json)))
     .catch(err => console.log(err));
   }
 }
 
 export const fetchOrderItems = function(orderGroup, testURL = '') {
-  const orderGroupId = orderGroup ? orderGroup.id : '';
+  const orderGroupId = orderGroup ? orderGroup.id : null;
   return dispatch => {
     return fetch(testURL + '/orders/show_by_params', {
       method: 'POST',
@@ -119,4 +129,11 @@ export const fetchOrderItems = function(orderGroup, testURL = '') {
     .then(json => dispatch(getOrderItems(json)))
     .catch(err => console.log(err));
   }
+}
+
+export const menuItemClick = function(state, menuItemId, testURL = ''){
+  const newOrders = state.orderItems.filter((orderItem) => {
+    return orderItem.status === 'new';
+  });
+  
 }

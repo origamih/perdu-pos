@@ -48,21 +48,21 @@ describe('async actions', function () {
     let expectedAction = { type: actions.ActionTypes.GET_OPENED_TICKET, ticket: fixtureObject };
     const store = mockStore({});
     nock(url)
-    .post('/tickets/show_by_params', { ticket: { table_id: '', customer_id: '', status: 'open' } })
+    .post('/tickets/show_by_params', { ticket: { table_id: null, customer_id: null, is_open: true } })
     .reply(200, fixtureObject);
-    return store.dispatch(actions.fetchOpenedTicket('', '', url))
+    return store.dispatch(actions.fetchOpenedTicket(null, null, url))
     .then(() => {
       expect(store.getActions()[0]).to.deep.equal(expectedAction);
     })
   });
 
-  it('should create GET_ORDER_GROUP when fetching is done', function () {
-    let expectedAction = { type: actions.ActionTypes.GET_ORDER_GROUP, orderGroup: fixtureObject };
+  it('should create GET_ORDER_GROUPS when fetching is done', function () {
+    let expectedAction = { type: actions.ActionTypes.GET_ORDER_GROUPS, orderGroups: fixtureObject };
     const store = mockStore({});
     nock(url)
-    .post('/order_groups/show_by_params', { order_group: { ticket_id: '', user_id: '' } })
+    .post('/order_groups/show_by_params', { order_group: { ticket_id: null, user_id: null } })
     .reply(200, fixtureObject);
-    return store.dispatch(actions.fetchOrderGroup('', '', url))
+    return store.dispatch(actions.fetchOrderGroups(null, null, url))
     .then(() => {
       expect(store.getActions()[0]).to.deep.equal(expectedAction);
     })
@@ -71,9 +71,9 @@ describe('async actions', function () {
   it('should create GET_ORDER_ITEMS when fetching is done', function () {
     let expectedAction = { type: actions.ActionTypes.GET_ORDER_ITEMS, orderItems: fixtureObject };
     const store = mockStore({});
-    nock(url).post('/orders/show_by_params', { order: { order_groups_id: '' } })
+    nock(url).post('/orders/show_by_params', { order: { order_groups_id: null } })
     .reply(200, fixtureObject);
-    return store.dispatch(actions.fetchOrderItems('', url))
+    return store.dispatch(actions.fetchOrderItems(null, url))
     .then(() => {
       expect(store.getActions()[0]).to.deep.equal(expectedAction);
     })

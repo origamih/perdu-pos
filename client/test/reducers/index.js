@@ -9,7 +9,8 @@ describe('Reducers', function () {
       menuCategories: [],
       menuItems: [],
       tables: [],
-      orderItems: []
+      orderItems: [],
+      orderGroups: []
     }
   });
 

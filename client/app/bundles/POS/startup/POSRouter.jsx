@@ -14,7 +14,7 @@ const store = configureStore();
 class POSRouter extends React.Component {
   render() {
     return (
-      <Provider store={ store }>
+      <Provider store={store}>
         <Router history={hashHistory}>
           <Route path="/" component={POSIndexWidget}>
             <IndexRedirect to="/home"></IndexRedirect>
@@ -25,7 +25,7 @@ class POSRouter extends React.Component {
               <Route path="customer_tickets" ></Route>
               <Route path="all_tickets" ></Route>
             </Route>
-            <Route path="/all_tables/:table_id" component={Orders}></Route>
+            <Route path="/all_tables/:table_id" user={this.props.user} component={Orders}></Route>
           </Route>
         </Router>
       </Provider>

@@ -89,7 +89,7 @@ describe('middleware:', function () {
     beforeEach(function () {
       dispatch = sinon.stub();
       nock(url)
-      .post('/tickets/show_by_params', { ticket: { table_id: '', customer_id: '', status: 'open' } })
+      .post('/tickets/show_by_params', { ticket: { table_id: null, customer_id: null, is_open: true } })
       .reply(200, fixtureObject);
     });
     afterEach(function () {
@@ -97,24 +97,24 @@ describe('middleware:', function () {
     });
 
     it('should return a promise', function () {
-      let promise = actions.fetchOpenedTicket('', '', url)(dispatch);
+      let promise = actions.fetchOpenedTicket(null, null, url)(dispatch);
       expect(promise).to.be.an.instanceof(Promise);
     });
     
     it('dispatch getOpenedTicket action when success', function () {
       let getOpenedTicket = { type: 'GET_OPENED_TICKET', ticket: fixtureObject };
-      return actions.fetchOpenedTicket('', '', url)(dispatch).then(() => {
+      return actions.fetchOpenedTicket(null, null, url)(dispatch).then(() => {
         expect(dispatch.calledWith(getOpenedTicket)).to.be.true;
       });
     });
   });
 
-  describe('fetchOrderGroup', function () {
+  describe('fetchOrderGroups', function () {
     let dispatch;
     beforeEach(function () {
       dispatch = sinon.stub();
       nock(url)
-      .post('/order_groups/show_by_params', { order_group: { ticket_id: '', user_id: '' } })
+      .post('/order_groups/show_by_params', { order_group: { ticket_id: null, user_id: null } })
       .reply(200, fixtureObject);
     });
     afterEach(function () {
@@ -122,14 +122,14 @@ describe('middleware:', function () {
     });
 
     it('should return a promise', function () {
-      let promise = actions.fetchOrderGroup('', '', url)(dispatch);
+      let promise = actions.fetchOrderGroups(null, null, url)(dispatch);
       expect(promise).to.be.an.instanceof(Promise);
     });
     
-    it('dispatch getOrderGroup action when success', function () {
-      let getOrderGroup = { type: 'GET_ORDER_GROUP', orderGroup: fixtureObject };
-      actions.fetchOrderGroup('', '', url)(dispatch).then(() => {
-        expect(dispatch.calledWith(getOrderGroup)).to.be.true;
+    it('dispatch getOrderGroups action when success', function () {
+      let getOrderGroups = { type: 'GET_ORDER_GROUPS', orderGroups: fixtureObject };
+      return actions.fetchOrderGroups(null, null, url)(dispatch).then(() => {
+        expect(dispatch.calledWith(getOrderGroups)).to.be.true;
       });
     });
   });
@@ -139,7 +139,7 @@ describe('middleware:', function () {
     beforeEach(function () {
       dispatch = sinon.stub();
       nock(url)
-      .post('/orders/show_by_params', { order: { order_groups_id: '' } })
+      .post('/orders/show_by_params', { order: { order_groups_id: null } })
       .reply(200, fixtureObject);
     });
     afterEach(function () {
@@ -147,7 +147,7 @@ describe('middleware:', function () {
     });
 
     it('should return a promise', function () {
-      let promise = actions.fetchOrderItems('', url)(dispatch);
+      let promise = actions.fetchOrderItems(null, url)(dispatch);
       expect(promise).to.be.an.instanceof(Promise);
     });
     

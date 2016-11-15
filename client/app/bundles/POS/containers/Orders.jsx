@@ -2,14 +2,28 @@
 
 import OrdersWidget from '../components/OrdersWidget';
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
+import { getUser } from '../actions/index'
 
 export class Orders extends Component {
-  static propTypes = { params: PropTypes.object.isRequired }
+  static propTypes = { 
+    params: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
+  }
+  componentDidMount() {
+    this.props.dispatch(getUser(this.props.user));
+  }
   render() {
     return (
-      <OrdersWidget params={this.props.params}></OrdersWidget>
+      <OrdersWidget params={this.props.params} user={this.props.user}></OrdersWidget>
     );
   }
 }
-
-export default Orders;
+function mapStateToProps(state, ownProps) {
+  return {
+    params: ownProps.params,
+    user: ownProps.route.user
+  }
+}
+export default connect(mapStateToProps)(Orders);

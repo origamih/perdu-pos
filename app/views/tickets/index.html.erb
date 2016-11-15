@@ -17,7 +17,6 @@
     <% @tickets.each do |ticket| %>
       <tr>
         <td><%= ticket.note %></td>
-        <td><%= ticket.status %></td>
         <td><%= ticket.table %></td>
         <td><%= ticket.customer %></td>
         <td><%= link_to 'Show', ticket %></td>

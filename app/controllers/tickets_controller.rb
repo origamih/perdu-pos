@@ -82,6 +82,6 @@ class TicketsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:note, :status, :table_id, :customer_id, :created_at)
+      params.require(:ticket).permit(:note, :table_id, :customer_id, :created_at, :is_open)
     end
 end

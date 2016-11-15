@@ -28,12 +28,30 @@ function menuItems(menuItems = [], action) {
   }
 }
 
+function orderGroups(orderGroups = [], action) {
+  switch (action.type) {
+  case ActionTypes.GET_ORDER_GROUPS:
+    return action.orderGroups;
+  default:
+    return orderGroups;
+  }
+}
+
 function orderItems(orderItems = [], action) {
   switch (action.type) {
   case ActionTypes.GET_ORDER_ITEMS:
     return action.orderItems;
   default:
     return orderItems;
+  }
+}
+
+function user(user = {}, action) {
+  switch (action.type) {
+  case ActionTypes.GET_USER:
+    return action.user;
+  default:
+    return user;
   }
 }
 
@@ -44,5 +62,5 @@ function orderItems(orderItems = [], action) {
 
 // Using combineReducers,  slices of state selected according to their keys
 // Or state.'tables' must match 'tables' reducer 
-const posApp = combineReducers({ tables, menuCategories, menuItems, orderItems });
+const posApp = combineReducers({ tables, menuCategories, menuItems, orderItems, orderGroups, user });
 export default posApp

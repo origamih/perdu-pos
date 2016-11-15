@@ -5,7 +5,7 @@ const OrderItemsWidget = ({ orderItems }) => {
   let orders = orderItems.map(orderItem => {
     return <OrderItemWidget orderItem={orderItem} key={orderItem.id}></OrderItemWidget>
   });
-  return <tr>{orders}</tr>
+  return <tbody>{orders}</tbody>;
 }
 OrderItemsWidget.propTypes = { orderItems: PropTypes.array.isRequired }
 export default OrderItemsWidget

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
-import OrderItems from '../containers/OrderItems'
+import OrderGroups from '../containers/OrderGroups'
 
 const OrdersWidget = ({ params }) => {
   return (
@@ -20,11 +20,10 @@ const OrdersWidget = ({ params }) => {
             <p>Status: </p>
           </div>
           <div id='orderListBody' className='panel-body'>
-            <table className="table table-hover">
-              <tbody>
-                <OrderItems tableId={params.table_id || ''} customerId={params.customer_id || ''} userId={''}></OrderItems>
-              </tbody>
-            </table>
+            <OrderGroups 
+              tableId={params.table_id || null} 
+              customerId={params.customer_id || null}>
+            </OrderGroups>
             <div>
               <h2>Balance: </h2>
             </div>
