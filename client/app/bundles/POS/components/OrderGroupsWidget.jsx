@@ -2,13 +2,12 @@ import React, { PropTypes } from 'react'
 import OrderItems from '../containers/OrderItems'
 
 const OrderGroupsWidget = ({ orderGroups, user }) => {
-  let orderGroupList = orderGroups.map(orderGroup => {
-    return <OrderItems orderGroup={orderGroup} key={orderGroup.id}></OrderItems>
-  });
   return (
     <div>
       <table className="table table-hover">
-        {orderGroupList}
+        {orderGroups.map((orderGroup, id) => {
+          return <OrderItems orderGroup={orderGroup} key={id}></OrderItems>
+        })}
       </table>
     </div>
   );

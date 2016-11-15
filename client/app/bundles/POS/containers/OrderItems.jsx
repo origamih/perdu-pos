@@ -23,8 +23,7 @@ export class OrderItems extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     orderGroup: ownProps.orderGroup,
-    orderItems: state.orderItems,
-    user: state.user
+    orderItems: state.orderItems
   }
 }
 

@@ -137,3 +137,49 @@ export const menuItemClick = function(state, menuItemId, testURL = ''){
   });
   
 }
+
+// Function to splice orderList state
+// var updateNewOrderList = function(order) {
+//   var index = this.state.orderList.indexOf(order);
+//   var newOrderList = React.addons.update(this.state.orderList, { $splice: [[index, 1, order]] });
+//   this.setState({
+//     orderList: newOrderList
+//   });
+// }.bind(this);
+
+// // Function to push new item to orderList state
+// var createNewOrderList = function(order) {
+//   var newOrderList = React.addons.update(this.state.orderList, { $push: [order] });
+//   this.setState({
+//     orderList: newOrderList,
+//     newOrderId: this.state.newOrderId + 1
+//   });
+// }.bind(this);
+// // Get orders with status = 'new', not submitted yet
+// var newOrders = this.state.orderList.filter(function(order) {
+//   return order.status === 'new';
+// });
+
+// var shouldCreateOrder = true;
+
+// // Check if the newly added menu_item is in the newOrder list
+// for(var i=0;i<newOrders.length;i++) {
+//   // If yes, update the quantity of that order
+//   if(menuItem.id === newOrders[i].menu_item.id) {
+//     newOrders[i].quantity += this.state.quantity;
+//     shouldCreateOrder = false;
+//     updateNewOrderList(newOrders[i]);
+//     break;
+//   }
+// }
+
+// // If no, create new order
+// if(shouldCreateOrder) {
+//   createNewOrderList({
+//     id: this.state.newOrderId,
+//     ticket_id: this.state.ticket_id,
+//     quantity: this.state.quantity,
+//     menu_item: menuItem,
+//     status: 'new'
+//   });
+// }
