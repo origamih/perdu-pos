@@ -30,16 +30,24 @@ export function getOrderGroups(orderGroups) {
   return { type: ActionTypes.GET_ORDER_GROUPS, orderGroups: orderGroups }
 }
 
-export function getOrderItems(orderItems) {
-  return { type: ActionTypes.GET_ORDER_ITEMS, orderItems: orderItems }
+export function getOrderItems(orderGroupId, orderItems) {
+  return { 
+    type: ActionTypes.GET_ORDER_ITEMS, 
+    orderItems: orderItems,
+    orderGroupId: orderGroupId
+  }
 }
 
 export function getNewOrder(newOrders) {
   return { type: ActionTypes.GET_NEW_ORDERS, newOrders: newOrders }
 }
 
-export function getUser(user) {
-  return { type: ActionTypes.GET_USER, user: user }
+export function getUser(orderGroupId, user) {
+  return { 
+    type: ActionTypes.GET_USER, 
+    user: user,
+    orderGroupId: orderGroupId
+  }
 }
 
 function getHeaders(){
@@ -100,15 +108,14 @@ export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   }
 }
 
-export const fetchOrderGroups = function(ticket, user, testURL = '') {
+export const fetchOrderGroups = function(ticket, testURL = '') {
   const ticketId = ticket ? ticket.id : null;
-  const userId = user ? user.id : null;
   return dispatch => {
     return fetch(testURL + '/order_groups/show_by_params', {
       method: 'POST',
       headers: getHeaders(),
       credentials: 'same-origin',
-      body: JSON.stringify({ order_group: { ticket_id: ticketId, user_id: userId } })
+      body: JSON.stringify({ order_group: { ticket_id: ticketId } })
     })
     .then(response => response.json())
     .then(json => dispatch(getOrderGroups(json)))
@@ -116,17 +123,26 @@ export const fetchOrderGroups = function(ticket, user, testURL = '') {
   }
 }
 
-export const fetchOrderItems = function(orderGroup, testURL = '') {
-  const orderGroupId = orderGroup ? orderGroup.id : null;
+export const fetchOrderItems = function(orderGroupId, testURL = '') {
   return dispatch => {
     return fetch(testURL + '/orders/show_by_params', {
       method: 'POST',
       headers: getHeaders(),
       credentials: 'same-origin',
-      body: JSON.stringify({ order: { order_groups_id: orderGroupId } })
+      body: JSON.stringify({ order: { order_group_id: orderGroupId } })
     })
     .then(response => response.json())
-    .then(json => dispatch(getOrderItems(json)))
+    .then(json => dispatch(getOrderItems(orderGroupId, json)))
+    .catch(err => console.log(err));
+  }
+}
+
+export const fetchUser = function(orderGroup, testURL = '') {
+  const userId = orderGroup.user_id;
+  return dispatch => {
+    return fetch(`${testURL}/users/${userId}.json`)
+    .then(response => response.json())
+    .then(json => dispatch(getUser(orderGroup.id, json)))
     .catch(err => console.log(err));
   }
 }

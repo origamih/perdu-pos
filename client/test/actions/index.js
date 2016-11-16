@@ -153,7 +153,7 @@ describe('async actions:', function () {
     beforeEach(function () {
       dispatch = sinon.stub();
       nock(url)
-      .post('/order_groups/show_by_params', { order_group: { ticket_id: null, user_id: null } })
+      .post('/order_groups/show_by_params', { order_group: { ticket_id: null } })
       .reply(200, fixtureObject);
     });
  
@@ -162,19 +162,19 @@ describe('async actions:', function () {
     });
  
     it('should return a promise', function () {
-      let promise = actions.fetchOrderGroups(null, null, url)(dispatch);
+      let promise = actions.fetchOrderGroups(null, url)(dispatch);
       expect(promise).to.be.an.instanceof(Promise);
     });
      
     it('dispatch getOrderGroups action when success', function () {
-      return actions.fetchOrderGroups(null, null, url)(dispatch).then(() => {
+      return actions.fetchOrderGroups(null, url)(dispatch).then(() => {
         expect(dispatch.calledWith(getOrderGroups)).to.be.true;
       });
     });
  
     it('should create GET_ORDER_GROUPS when fetching is done', function () {
       const store = mockStore({});
-      return store.dispatch(actions.fetchOrderGroups(null, null, url))
+      return store.dispatch(actions.fetchOrderGroups(null, url))
       .then(() => {
         expect(store.getActions()[0]).to.deep.equal(getOrderGroups);
       })
@@ -183,12 +183,16 @@ describe('async actions:', function () {
  
   describe('fetchOrderItems', function () {
     let dispatch;
-    let getOrderItems = { type: actions.ActionTypes.GET_ORDER_ITEMS, orderItems: fixtureObject };
+    let getOrderItems = { 
+      type: actions.ActionTypes.GET_ORDER_ITEMS, 
+      orderItems: fixtureObject,
+      orderGroupId: null
+    };
  
     beforeEach(function () {
       dispatch = sinon.stub();
       nock(url)
-      .post('/orders/show_by_params', { order: { order_groups_id: null } })
+      .post('/orders/show_by_params', { order: { order_group_id: null } })
       .reply(200, fixtureObject);
     });
  
@@ -202,7 +206,7 @@ describe('async actions:', function () {
     });
      
     it('dispatch getOrderItems action when success', function () {
-      actions.fetchOrderItems('', url)(dispatch).then(() => {
+      actions.fetchOrderItems(null, url)(dispatch).then(() => {
         expect(dispatch.calledWith(getOrderItems)).to.be.true;
       });
     });

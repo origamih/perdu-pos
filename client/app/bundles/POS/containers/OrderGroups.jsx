@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { fetchOpenedTicket, fetchOrderGroups } from '../actions/index'
+import { fetchOpenedTicket, fetchOrderGroups, fetchOrderItems, fetchUser } from '../actions/index'
 import OrderGroupsWidget from '../components/OrderGroupsWidget'
 
 export class OrderGroups extends Component {
@@ -8,17 +8,23 @@ export class OrderGroups extends Component {
     dispatch: PropTypes.func.isRequired,
     orderGroups: PropTypes.array.isRequired,
     tableId: PropTypes.string,
-    customerId: PropTypes.string,
-    user: PropTypes.object.isRequired
+    customerId: PropTypes.string
   }
   componentDidMount() {
-    const { dispatch, tableId, customerId, user } = this.props; 
+    const { dispatch, tableId, customerId } = this.props; 
     dispatch(fetchOpenedTicket(tableId, customerId))
-    .then(action => dispatch(fetchOrderGroups(action.ticket, user)));
+    .then(action => dispatch(fetchOrderGroups(action.ticket)))
+    .then(action => {
+      action.orderGroups.map(orderGroup => {
+        dispatch(fetchOrderItems(orderGroup.id));
+        dispatch(fetchUser(orderGroup));
+      });
+    })
+    .catch(err => console.log(err));
   }
   render() {
     return (
-      <OrderGroupsWidget orderGroups={this.props.orderGroups} user={this.props.user}></OrderGroupsWidget>
+      <OrderGroupsWidget orderGroups={this.props.orderGroups} ></OrderGroupsWidget>
     );
   }
 }
@@ -27,8 +33,7 @@ function mapStateToProps(state, ownProps) {
   return {
     orderGroups: state.orderGroups,
     tableId: ownProps.tableId,
-    customerId: ownProps.customerId,
-    user: state.user
+    customerId: ownProps.customerId
   }
 }
 

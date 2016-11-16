@@ -9,7 +9,6 @@ describe('Reducers', function () {
       menuCategories: [],
       menuItems: [],
       tables: [],
-      orderItems: [],
       orderGroups: []
     }
   });
@@ -35,9 +34,26 @@ describe('Reducers', function () {
     expect(newState.menuCategories).to.equal(menuCategories);
   });
 
-  it('should handle orderItems reducer', function () {
-    let orderItems = 'foo';
-    let newState = posApp(undefined, actions.getOrderItems(orderItems));
-    expect(newState.orderItems).to.equal(orderItems);
+  it('should handle menuItems reducer', function () {
+    let menuItems = 'foo';
+    let newState = posApp(undefined, actions.getMenuItems(menuItems));
+    expect(newState.menuItems).to.equal(menuItems);
+  });
+
+  it('should handle orderGroups reducer', function () {
+    let orderGroups = [{ id: 1 }];
+    let state = [{ id: 1, orderItems: [], user: {} }];
+    let newState = posApp(undefined, actions.getOrderGroups(orderGroups));
+    expect(newState.orderGroups).to.deep.equal(state);
+
+    let orderItems = [{ foo: 'foo' }];
+    state = [{ id: 1, orderItems: orderItems, user: {} }];
+    newState = posApp(newState, actions.getOrderItems(1, orderItems));
+    expect(newState.orderGroups).to.deep.equal(state);
+
+    let user = { name: 'foo' };
+    state = [{ id: 1, orderItems: orderItems, user: user }];
+    newState = posApp(newState, actions.getUser(1, user));
+    expect(newState.orderGroups).to.deep.equal(state);
   });
 });
