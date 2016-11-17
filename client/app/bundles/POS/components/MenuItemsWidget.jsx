@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
 
-const MenuItemsWidget = ({ menuItems }) => {
+const MenuItemsWidget = ({ menuItems, onClick }) => {
   let items = menuItems.map(menuItem => {
-    return <button key={menuItem.id} className='btn btn-success'>{menuItem.name}</button>
+    return <button key={menuItem.id} 
+      className='btn btn-success' 
+      onClick={() => onClick(menuItem)}>{menuItem.name}
+      </button>
   });
   return <div>{items}</div>
 }

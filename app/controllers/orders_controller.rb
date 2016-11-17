@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
         id: order.id,
         quantity: order.quantity,
         menu_item: MenuItem.where(id: order.menu_item_id).first,
-        status: order.status,
+        is_submitted: true,
         is_gift: order.is_gift,
         is_void: order.is_void
       }

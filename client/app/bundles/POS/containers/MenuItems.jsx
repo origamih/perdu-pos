@@ -1,11 +1,19 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MenuItemsWidget from '../components/MenuItemsWidget';
+import { menuItemClick } from '../actions/index'
 
 
 function mapStateToProps(state) {
   return { menuItems: state.menuItems }
 }
-let MenuItems = connect(mapStateToProps)(MenuItemsWidget);
+function mapDispatchToProps(dispatch) {
+  return { 
+    onClick: (menuItem) => {
+      dispatch(menuItemClick(menuItem))
+    }
+  }
+}
+let MenuItems = connect(mapStateToProps, mapDispatchToProps)(MenuItemsWidget);
 
 export default MenuItems;

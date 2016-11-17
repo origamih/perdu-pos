@@ -3,7 +3,7 @@
 import OrdersWidget from '../components/OrdersWidget';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { getUser } from '../actions/index'
+import { getCurrentUser } from '../actions/index'
 
 export class Orders extends Component {
   static propTypes = { 
@@ -12,7 +12,7 @@ export class Orders extends Component {
     dispatch: PropTypes.func.isRequired
   }
   componentDidMount() {
-    this.props.dispatch(getUser(this.props.user));
+    this.props.dispatch(getCurrentUser(this.props.user));
   }
   render() {
     return (

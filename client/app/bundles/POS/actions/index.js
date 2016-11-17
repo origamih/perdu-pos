@@ -6,7 +6,10 @@ export const ActionTypes = {
   GET_ORDER_GROUPS: 'GET_ORDER_GROUPS',
   GET_ORDER_ITEMS: 'GET_ORDER_ITEMS',
   GET_NEW_ORDERS: 'GET_NEW_ORDERS',
-  GET_USER: 'GET_USER'
+  GET_USER: 'GET_USER',
+  GET_CURRENT_USER: 'GET_CURRENT_USER',
+  ADD_NEW_ORDER_ITEM: 'ADD_NEW_ORDER_ITEM',
+  SUBMIT_BUTTON_CLICK: 'SUBMIT_BUTTON_CLICK'
 }
 
 // Action Creator 
@@ -38,16 +41,25 @@ export function getOrderItems(orderGroupId, orderItems) {
   }
 }
 
-export function getNewOrder(newOrders) {
-  return { type: ActionTypes.GET_NEW_ORDERS, newOrders: newOrders }
-}
-
 export function getUser(orderGroupId, user) {
   return { 
     type: ActionTypes.GET_USER, 
     user: user,
     orderGroupId: orderGroupId
   }
+}
+
+export function addNewOrderItem(nextOrderGroupId, user, menuItem) {
+  return { 
+    type: ActionTypes.ADD_NEW_ORDER_ITEM, 
+    orderItem: { menu_item: menuItem, quantity: 1 },
+    nextOrderGroupId,
+    user
+  }
+}
+
+export function getCurrentUser(user) {
+  return { type: ActionTypes.GET_CURRENT_USER, user }
 }
 
 function getHeaders(){
@@ -62,6 +74,14 @@ function getHeaders(){
 }
 
 // thunks
+
+export function menuItemClick(menuItem) {
+  return (dispatch, getState) => {
+    const { nextOrderGroupId, user } = getState();
+    dispatch(addNewOrderItem(nextOrderGroupId, user, menuItem));
+  }
+}
+
 export const fetchTables = function(testURL = '') {
   return dispatch => {
     return fetch(testURL + '/tables.json')
@@ -147,12 +167,13 @@ export const fetchUser = function(orderGroup, testURL = '') {
   }
 }
 
-export const menuItemClick = function(state, menuItemId, testURL = ''){
-  const newOrders = state.orderItems.filter((orderItem) => {
-    return orderItem.status === 'new';
-  });
+
+// export const menuItemClick = function(state, menuItemId, testURL = ''){
+//   const newOrders = state.orderItems.filter((orderItem) => {
+//     return !orderItem.is_submitted;
+//   });
   
-}
+// }
 
 // Function to splice orderList state
 // var updateNewOrderList = function(order) {
@@ -175,27 +196,3 @@ export const menuItemClick = function(state, menuItemId, testURL = ''){
 // var newOrders = this.state.orderList.filter(function(order) {
 //   return order.status === 'new';
 // });
-
-// var shouldCreateOrder = true;
-
-// // Check if the newly added menu_item is in the newOrder list
-// for(var i=0;i<newOrders.length;i++) {
-//   // If yes, update the quantity of that order
-//   if(menuItem.id === newOrders[i].menu_item.id) {
-//     newOrders[i].quantity += this.state.quantity;
-//     shouldCreateOrder = false;
-//     updateNewOrderList(newOrders[i]);
-//     break;
-//   }
-// }
-
-// // If no, create new order
-// if(shouldCreateOrder) {
-//   createNewOrderList({
-//     id: this.state.newOrderId,
-//     ticket_id: this.state.ticket_id,
-//     quantity: this.state.quantity,
-//     menu_item: menuItem,
-//     status: 'new'
-//   });
-// }
