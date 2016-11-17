@@ -45,8 +45,8 @@ function orderGroup(orderGroup = { orderItems: [], user: {} }, action) {
       }
       return { ...orderGroup, user: action.user }
 
-    case ActionTypes.ADD_NEW_ORDER_ITEM:
-      if(orderGroup.id !== action.nextOrderGroupId) {
+    case ActionTypes.UPDATE_ORDER_GROUP:
+      if(orderGroup.id !== action.id) {
         return orderGroup;
       }
       return { ...orderGroup, orderItems: [...orderGroup.orderItems, action.orderItem] }
@@ -56,43 +56,29 @@ function orderGroup(orderGroup = { orderItems: [], user: {} }, action) {
 }
 
 function orderGroups(orderGroups = [], action) {
-
   switch (action.type) {
+    
     case ActionTypes.GET_ORDER_GROUPS:
       return action.orderGroups.map(group => {
         return orderGroup(group, action)
       });
-
-    case ActionTypes.ADD_NEW_ORDER_ITEM: {
-      let shouldCreateOrderGroup = true;
-      orderGroups.forEach(og => {
-        if(og.is_new) {
-          shouldCreateOrderGroup = false;
-          return
-        }
-      });
-
-      if(shouldCreateOrderGroup) {
-        let newOrderGroup = { 
-          orderItems: [action.orderItem],
-          user: action.user,
-          id: action.nextOrderGroupId,
-          is_new: true
-        }
-        return [...orderGroups, newOrderGroup]
-      }
-      else {
-        orderGroups.map(og => {
-          return orderGroup(og, action)
-        });
-      }
-    }
-
     case ActionTypes.GET_ORDER_ITEMS:
     case ActionTypes.GET_USER:
-      return orderGroups.map(group => {
-        return orderGroup(group, action);
+      return orderGroups.map(og => {
+        return orderGroup(og, action);
       });
+
+
+    case ActionTypes.CREATE_ORDER_GROUP:
+      return [...orderGroups, action.orderGroup];
+    case ActionTypes.UPDATE_ORDER_GROUP:
+      return orderGroups.map(og => {
+        return orderGroup(og, action)
+      });
+
+    // case ActionTypes.SUBMIT_BUTTON_CLICK: {
+    //   let newOrderGroup = orderGroups.filter
+    // }
     default:
       return orderGroups;
   }
@@ -118,6 +104,15 @@ function currentUser(currentUser = {}, action){
   }
 }
 
+function openedTicket(openedTicket = {}, action) {
+  switch(action.type) {
+    case ActionTypes.GET_OPENED_TICKET:
+      return action.ticket;
+    default:
+      return openedTicket;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -125,5 +120,13 @@ function currentUser(currentUser = {}, action){
 
 // Using combineReducers,  slices of state selected according to their keys
 // Or state.'tables' must match 'tables' reducer 
-const posApp = combineReducers({ tables, menuCategories, menuItems, orderGroups, nextOrderGroupId, currentUser });
+const posApp = combineReducers({ 
+  tables, 
+  menuCategories, 
+  menuItems, 
+  orderGroups, 
+  nextOrderGroupId, 
+  currentUser,
+  openedTicket
+});
 export default posApp

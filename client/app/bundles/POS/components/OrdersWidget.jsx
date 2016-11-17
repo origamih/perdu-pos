@@ -4,7 +4,7 @@ import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
 import OrderGroups from '../containers/OrderGroups'
 
-const OrdersWidget = ({ params }) => {
+const OrdersWidget = ({ params, submitButtonClick }) => {
   return (
     <div className='row' id='orderBody'>
 
@@ -30,7 +30,7 @@ const OrdersWidget = ({ params }) => {
           </div>
           <div className='panel-footer'>
             <button className='btn btn-default'>Settle</button>
-            <button className='btn btn-warning' >Submit</button>
+            <button className='btn btn-warning' onClick={submitButtonClick}>Submit</button>
             <Link  className='btn btn-danger'>Close</Link>
           </div>
         </div>

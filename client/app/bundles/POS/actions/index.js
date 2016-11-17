@@ -8,11 +8,14 @@ export const ActionTypes = {
   GET_NEW_ORDERS: 'GET_NEW_ORDERS',
   GET_USER: 'GET_USER',
   GET_CURRENT_USER: 'GET_CURRENT_USER',
-  ADD_NEW_ORDER_ITEM: 'ADD_NEW_ORDER_ITEM',
+  CREATE_ORDER_GROUP: 'CREATE_ORDER_GROUP',
+  UPDATE_ORDER_GROUP: 'UPDATE_ORDER_GROUP',
   SUBMIT_BUTTON_CLICK: 'SUBMIT_BUTTON_CLICK'
 }
 
-// Action Creator 
+/* ===========================================================
+  action creators
+=============================================================*/ 
 export function getTables(tables) {
   return { type: ActionTypes.GET_TABLES, tables: tables };
 }
@@ -49,18 +52,21 @@ export function getUser(orderGroupId, user) {
   }
 }
 
-export function addNewOrderItem(nextOrderGroupId, user, menuItem) {
-  return { 
-    type: ActionTypes.ADD_NEW_ORDER_ITEM, 
-    orderItem: { menu_item: menuItem, quantity: 1 },
-    nextOrderGroupId,
-    user
-  }
-}
-
 export function getCurrentUser(user) {
   return { type: ActionTypes.GET_CURRENT_USER, user }
 }
+
+export function createOrderGroup(orderGroup) {
+  return { type: ActionTypes.CREATE_ORDER_GROUP, orderGroup }
+}
+
+export function updateOrderGroup(id, orderItem) {
+  return { type: ActionTypes.UPDATE_ORDER_GROUP, id, orderItem }
+}
+
+/* ===========================================================
+  thunks
+=============================================================*/
 
 function getHeaders(){
   let token = global.$ ? $('meta[name="csrf-token"]').attr('content') : '';
@@ -73,12 +79,33 @@ function getHeaders(){
   return headers
 }
 
-// thunks
+function shouldCreateOrderGroup(orderGroups) {
+  let flag = true;
+  orderGroups.forEach(og => {
+    if(og.is_new) {
+      flag = false;
+      return
+    }
+  })
+  return flag;
+}
 
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
-    const { nextOrderGroupId, user } = getState();
-    dispatch(addNewOrderItem(nextOrderGroupId, user, menuItem));
+    const { nextOrderGroupId, user, orderGroups } = getState();
+    if(shouldCreateOrderGroup(orderGroups)) {
+      let orderGroup = {
+        id: nextOrderGroupId,
+        user: user,
+        is_new: true,
+        orderItems: [{ menu_item: menuItem, quantity: 1 }]
+      }
+      dispatch(createOrderGroup(orderGroup));
+    }
+    else {
+      let orderItem = { menu_item: menuItem, quantity: 1 };
+      dispatch(updateOrderGroup(nextOrderGroupId, orderItem));
+    }
   }
 }
 
@@ -165,6 +192,12 @@ export const fetchUser = function(orderGroup, testURL = '') {
     .then(json => dispatch(getUser(orderGroup.id, json)))
     .catch(err => console.log(err));
   }
+}
+
+export const submitButtonClick = function(testURL = '') {
+  return (dispatch, getState) => {
+    return fetch()
+  };
 }
 
 

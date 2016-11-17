@@ -3,7 +3,7 @@
 import OrdersWidget from '../components/OrdersWidget';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { getCurrentUser } from '../actions/index'
+import { getCurrentUser, submitButtonClick } from '../actions/index'
 
 export class Orders extends Component {
   static propTypes = { 
@@ -15,8 +15,9 @@ export class Orders extends Component {
     this.props.dispatch(getCurrentUser(this.props.user));
   }
   render() {
+    const { params, dispatch } = this.props;
     return (
-      <OrdersWidget params={this.props.params} user={this.props.user}></OrdersWidget>
+      <OrdersWidget params={params} submitButtonClick={() => dispatch(submitButtonClick())}></OrdersWidget>
     );
   }
 }
