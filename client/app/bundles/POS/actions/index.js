@@ -79,21 +79,17 @@ function getHeaders(){
   return headers
 }
 
-function shouldCreateOrderGroup(orderGroups) {
-  let flag = true;
-  orderGroups.forEach(og => {
-    if(og.is_new) {
-      flag = false;
-      return
-    }
-  })
-  return flag;
+function filterNewOrderGroup(orderGroups) {
+  return orderGroups.filter(og =>{
+    return og.is_new;
+  });
 }
 
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
     const { nextOrderGroupId, user, orderGroups } = getState();
-    if(shouldCreateOrderGroup(orderGroups)) {
+    const newOrderGroup = filterNewOrderGroup(orderGroups);
+    if(newOrderGroup.length == 0) {
       let orderGroup = {
         id: nextOrderGroupId,
         user: user,
@@ -166,6 +162,12 @@ export const fetchOrderGroups = function(ticket, testURL = '') {
     })
     .then(response => response.json())
     .then(json => dispatch(getOrderGroups(json)))
+    .then(action => {
+      action.orderGroups.map(orderGroup => {
+        dispatch(fetchOrderItems(orderGroup.id));
+        dispatch(fetchUser(orderGroup));
+      });
+    })
     .catch(err => console.log(err));
   }
 }
@@ -194,9 +196,46 @@ export const fetchUser = function(orderGroup, testURL = '') {
   }
 }
 
-export const submitButtonClick = function(testURL = '') {
+export const fetchCreateOrderGroup = function(orderGroup, testURL = '') {
+  return fetch(testURL + '/order_groups.json', {
+    method: 'POST',
+    headers: getHeaders(),
+    credentials: 'same-origin',
+    body: JSON.stringify({ order_group: orderGroup })
+  })
+  .then(response => response.json())
+  .catch(err => console.log(err));
+}
+
+export const fetchCreateOrderItem = function(orderItem, testURL = '') {
+  return fetch(testURL + '/orders.json', {
+    method: 'POST',
+    headers: getHeaders(),
+    credentials: 'same-origin',
+    body: JSON.stringify({ order: orderItem })
+  })
+  .then(response => response.json());
+}
+
+export const submitButtonClick = function() {
   return (dispatch, getState) => {
-    return fetch()
+    const { openedTicket, currentUser, orderGroups } = getState();
+    const newOrderGroupState = filterNewOrderGroup(orderGroups);
+
+    if(newOrderGroupState.length > 0){
+      const newOrderGroup = { ticket_id: openedTicket.id, user_id: currentUser.id };
+      const newOrderItems = newOrderGroupState[0].orderItems;
+      return fetchCreateOrderGroup(newOrderGroup)
+      .then(createdOrderGroup => {
+        newOrderItems.map(item => {
+          item.order_group_id = createdOrderGroup.id;
+          item.menu_item_id = item.menu_item.id;
+          item.is_submitted = true;
+          fetchCreateOrderItem(item)
+          .then(dispatch(fetchOrderGroups(openedTicket)));
+        });
+      });
+    }
   };
 }
 
