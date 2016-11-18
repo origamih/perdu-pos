@@ -3,7 +3,8 @@
 import OrdersWidget from '../components/OrdersWidget';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { getCurrentUser, submitButtonClick } from '../actions/index'
+import { submitButtonClick } from '../middleware/index'
+import { getCurrentUser } from '../actions/index'
 
 export class Orders extends Component {
   static propTypes = { 

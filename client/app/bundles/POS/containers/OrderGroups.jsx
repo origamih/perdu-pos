@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { fetchOpenedTicket, fetchOrderGroups } from '../actions/index'
+import { fetchOpenedTicket, loadOrders } from '../middleware/index'
 import OrderGroupsWidget from '../components/OrderGroupsWidget'
 
 export class OrderGroups extends Component {
@@ -13,7 +13,7 @@ export class OrderGroups extends Component {
   componentDidMount() {
     const { dispatch, tableId, customerId } = this.props; 
     dispatch(fetchOpenedTicket(tableId, customerId))
-    .then(action => dispatch(fetchOrderGroups(action.ticket)))
+    .then(action => dispatch(loadOrders(action.ticket)))
     .catch(err => console.log(err));
   }
   render() {

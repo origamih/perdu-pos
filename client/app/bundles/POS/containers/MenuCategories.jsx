@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchMenuCategories, fetchMenuItems } from '../actions/index';
+import { fetchMenuCategories, fetchMenuItems } from '../middleware/index';
 import React, { Component, PropTypes } from 'react';
 import MenuCategoriesWidget from '../components/MenuCategoriesWidget';
 

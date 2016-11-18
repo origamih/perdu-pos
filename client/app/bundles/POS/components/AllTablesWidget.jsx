@@ -6,15 +6,15 @@ const AllTablesWidget = ({ tables }) => {
     var tableLinks = tables.map(function(table) {
       var status = '';
       switch(table.status) {
-      case 'available':
-        status = 'default';
-        break;
-      case 'occupied':
-        status = 'warning';
-        break;
-      case 'bill_printed':
-        status = 'danger';
-        break;
+        case 'available':
+          status = 'default';
+          break;
+        case 'occupied':
+          status = 'warning';
+          break;
+        case 'bill_printed':
+          status = 'danger';
+          break;
       }
       return <Link to={`/all_tables/${table.id}`} key={table.id} className={`btn btn-${status}`}>{table.name}</Link>
     });
