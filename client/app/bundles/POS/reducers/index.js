@@ -49,7 +49,7 @@ function orderGroup(orderGroup = { orderItems: [], user: {} }, action) {
       if(orderGroup.id !== action.id) {
         return orderGroup;
       }
-      return { ...orderGroup, orderItems: [...orderGroup.orderItems, action.orderItem] }
+      return { ...orderGroup, orderItems: action.orderItems }
     default:
       return orderGroup;
   }
@@ -76,9 +76,6 @@ function orderGroups(orderGroups = [], action) {
         return orderGroup(og, action)
       });
 
-    // case ActionTypes.SUBMIT_BUTTON_CLICK: {
-    //   let newOrderGroup = orderGroups.filter
-    // }
     default:
       return orderGroups;
   }
@@ -113,6 +110,34 @@ function openedTicket(openedTicket = {}, action) {
   }
 }
 
+function utilityButtons(utilityButtons = [
+  'Change Table', 'Select Customer', 'Ticket Note'
+], action) {
+  switch(action.type) {
+    case ActionTypes.GET_UTILITY_BUTTONS:
+      return action.utilityButtons;
+    default:
+      return utilityButtons;
+  }
+}
+
+function clickedOrders(clickedOrders = [], action) {
+  switch(action.type) {
+    case ActionTypes.ORDER_ITEM_CLICK:
+      var filteredOrders = clickedOrders.filter(clickedOrder => {
+        return !(clickedOrder === action.clickedOrder)
+      });
+      if(filteredOrders.length == clickedOrders.length) {
+        return [...clickedOrders, action.clickedOrder]
+      }
+      else {
+        return filteredOrders
+      }
+    default:
+      return clickedOrders;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -127,6 +152,8 @@ const posApp = combineReducers({
   orderGroups, 
   nextOrderGroupId, 
   currentUser,
-  openedTicket
+  openedTicket,
+  utilityButtons,
+  clickedOrders
 });
 export default posApp

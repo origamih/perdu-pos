@@ -44,6 +44,7 @@
     "lodash": "^4.16.4",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.10.1",
+    "normalizr": "^2.2.1",
     "postcss-loader": "^1.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

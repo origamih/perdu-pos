@@ -3,13 +3,14 @@ import { Link } from 'react-router';
 import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
 import OrderGroups from '../containers/OrderGroups'
+import UtilityButtons from '../containers/UtilityButtons'
 
 const OrdersWidget = ({ params, submitButtonClick }) => {
   return (
     <div className='row' id='orderBody'>
 
       <div id='utilityButtons' className='col-sm-4 col-md-2'>
-        utilityButtons
+        <UtilityButtons></UtilityButtons>
       </div>
       
       <div id='orderItems' className='col-sm-8 col-md-4'>
@@ -24,11 +25,11 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
               tableId={params.table_id || null} 
               customerId={params.customer_id || null}>
             </OrderGroups>
+          </div>
+          <div className='panel-footer'>
             <div>
               <h2>Balance: </h2>
             </div>
-          </div>
-          <div className='panel-footer'>
             <button className='btn btn-default'>Settle</button>
             <button className='btn btn-warning' onClick={submitButtonClick}>Submit</button>
             <Link  className='btn btn-danger'>Close</Link>

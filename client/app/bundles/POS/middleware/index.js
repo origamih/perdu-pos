@@ -1,4 +1,5 @@
 import * as actions from '../actions/index'
+import { normalize, Schema, arrayOf } from 'normalizr';
 
 /* ===========================================================
   thunks
@@ -21,6 +22,24 @@ function filterNewOrderGroup(orderGroups) {
   });
 }
 
+function updateOrderItems(orderItems, newItem) {
+  let shouldAddNewItem = true;
+  let newOrderItems = orderItems.map((orderItem) => {
+    if(newItem.menu_item.id == orderItem.menu_item.id) {
+      shouldAddNewItem = false;
+      orderItem.quantity += newItem.quantity;
+      return orderItem;
+    }
+    return orderItem;
+  });
+  if(shouldAddNewItem) {
+    return [...newOrderItems, newItem];
+  }
+  else {
+    return newOrderItems;
+  }
+}
+
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
     const { nextOrderGroupId, user, orderGroups } = getState();
@@ -36,7 +55,8 @@ export function menuItemClick(menuItem) {
     }
     else {
       let orderItem = { menu_item: menuItem, quantity: 1 };
-      dispatch(actions.updateOrderGroup(nextOrderGroupId, orderItem));
+      let newOrderItems = updateOrderItems(newOrderGroup[0].orderItems, orderItem);
+      dispatch(actions.updateOrderGroup(nextOrderGroupId, newOrderItems));
     }
   }
 }
@@ -180,4 +200,22 @@ export const submitButtonClick = function() {
       });
     }
   };
+}
+
+export const orderItemClick = function(orderItem) {
+  return (dispatch, getState) => {
+    dispatch(actions.orderItemClick(orderItem));
+    const clickedOrders = getState().clickedOrders;
+    var buttons = [];
+    if(clickedOrders.length === 0) {
+      buttons = [ 'Change Table', 'Select Customer', 'Ticket Note' ];
+    }
+    if(clickedOrders.length === 1) {
+      buttons = [ 'Gift', 'Cancel Gift', 'Void', 'Cancel Void', 'Cancel', 'Move', 'Change Price', '(+)', '(-)' ];
+    }
+    if(clickedOrders.length > 1) {
+      buttons = [ 'Gift', 'Cancel Gift', 'Void', 'Cancel Void', 'Cancel', 'Move' ];
+    }
+    dispatch(actions.getUtilityButtons(buttons));
+  }
 }

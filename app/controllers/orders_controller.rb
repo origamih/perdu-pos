@@ -23,7 +23,8 @@ class OrdersController < ApplicationController
         menu_item: MenuItem.where(id: order.menu_item_id).first,
         is_submitted: true,
         is_gift: order.is_gift,
-        is_void: order.is_void
+        is_void: order.is_void,
+        order_group_id: order.order_group_id
       }
     }
     respond_to do |format|

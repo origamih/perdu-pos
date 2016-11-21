@@ -1,29 +1,25 @@
 import React, { PropTypes } from 'react'
+import style from './OrderItemsWidget.scss'
+import OrderItem from '../containers/OrderItem'
 
-const OrderItemsWidget = ({ orderItems }) => {
+const OrderItemsWidget = ({ orderItems, user, createdAt, isNew }) => {
   return (
     <tbody>
       {
-        orderItems.map((orderItem, id) => {
-          return (
-            <tr key={id}>
-              <td>
-                <a href="#" className="row" >
-                  <span className="col-xs-1">{orderItem.quantity}</span>
-                  <span className='col-xs-9'>
-                    <p className="order-name">{orderItem.menu_item.name}</p>
-                    <p className="order-status">
-                      {orderItem.status}
-                      <span> extraStatus</span>
-                    </p>
-                  </span>
-                  <span className='col-xs-2'>{orderItem.menu_item.price * orderItem.quantity}</span>
-                </a>
-              </td>
-            </tr>
-          );
-        })
+        !isNew &&
+          <tr>
+            <td>
+              <span className={style.createdBy}>
+                Created by {user.email} at {createdAt}
+              </span>
+            </td>
+          </tr>
       }
+      {
+        orderItems.map((orderItem, id) => {
+          return <OrderItem orderItem={orderItem} isNew={isNew} key={id}></OrderItem>
+        })
+      }      
     </tbody>
   );
 }

@@ -10,7 +10,9 @@ export const ActionTypes = {
   GET_CURRENT_USER: 'GET_CURRENT_USER',
   CREATE_ORDER_GROUP: 'CREATE_ORDER_GROUP',
   UPDATE_ORDER_GROUP: 'UPDATE_ORDER_GROUP',
-  SUBMIT_BUTTON_CLICK: 'SUBMIT_BUTTON_CLICK'
+  SUBMIT_BUTTON_CLICK: 'SUBMIT_BUTTON_CLICK',
+  GET_UTILITY_BUTTONS: 'GET_UTILITY_BUTTONS',
+  ORDER_ITEM_CLICK: 'ORDER_ITEM_CLICK'
 }
 
 /* ===========================================================
@@ -60,6 +62,16 @@ export function createOrderGroup(orderGroup) {
   return { type: ActionTypes.CREATE_ORDER_GROUP, orderGroup }
 }
 
-export function updateOrderGroup(id, orderItem) {
-  return { type: ActionTypes.UPDATE_ORDER_GROUP, id, orderItem }
+export function updateOrderGroup(id, orderItems) {
+  return { type: ActionTypes.UPDATE_ORDER_GROUP, id, orderItems }
+}
+
+export function getUtilityButtons(utilityButtons = [
+  'Change Table', 'Select Customer', 'Ticket Note'
+]) {
+  return { type: ActionTypes.GET_UTILITY_BUTTONS, utilityButtons: utilityButtons }
+}
+
+export function orderItemClick(orderItem) {
+  return { type: ActionTypes.ORDER_ITEM_CLICK, clickedOrder: orderItem }
 }
