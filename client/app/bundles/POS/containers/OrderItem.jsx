@@ -6,9 +6,11 @@ import { connect } from 'react-redux'
 function mapStateToProps(state, ownProps) {
   const orderItem = state.entities.orderItems[ownProps.orderItemId];
   const menuItem = state.entities.menuItems[orderItem.menu_item];
+  const quantity = orderItem.quantity;
   return {
     orderItem,
     menuItem,
+    quantity,
     isNew: ownProps.isNew,
     clickedOrders: state.clickedOrders
   }

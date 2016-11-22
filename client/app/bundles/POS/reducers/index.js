@@ -73,6 +73,10 @@ function entities(entities = {}, action) {
       const orderItems = { ...entities.orderItems, [`new${action.id}`]: action.orderItem };
       return { ...entities, orderItems }
     }
+    case ActionTypes.UPDATE_ORDER_ITEM: {
+      const orderItems = { ...entities.orderItems, [action.orderItem.id]: action.orderItem };
+      return { ...entities, orderItems }
+    }
 
     case ActionTypes.UPDATE_ORDER_GROUPS: {
       const orderItemIds = [ ...entities.orderGroups[action.id].orders, action.orderItem.id ]

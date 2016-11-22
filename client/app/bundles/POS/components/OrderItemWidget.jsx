@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-const OrderItemWidget = ({ orderItem, menuItem, isNew, onClick, clickedOrders }) => {
+const OrderItemWidget = ({ orderItem, quantity, menuItem, isNew, onClick, clickedOrders }) => {
   let aStyle = {};
   let extraStatus = '';
   if(orderItem.is_gift){
@@ -36,7 +36,7 @@ const OrderItemWidget = ({ orderItem, menuItem, isNew, onClick, clickedOrders })
           e.preventDefault();
           onClick()
         }}>
-          <span className="col-xs-1">{orderItem.quantity}</span>
+          <span className="col-xs-1">{quantity}</span>
           <span className='col-xs-9'>
             <p className="order-name">{menuItem.name}</p>
             <p className="order-status">

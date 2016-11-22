@@ -32,17 +32,9 @@ function getHeaders(){
   return headers
 }
 
-function filterNewOrderGroup(orderGroups) {
-  return orderGroups.filter(og =>{
-    return og.is_new;
-  });
-}
-
-
-
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
-    const { nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();
+    const { openedTicket, nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();
     let orderItem = { 
       menu_item: menuItem.id, 
       quantity: 1, 
@@ -54,7 +46,8 @@ export function menuItemClick(menuItem) {
         id: nextOrderGroupId,
         user: currentUser.id,
         is_new: true,
-        orders: [orderItem.id]
+        orders: [orderItem.id],
+        ticket_id: openedTicket.id
       }
       dispatch(actions.createOrderGroup(nextOrderGroupId, orderGroup));
       dispatch(actions.updateMenuItems(menuItem));
@@ -63,8 +56,22 @@ export function menuItemClick(menuItem) {
     }
     else {
       dispatch(actions.updateMenuItems(menuItem));
-      dispatch(actions.createOrderItem(nextOrderItemId, orderItem));
-      dispatch(actions.updateOrderGroups(nextOrderGroupId, orderItem));
+      const newOrderItems = entities.orderGroups[nextOrderGroupId].orders.map(id => {
+        return entities.orderItems[id];
+      });
+      let shouldCreateOrder = true;
+      newOrderItems.forEach(item => {
+        if(item.menu_item == orderItem.menu_item) {
+          shouldCreateOrder = false;
+          item.quantity += orderItem.quantity;
+          dispatch(actions.updateOrderItem(item));
+          return
+        }
+      });
+      if(shouldCreateOrder) {
+        dispatch(actions.createOrderItem(nextOrderItemId, orderItem));
+        dispatch(actions.updateOrderGroups(nextOrderGroupId, orderItem));
+      }
     }
   }
 }
@@ -155,17 +162,18 @@ export const fetchCreateOrderItem = function(orderItem, testURL = '') {
 
 export const submitButtonClick = function() {
   return (dispatch, getState) => {
-    const { openedTicket, currentUser, orderGroups } = getState();
-    const newOrderGroupState = filterNewOrderGroup(orderGroups);
-
-    if(newOrderGroupState.length > 0){
-      const newOrderGroup = { ticket_id: openedTicket.id, user_id: currentUser.id };
-      const newOrderItems = newOrderGroupState[0].orderItems;
-      return fetchCreateOrderGroup(newOrderGroup)
+    const { openedTicket, entities, nextOrderGroupId } = getState();
+    const newOrderGroup = entities.orderGroups[nextOrderGroupId]
+    if(newOrderGroup){
+      const orderGroup = { ...newOrderGroup, user_id: newOrderGroup.user };
+      const newOrderItems = newOrderGroup.orders.map(id => {
+        return entities.orderItems[id];
+      });
+      return fetchCreateOrderGroup(orderGroup)
       .then(createdOrderGroup => {
         newOrderItems.map(item => {
           item.order_group_id = createdOrderGroup.id;
-          item.menu_item_id = item.menu_item.id;
+          item.menu_item_id = item.menu_item;
           item.is_submitted = true;
           fetchCreateOrderItem(item)
           .then(dispatch(fetchOrderGroups(openedTicket.id)));
