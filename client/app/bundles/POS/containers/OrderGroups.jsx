@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { fetchOpenedTicket, loadOrders } from '../middleware/index'
+import { fetchOpenedTicket, fetchOrderGroups } from '../middleware/index'
 import OrderGroupsWidget from '../components/OrderGroupsWidget'
 
 export class OrderGroups extends Component {
@@ -13,19 +13,23 @@ export class OrderGroups extends Component {
   componentDidMount() {
     const { dispatch, tableId, customerId } = this.props; 
     dispatch(fetchOpenedTicket(tableId, customerId))
-    .then(action => dispatch(loadOrders(action.ticket)))
-    .catch(err => console.log(err));
+    .then(action => dispatch(fetchOrderGroups(action.ticket)));
   }
   render() {
+    const { orderGroups, users } = this.props;
     return (
-      <OrderGroupsWidget orderGroups={this.props.orderGroups} ></OrderGroupsWidget>
+      <OrderGroupsWidget orderGroups={orderGroups} users={users} ></OrderGroupsWidget>
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
+  const orderGroups = state.orderGroupIds.map(id => {
+    return state.entities.orderGroups[id];
+  });
   return {
-    orderGroups: state.orderGroups,
+    orderGroups,
+    users: state.entities.users,
     tableId: ownProps.tableId,
     customerId: ownProps.customerId
   }

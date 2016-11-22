@@ -1,19 +1,30 @@
 import React, { PropTypes } from 'react'
-import OrderItemsWidget from '../components/OrderItemsWidget'
+import OrderItem from '../containers/OrderItem'
+import style from './OrderGroupsWidget.scss'
 
-const OrderGroupsWidget = ({ orderGroups }) => {
+const OrderGroupsWidget = ({ orderGroups, users }) => {
   return (
     <div>
       <table className="table">
         {orderGroups.map(orderGroup => {
           return (
-            <OrderItemsWidget 
-              orderItems={orderGroup.orderItems} 
-              user={orderGroup.user} 
-              key={orderGroup.id}
-              createdAt={orderGroup.created_at}
-              isNew={orderGroup.is_new}>
-            </OrderItemsWidget>
+            <tbody key={orderGroup.id}>
+              {
+                !orderGroup.is_new &&
+                  <tr>
+                    <td>
+                      <span className={style.createdBy}>
+                        Created by {users[orderGroup.user].email} at {new Date(orderGroup.created_at).toLocaleString()}
+                      </span>
+                    </td>
+                  </tr>
+              }
+              {
+                orderGroup.orders.map((orderItem, id) => {
+                  return <OrderItem orderItemId={orderItem} isNew={orderGroup.is_new} key={id}></OrderItem>
+                })
+              }      
+            </tbody>
           );
         })}
       </table>

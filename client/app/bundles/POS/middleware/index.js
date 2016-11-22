@@ -1,6 +1,22 @@
 import * as actions from '../actions/index'
 import { normalize, Schema, arrayOf } from 'normalizr';
 
+const orderGroupSchema = new Schema('orderGroups');
+const orderSchema = new Schema('orderItems');
+const menuItemSchema = new Schema('menuItems');
+const userSchema = new Schema('users');
+const ticketSchema = new Schema('tickets');
+
+orderGroupSchema.define({
+  orders: arrayOf(orderSchema),
+  ticket: ticketSchema,
+  user: userSchema
+});
+
+orderSchema.define({
+  menu_item: menuItemSchema
+});
+
 /* ===========================================================
   thunks
 =============================================================*/
@@ -22,41 +38,33 @@ function filterNewOrderGroup(orderGroups) {
   });
 }
 
-function updateOrderItems(orderItems, newItem) {
-  let shouldAddNewItem = true;
-  let newOrderItems = orderItems.map((orderItem) => {
-    if(newItem.menu_item.id == orderItem.menu_item.id) {
-      shouldAddNewItem = false;
-      orderItem.quantity += newItem.quantity;
-      return orderItem;
-    }
-    return orderItem;
-  });
-  if(shouldAddNewItem) {
-    return [...newOrderItems, newItem];
-  }
-  else {
-    return newOrderItems;
-  }
-}
+
 
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
-    const { nextOrderGroupId, user, orderGroups } = getState();
-    const newOrderGroup = filterNewOrderGroup(orderGroups);
-    if(newOrderGroup.length == 0) {
+    const { nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();
+    let orderItem = { 
+      menu_item: menuItem.id, 
+      quantity: 1, 
+      order_group_id: nextOrderGroupId,
+      id: `new${nextOrderItemId}`
+    }
+    if(!entities.orderGroups[nextOrderGroupId]) {
       let orderGroup = {
         id: nextOrderGroupId,
-        user: user,
+        user: currentUser.id,
         is_new: true,
-        orderItems: [{ menu_item: menuItem, quantity: 1 }]
+        orders: [orderItem.id]
       }
-      dispatch(actions.createOrderGroup(orderGroup));
+      dispatch(actions.createOrderGroup(nextOrderGroupId, orderGroup));
+      dispatch(actions.updateMenuItems(menuItem));
+      dispatch(actions.updateUsers(currentUser));
+      dispatch(actions.createOrderItem(nextOrderItemId, orderItem));
     }
     else {
-      let orderItem = { menu_item: menuItem, quantity: 1 };
-      let newOrderItems = updateOrderItems(newOrderGroup[0].orderItems, orderItem);
-      dispatch(actions.updateOrderGroup(nextOrderGroupId, newOrderItems));
+      dispatch(actions.updateMenuItems(menuItem));
+      dispatch(actions.createOrderItem(nextOrderItemId, orderItem));
+      dispatch(actions.updateOrderGroups(nextOrderGroupId, orderItem));
     }
   }
 }
@@ -88,8 +96,8 @@ export const fetchMenuItems = function(id, testURL = '') {
       credentials: 'same-origin'
     })
     .then(response => response.json())
-    .then(json => dispatch(actions.getMenuItems(json)))
-    .catch(err => console.log(err));
+    .then(json => dispatch(actions.getMenuItems(json)));
+    // .catch(err => console.log(err));
   }
 }
 
@@ -107,20 +115,6 @@ export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   }
 }
 
-export const loadOrders = function(ticket) {
-  const ticketId = ticket ? ticket.id : null;
-  return dispatch => {
-    dispatch(fetchOrderGroups(ticketId))
-    .then(action => {
-      action.orderGroups.map(orderGroup => {
-        dispatch(fetchOrderItems(orderGroup.id));
-        dispatch(fetchUser(orderGroup));
-      });
-    })
-    .catch(err => console.log(err));
-  }
-}
-
 export const fetchOrderGroups = function(ticketId, testURL = '') {
   return dispatch => {
     return fetch(testURL + '/order_groups/show_by_params', {
@@ -130,32 +124,11 @@ export const fetchOrderGroups = function(ticketId, testURL = '') {
       body: JSON.stringify({ order_group: { ticket_id: ticketId } })
     })
     .then(response => response.json())
-    .then(json => dispatch(actions.getOrderGroups(json)))
-    .catch(err => console.log(err));
-  }
-}
-
-export const fetchOrderItems = function(orderGroupId, testURL = '') {
-  return dispatch => {
-    return fetch(testURL + '/orders/show_by_params', {
-      method: 'POST',
-      headers: getHeaders(),
-      credentials: 'same-origin',
-      body: JSON.stringify({ order: { order_group_id: orderGroupId } })
-    })
-    .then(response => response.json())
-    .then(json => dispatch(actions.getOrderItems(orderGroupId, json)))
-    .catch(err => console.log(err));
-  }
-}
-
-export const fetchUser = function(orderGroup, testURL = '') {
-  const userId = orderGroup.user_id;
-  return dispatch => {
-    return fetch(`${testURL}/users/${userId}.json`)
-    .then(response => response.json())
-    .then(json => dispatch(actions.getUser(orderGroup.id, json)))
-    .catch(err => console.log(err));
+    .then(json => { 
+      const normalized = normalize(json, arrayOf(orderGroupSchema));
+      dispatch(actions.getOrderGroups(normalized))
+    });
+    // .catch(err => console.log(err));
   }
 }
 
@@ -195,7 +168,7 @@ export const submitButtonClick = function() {
           item.menu_item_id = item.menu_item.id;
           item.is_submitted = true;
           fetchCreateOrderItem(item)
-          .then(dispatch(loadOrders(openedTicket)));
+          .then(dispatch(fetchOrderGroups(openedTicket.id)));
         });
       });
     }
@@ -219,3 +192,4 @@ export const orderItemClick = function(orderItem) {
     dispatch(actions.getUtilityButtons(buttons));
   }
 }
+

@@ -30,65 +30,93 @@ function menuItems(menuItems = [], action) {
 
 function orderGroup(orderGroup = { orderItems: [], user: {} }, action) {
   switch (action.type) {
-    case ActionTypes.GET_ORDER_GROUPS:
-      return { ...orderGroup, orderItems: [], user: {} }
-
-    case ActionTypes.GET_ORDER_ITEMS:
-      if(orderGroup.id !== action.orderGroupId) {
-        return orderGroup;
-      }
-      return { ...orderGroup, orderItems: action.orderItems };
-
-    case ActionTypes.GET_USER:
-      if(orderGroup.id !== action.orderGroupId) {
-        return orderGroup;
-      }
-      return { ...orderGroup, user: action.user }
-
     case ActionTypes.UPDATE_ORDER_GROUP:
       if(orderGroup.id !== action.id) {
         return orderGroup;
       }
-      return { ...orderGroup, orderItems: action.orderItems }
+      return { ...orderGroup, orders: action.orderItems }
     default:
       return orderGroup;
   }
 }
 
-function orderGroups(orderGroups = [], action) {
+function entity(entity = {}, action) {
+  if(action.id in entity) {
+    return entity;
+  }
+  else {
+    return { ...entity, [action.id]: action.entity };
+  }
+}
+
+function entities(entities = {}, action) {
   switch (action.type) {
-    
     case ActionTypes.GET_ORDER_GROUPS:
-      return action.orderGroups.map(group => {
-        return orderGroup(group, action)
-      });
-    case ActionTypes.GET_ORDER_ITEMS:
-    case ActionTypes.GET_USER:
-      return orderGroups.map(og => {
-        return orderGroup(og, action);
-      });
+      if(action.response && action.response.entities) {
+        return action.response.entities;
+      }
+      return entities;
 
+    case ActionTypes.CREATE_ORDER_GROUP: {
+      const orderGroups = { ...entities.orderGroups, [action.id]: action.orderGroup };
+      return { ...entities, orderGroups }
+    }
+    case ActionTypes.UPDATE_MENU_ITEMS: {
+      const menuItems = entity(entities.menuItems, action.menuItem);
+      return { ...entities, menuItems }
+    }
+    case ActionTypes.UPDATE_USERS: {
+      const users = entity(entities.users, action.user);
+      return { ...entities, users }
+    }
+    case ActionTypes.CREATE_ORDER_ITEM: {
+      const orderItems = { ...entities.orderItems, [`new${action.id}`]: action.orderItem };
+      return { ...entities, orderItems }
+    }
 
-    case ActionTypes.CREATE_ORDER_GROUP:
-      return [...orderGroups, action.orderGroup];
-    case ActionTypes.UPDATE_ORDER_GROUP:
-      return orderGroups.map(og => {
-        return orderGroup(og, action)
-      });
+    case ActionTypes.UPDATE_ORDER_GROUPS: {
+      const orderItemIds = [ ...entities.orderGroups[action.id].orders, action.orderItem.id ]
+      const orderGroup = { ...entities.orderGroups[action.id], orders: orderItemIds }
+      const orderGroups = { ...entities.orderGroups, [action.id]: orderGroup }
+      return { ...entities, orderGroups }
+    }
 
     default:
-      return orderGroups;
+      return entities;
+  }
+}
+
+function orderGroupIds(orderGroupIds = [], action) {
+  switch(action.type) {
+    case ActionTypes.GET_ORDER_GROUPS:
+      if(action.response && action.response.result) {
+        return action.response.result;
+      }
+      return orderGroupIds;
+    case ActionTypes.CREATE_ORDER_GROUP:
+      return [...orderGroupIds, action.id];
+    default:
+      return orderGroupIds;
   }
 }
 
 function nextOrderGroupId(nextOrderGroupId = 0, action) {
   switch (action.type) {
     case ActionTypes.GET_ORDER_GROUPS: {
-      let index = action.orderGroups.length;
-      return index > 0 ? action.orderGroups[index - 1].id + 1 : 0;
+      let index = action.response.result.length;
+      return index > 0 ? action.response.result[index - 1] + 1 : 0;
     }
     default:
       return nextOrderGroupId;
+  }
+}
+
+function nextOrderItemId(nextOrderItemId = 0, action) {
+  switch (action.type) {
+    case ActionTypes.CREATE_ORDER_ITEM:
+      return nextOrderItemId + 1;
+    default:
+      return nextOrderItemId;
   }
 }
 
@@ -149,11 +177,13 @@ const posApp = combineReducers({
   tables, 
   menuCategories, 
   menuItems, 
-  orderGroups, 
-  nextOrderGroupId, 
+  entities, 
+  nextOrderGroupId,
+  nextOrderItemId,
   currentUser,
   openedTicket,
   utilityButtons,
-  clickedOrders
+  clickedOrders,
+  orderGroupIds
 });
 export default posApp

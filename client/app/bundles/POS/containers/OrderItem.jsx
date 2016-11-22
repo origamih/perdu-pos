@@ -1,11 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import OrderItemWidget from '../components/OrderItemWidget'
 import { orderItemClick } from '../middleware/index'
 import { connect } from 'react-redux'
 
 function mapStateToProps(state, ownProps) {
+  const orderItem = state.entities.orderItems[ownProps.orderItemId];
+  const menuItem = state.entities.menuItems[orderItem.menu_item];
   return {
-    orderItem: ownProps.orderItem,
+    orderItem,
+    menuItem,
     isNew: ownProps.isNew,
     clickedOrders: state.clickedOrders
   }
@@ -18,5 +21,4 @@ function mapDispatchToProps(dispatch, ownProps) {
 }
 
 const OrderItem = connect(mapStateToProps, mapDispatchToProps)(OrderItemWidget);
-OrderItem.propTypes = { orderItem: PropTypes.object.isRequired }
 export default OrderItem

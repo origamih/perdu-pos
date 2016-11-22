@@ -15,7 +15,7 @@ class OrderGroupsController < ApplicationController
   # POST
   def show_by_params
     @order_group = OrderGroup.where(order_group_params).order(:created_at).to_a
-    render json: @order_group
+    render json: @order_group, include: [ {orders: {include: :menu_item}}, :ticket, :user]
   end
 
   # GET /order_groups/new
