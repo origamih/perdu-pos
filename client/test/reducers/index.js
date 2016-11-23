@@ -6,13 +6,22 @@ describe('Reducers', function () {
 
   beforeEach(function () {
     initialState = {
-      menuCategories: [],
-      menuItems: [],
-      tables: [],
-      orderGroups: [],
-      currentUser: {},
-      nextOrderGroupId: 0,
-      openedTicket: {}
+      "clickedOrders": [],
+      "currentUser": {},
+      "entities": {},
+      "menuCategories": [],
+      "menuItems": [],
+      "nextOrderGroupId": 0,
+      "nextOrderItemId": 0,
+      "openedTicket": {},
+      "orderGroupIds": [],
+      "tables": [],
+      "utilityButtons": [
+        "Change Table",
+        "Select Customer",
+        "Ticket Note",
+      ]
+
     }
   });
 

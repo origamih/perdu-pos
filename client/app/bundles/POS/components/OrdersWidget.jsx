@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
@@ -32,7 +32,7 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
             </div>
             <button className='btn btn-default'>Settle</button>
             <button className='btn btn-warning' onClick={submitButtonClick}>Submit</button>
-            <Link  className='btn btn-danger'>Close</Link>
+            <Link to="/home/all_tables" className='btn btn-danger'>Close</Link>
           </div>
         </div>
       </div>
@@ -55,5 +55,8 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
     </div>
   );
 }
-
+OrdersWidget.propTypes = {
+  params: PropTypes.object.isRequired,
+  submitButtonClick: PropTypes.func.isRequired
+}
 export default OrdersWidget

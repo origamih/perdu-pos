@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { ActionTypes } from '../actions/index'
-
+import entities from './entities'
 function tables(tables = [], action) {
   switch (action.type) {
     case ActionTypes.GET_TABLES:
@@ -25,68 +25,6 @@ function menuItems(menuItems = [], action) {
       return action.menuItems;
     default:
       return menuItems;
-  }
-}
-
-function orderGroup(orderGroup = { orderItems: [], user: {} }, action) {
-  switch (action.type) {
-    case ActionTypes.UPDATE_ORDER_GROUP:
-      if(orderGroup.id !== action.id) {
-        return orderGroup;
-      }
-      return { ...orderGroup, orders: action.orderItems }
-    default:
-      return orderGroup;
-  }
-}
-
-function entity(entity = {}, action) {
-  if(action.id in entity) {
-    return entity;
-  }
-  else {
-    return { ...entity, [action.id]: action.entity };
-  }
-}
-
-function entities(entities = {}, action) {
-  switch (action.type) {
-    case ActionTypes.GET_ORDER_GROUPS:
-      if(action.response && action.response.entities) {
-        return action.response.entities;
-      }
-      return entities;
-
-    case ActionTypes.CREATE_ORDER_GROUP: {
-      const orderGroups = { ...entities.orderGroups, [action.id]: action.orderGroup };
-      return { ...entities, orderGroups }
-    }
-    case ActionTypes.UPDATE_MENU_ITEMS: {
-      const menuItems = entity(entities.menuItems, action.menuItem);
-      return { ...entities, menuItems }
-    }
-    case ActionTypes.UPDATE_USERS: {
-      const users = entity(entities.users, action.user);
-      return { ...entities, users }
-    }
-    case ActionTypes.CREATE_ORDER_ITEM: {
-      const orderItems = { ...entities.orderItems, [`new${action.id}`]: action.orderItem };
-      return { ...entities, orderItems }
-    }
-    case ActionTypes.UPDATE_ORDER_ITEM: {
-      const orderItems = { ...entities.orderItems, [action.orderItem.id]: action.orderItem };
-      return { ...entities, orderItems }
-    }
-
-    case ActionTypes.UPDATE_ORDER_GROUPS: {
-      const orderItemIds = [ ...entities.orderGroups[action.id].orders, action.orderItem.id ]
-      const orderGroup = { ...entities.orderGroups[action.id], orders: orderItemIds }
-      const orderGroups = { ...entities.orderGroups, [action.id]: orderGroup }
-      return { ...entities, orderGroups }
-    }
-
-    default:
-      return entities;
   }
 }
 
@@ -135,8 +73,12 @@ function currentUser(currentUser = {}, action){
 
 function openedTicket(openedTicket = {}, action) {
   switch(action.type) {
-    case ActionTypes.GET_OPENED_TICKET:
-      return action.ticket;
+    case ActionTypes.GET_OPENED_TICKET: {
+      if(action.ticket) {
+        return action.ticket;
+      }
+      return {};
+    }
     default:
       return openedTicket;
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderItemWidget from '../components/OrderItemWidget'
-import { orderItemClick } from '../middleware/index'
+import { orderItemClick } from '../middleware/buttonClickHandlers'
 import { connect } from 'react-redux'
 
 function mapStateToProps(state, ownProps) {

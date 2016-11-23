@@ -31,5 +31,8 @@ const OrderGroupsWidget = ({ orderGroups, users }) => {
     </div>
   );
 }
-OrderGroupsWidget.propTypes = { orderGroups: PropTypes.array.isRequired }
+OrderGroupsWidget.propTypes = { 
+  orderGroups: PropTypes.array.isRequired,
+  users: PropTypes.object.isRequired
+}
 export default OrderGroupsWidget

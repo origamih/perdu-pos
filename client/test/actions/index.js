@@ -181,43 +181,4 @@ describe('async actions:', function () {
       })
     });
   });
- 
-  describe('fetchOrderItems', function () {
-    let dispatch;
-    let getOrderItems = { 
-      type: ActionTypes.GET_ORDER_ITEMS, 
-      orderItems: fixtureObject,
-      orderGroupId: null
-    };
- 
-    beforeEach(function () {
-      dispatch = sinon.stub();
-      nock(url)
-      .post('/orders/show_by_params', { order: { order_group_id: null } })
-      .reply(200, fixtureObject);
-    });
- 
-    afterEach(function () {
-      nock.cleanAll();
-    });
- 
-    it('should return a promise', function () {
-      let promise = middleware.fetchOrderItems(null, url)(dispatch);
-      expect(promise).to.be.an.instanceof(Promise);
-    });
-     
-    it('dispatch getOrderItems action when success', function () {
-      middleware.fetchOrderItems(null, url)(dispatch).then(() => {
-        expect(dispatch.calledWith(getOrderItems)).to.be.true;
-      });
-    });
- 
-    it('should create GET_ORDER_ITEMS when fetching is done', function () {
-      const store = mockStore({});
-      return store.dispatch(middleware.fetchOrderItems(null, url))
-      .then(() => {
-        expect(store.getActions()[0]).to.deep.equal(getOrderItems);
-      })
-    });
-  });
 });

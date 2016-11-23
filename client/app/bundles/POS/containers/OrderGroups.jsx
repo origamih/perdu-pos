@@ -15,11 +15,16 @@ export class OrderGroups extends Component {
     dispatch(fetchOpenedTicket(tableId, customerId))
     .then(action => dispatch(fetchOrderGroups(action.ticket)));
   }
+
   render() {
     const { orderGroups, users } = this.props;
     return (
       <OrderGroupsWidget orderGroups={orderGroups} users={users} ></OrderGroupsWidget>
     );
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(fetchOrderGroups(undefined));
   }
 }
 

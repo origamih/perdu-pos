@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MenuItemsWidget from '../components/MenuItemsWidget';
-import { menuItemClick } from '../middleware/index'
+import { menuItemClick } from '../middleware/buttonClickHandlers'
 
 
 function mapStateToProps(state) {

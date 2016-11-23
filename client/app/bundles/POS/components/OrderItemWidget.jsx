@@ -44,7 +44,7 @@ const OrderItemWidget = ({ orderItem, quantity, menuItem, isNew, onClick, clicke
               <span>{extraStatus}</span>
             </p>
           </span>
-          <span className='col-xs-2'>{menuItem.price * orderItem.quantity}</span>
+          <span className='col-xs-2'>{menuItem.price * quantity}</span>
         </a>
       </td>
     </tr>
@@ -52,6 +52,10 @@ const OrderItemWidget = ({ orderItem, quantity, menuItem, isNew, onClick, clicke
 }
 
 OrderItemWidget.propTypes = {
-  orderItem: PropTypes.object.isRequired
+  orderItem: PropTypes.object.isRequired,
+  quantity: PropTypes.number.isRequired,
+  menuItem: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  clickedOrders: PropTypes.array.isRequired
 }
 export default OrderItemWidget
