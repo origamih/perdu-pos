@@ -6,6 +6,7 @@ import OrderGroups from '../containers/OrderGroups'
 import UtilityButtons from '../containers/UtilityButtons'
 
 const OrdersWidget = ({ params, submitButtonClick }) => {
+  const { table_id, customer_id } = params;
   return (
     <div className='row' id='orderBody'>
 
@@ -22,8 +23,8 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
           </div>
           <div id='orderListBody' className='panel-body'>
             <OrderGroups 
-              tableId={params.table_id || null} 
-              customerId={params.customer_id || null}>
+              tableId={table_id || null} 
+              customerId={customer_id || null}>
             </OrderGroups>
           </div>
           <div className='panel-footer'>
@@ -31,7 +32,11 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
               <h2>Balance: </h2>
             </div>
             <button className='btn btn-default'>Settle</button>
-            <button className='btn btn-warning' onClick={submitButtonClick}>Submit</button>
+            <button 
+              className='btn btn-warning' 
+              onClick={() => submitButtonClick(table_id, customer_id)}>
+              Submit
+            </button>
             <Link to="/home/all_tables" className='btn btn-danger'>Close</Link>
           </div>
         </div>

@@ -3,7 +3,7 @@
 import OrdersWidget from '../components/OrdersWidget';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { submitButtonClick } from '../middleware/buttonClickHandlers'
+import { submitButtonClick } from '../middleware/submitButtonHandler'
 import { getCurrentUser } from '../actions/index'
 
 export class Orders extends Component {
@@ -18,7 +18,10 @@ export class Orders extends Component {
   render() {
     const { params, dispatch } = this.props;
     return (
-      <OrdersWidget params={params} submitButtonClick={() => dispatch(submitButtonClick())}></OrdersWidget>
+      <OrdersWidget 
+        params={params} 
+        submitButtonClick={(tableId, customerId) => dispatch(submitButtonClick(tableId, customerId))}>
+      </OrdersWidget>
     );
   }
 }

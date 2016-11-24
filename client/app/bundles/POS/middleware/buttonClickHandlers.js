@@ -1,8 +1,9 @@
 import * as actions from '../actions/index'
 import * as api from './index.js'
+
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
-    const { openedTicket, nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();
+    const { nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();
     let orderItem = { 
       menu_item: menuItem.id, 
       quantity: 1, 
@@ -14,8 +15,7 @@ export function menuItemClick(menuItem) {
         id: nextOrderGroupId,
         user: currentUser.id,
         is_new: true,
-        orders: [orderItem.id],
-        ticket_id: openedTicket.id
+        orders: [orderItem.id]
       }
       dispatch(actions.createOrderGroup(nextOrderGroupId, orderGroup));
       dispatch(actions.updateMenuItems(menuItem));
@@ -42,29 +42,6 @@ export function menuItemClick(menuItem) {
       }
     }
   }
-}
-
-export const submitButtonClick = function() {
-  return (dispatch, getState) => {
-    const { openedTicket, entities, nextOrderGroupId } = getState();
-    const newOrderGroup = entities.orderGroups[nextOrderGroupId]
-    if(newOrderGroup){
-      const orderGroup = { ...newOrderGroup, user_id: newOrderGroup.user };
-      const newOrderItems = newOrderGroup.orders.map(id => {
-        return entities.orderItems[id];
-      });
-      return api.fetchCreateOrderGroup(orderGroup)
-      .then(createdOrderGroup => {
-        newOrderItems.map(item => {
-          item.order_group_id = createdOrderGroup.id;
-          item.menu_item_id = item.menu_item;
-          item.is_submitted = true;
-          api.fetchCreateOrderItem(item)
-          .then(dispatch(api.fetchOrderGroups(openedTicket.id)));
-        });
-      });
-    }
-  };
 }
 
 export const orderItemClick = function(orderItem) {

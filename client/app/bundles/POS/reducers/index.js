@@ -73,12 +73,8 @@ function currentUser(currentUser = {}, action){
 
 function openedTicket(openedTicket = {}, action) {
   switch(action.type) {
-    case ActionTypes.GET_OPENED_TICKET: {
-      if(action.ticket) {
-        return action.ticket;
-      }
-      return {};
-    }
+    case ActionTypes.GET_OPENED_TICKET: 
+      return action.ticket;
     default:
       return openedTicket;
   }

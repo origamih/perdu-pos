@@ -17,11 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :table_id %><br>
-    <%= f.collection_select(:table_id, Table.all, :id, :name) %>
+    <%= f.collection_select(:table_id, Table.all, :id, :name, include_blank: true) %>
   </div>
   <div class="field">
     <%= f.label :customer_id %><br>
-    <%= f.collection_select(:customer_id, Customer.all, :id, :name) %>
+    <%= f.collection_select(:customer_id, Customer.all, :id, :name, include_blank: true) %>
   </div>
   <div class="actions">
     <%= f.submit %>

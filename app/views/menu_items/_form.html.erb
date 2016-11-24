@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :menu_category_id %><br>
-    <%= f.collection_select :menu_category_id, MenuCategory.all, :id, :name %>
+    <%= f.collection_select :menu_category_id, MenuCategory.all, :id, :name, include_blank: true %>
   </div>
   <div class="actions">
     <%= f.submit %>
