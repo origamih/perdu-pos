@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { fetchOpenedTicket, fetchOrderGroups } from '../middleware/index'
+import { fetchOpenedTicket, fetchOrderGroups } from '../middleware/api'
 import OrderGroupsWidget from '../components/OrderGroupsWidget'
 
 export class OrderGroups extends Component {

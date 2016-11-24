@@ -5,12 +5,12 @@ const OrderItemWidget = ({ orderItem, quantity, menuItem, isNew, onClick, clicke
   let extraStatus = '';
   if(orderItem.is_gift){
     aStyle = {};
-    extraStatus = ' ,gift';
+    extraStatus = ', gift';
   }
   else {
     if(orderItem.is_void){
       aStyle = { color: '#777' };
-      extraStatus = ' ,void';
+      extraStatus = ', void';
     }
     else {
       if(isNew){
@@ -34,13 +34,13 @@ const OrderItemWidget = ({ orderItem, quantity, menuItem, isNew, onClick, clicke
       <td>
         <a href="#" className="row" style={aStyle} onClick={e => {
           e.preventDefault();
-          onClick()
+          onClick(orderItem)
         }}>
           <span className="col-xs-1">{quantity}</span>
           <span className='col-xs-9'>
             <p className="order-name">{menuItem.name}</p>
             <p className="order-status">
-              {isNew ? 'new' : 'submitted'}
+              {isNew ? 'New' : 'Submitted'}
               <span>{extraStatus}</span>
             </p>
           </span>

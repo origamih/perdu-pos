@@ -1,5 +1,5 @@
 import * as actions from '../actions/index'
-import * as api from './index.js'
+import * as api from './api'
 
 // return an array of Promises so that Promise.all can invoke after all these
 function createOrderItems(orderItems, orderGroupId) {

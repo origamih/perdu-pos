@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import AllTablesWidget from '../components/AllTablesWidget';
-import { fetchTables } from '../middleware/index'
+import { fetchTables } from '../middleware/api'
 import React, { Component } from 'react';
 
 export class AllTables extends Component {

@@ -1,3 +1,5 @@
+import * as actions from '../actions/index'
+import * as api from './api'
 var changeTable = function() {
   alert('s')
 };
@@ -15,26 +17,15 @@ function gift(dispatch, getState) {
     return order.is_submitted;
   });
   let giftOrders = submittedOrders.map(order => {
-    order.is_gift = order.is_void ? false : true;
-    return order;
+    let is_gift = order.is_void ? false : true;
+    return { ...order, is_gift };
   });
-  let giftOrderGroups = giftOrders.reduce((group, order) => {
-    if(order.order_group_id in group) {
-      group[order.order_group_id].push(order)
-    }
-    else {
-      group[order.order_group_id] = [order];
-    }
-    return group;
-  }, {});
-  let orderGroups = getState().orderGroups;
-  giftOrderGroups.keys.forEach(gog => {
-    let orderGroup = orderGroups.filter(og => {
-      return og.id == gog;
-    });
-    let orderItems = orderGroups.orderItems
+  giftOrders.map(order => {
+    dispatch(api.updateOrderItem(order));
   });
-
+  getState().clickedOrders.map(order => {
+    dispatch(actions.orderItemClick(order));
+  });
 }
 
 var cancelGift = function() {

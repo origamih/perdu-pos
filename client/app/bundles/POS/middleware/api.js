@@ -32,9 +32,9 @@ function getHeaders() {
   return headers
 }
 
-function postFetchDefault() {
+function fetchParams(method) {
   return {
-    method: 'POST',
+    method: method,
     headers: getHeaders(),
     credentials: 'same-origin'
   }
@@ -61,7 +61,7 @@ export const fetchMenuCategories = function(testURL = '') {
 export const fetchMenuItems = function(id, testURL = '') {
   return dispatch => {
     return fetch(testURL + '/menu_items/show_by_category', { 
-      ...postFetchDefault(),
+      ...fetchParams('POST'),
       body: JSON.stringify({ menu_item: { menu_category_id: id } })
     })
     .then(response => response.json())
@@ -73,7 +73,7 @@ export const fetchMenuItems = function(id, testURL = '') {
 export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   return dispatch => {
     return fetch(testURL + '/tickets/show_by_params', {
-      ...postFetchDefault(),
+      ...fetchParams('POST'),
       body: JSON.stringify({ ticket: { table_id: tableId, customer_id: customerId, is_open: true } })
     })
     .then(response => response.json())
@@ -86,7 +86,7 @@ export const fetchOrderGroups = function(ticket, testURL = '') {
   const ticketId = ticket ? ticket.id : '';
   return dispatch => {
     return fetch(testURL + '/order_groups/show_by_params', {
-      ...postFetchDefault(),
+      ...fetchParams('POST'),
       body: JSON.stringify({ order_group: { ticket_id: ticketId } })
     })
     .then(response => response.json())
@@ -100,7 +100,7 @@ export const fetchOrderGroups = function(ticket, testURL = '') {
 
 export const fetchCreateOrderGroup = function(orderGroup, testURL = '') {
   return fetch(testURL + '/order_groups.json', {
-    ...postFetchDefault(),
+    ...fetchParams('POST'),
     body: JSON.stringify({ order_group: orderGroup })
   })
   .then(response => response.json())
@@ -109,16 +109,27 @@ export const fetchCreateOrderGroup = function(orderGroup, testURL = '') {
 
 export const fetchCreateOrderItem = function(orderItem, testURL = '') {
   return fetch(testURL + '/orders.json', {
-    ...postFetchDefault(),
+    ...fetchParams('POST'),
     body: JSON.stringify({ order: orderItem })
   })
   .then(response => response.json());
 }
 
 export const createTicket = (ticket, testURL = '') => {
-  return fetch(testURL + 'tickets.json', {
-    ...postFetchDefault(),
+  return fetch(testURL + '/tickets.json', {
+    ...fetchParams('POST'),
     body: JSON.stringify({ ticket })
   })
   .then(response => response.json());
+}
+
+export const updateOrderItem = (orderItem, testURL = '') => {
+  return dispatch => {
+    return fetch(testURL + `/orders/${orderItem.id}.json`, {
+      ...fetchParams('PUT'),
+      body: JSON.stringify({ order: orderItem })
+    })
+    .then(response => response.json())
+    .then(() => dispatch(actions.updateOrderItem(orderItem)));
+  }
 }

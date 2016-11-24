@@ -16,9 +16,9 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
-    onClick: () => {dispatch(orderItemClick(ownProps.orderItem))}
+    onClick: (orderItem) => {dispatch(orderItemClick(orderItem))}
   }
 }
 

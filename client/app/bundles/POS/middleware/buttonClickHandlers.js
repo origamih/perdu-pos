@@ -1,5 +1,5 @@
 import * as actions from '../actions/index'
-import * as api from './index.js'
+
 
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {

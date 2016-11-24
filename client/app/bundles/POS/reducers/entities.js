@@ -53,6 +53,10 @@ export default function entities(entities = defaultEntities, action) {
       return { ...entities, orderGroups }
     }
 
+    case ActionTypes.GIFT_ORDERS: {
+      return { ...entities.orderItems, [action.id]: action.orderItem }
+    }
+
     default:
       return entities;
   }

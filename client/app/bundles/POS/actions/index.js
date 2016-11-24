@@ -14,7 +14,8 @@ export const ActionTypes = {
   UPDATE_MENU_ITEMS: 'UPDATE_MENU_ITEMS',
   CREATE_ORDER_ITEM: 'CREATE_ORDER_ITEM',
   UPDATE_USERS: 'UPDATE_USERS',
-  UPDATE_ORDER_ITEM: 'UPDATE_ORDER_ITEM'
+  UPDATE_ORDER_ITEM: 'UPDATE_ORDER_ITEM',
+  GIFT_ORDER: 'GIFT_ORDER'
 }
 
 /* ===========================================================
@@ -76,4 +77,8 @@ export function createOrderItem(id, orderItem) {
 
 export function updateOrderItem(orderItem) {
   return { type: ActionTypes.UPDATE_ORDER_ITEM, orderItem }
+}
+
+export function giftOrder(orderItem) {
+  return { type: ActionTypes.GIFT_ORDER, orderItem }
 }
