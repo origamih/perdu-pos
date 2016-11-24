@@ -12,8 +12,8 @@ var ticketNote = function() {
 
 };
 
-function gift(dispatch, getState) {
-  const submittedOrders = getState().clickedOrders.filter(function(order) {
+function gift(dispatch, clickedOrders) {
+  const submittedOrders = clickedOrders.filter(order => {
     return order.is_submitted;
   });
   let giftOrders = submittedOrders.map(order => {
@@ -23,21 +23,26 @@ function gift(dispatch, getState) {
   giftOrders.map(order => {
     dispatch(api.updateOrderItem(order));
   });
-  getState().clickedOrders.map(order => {
+  clickedOrders.map(order => {
     dispatch(actions.orderItemClick(order));
   });
 }
 
-var cancelGift = function() {
-  var giftOrders = this.state.clickedOrders.filter(function(order) {
+function cancelGift(dispatch, clickedOrders) {
+  const giftOrders = clickedOrders.filter(order => {
     return order.is_gift;
   });
-  giftOrders.forEach( (order) => {
-    order.is_gift = false;
-    this.updateOrder(order, order.id);
+  const canceledOrders = giftOrders.map(order => {
+    let is_gift = !order.is_gift
+    return { ...order, is_gift }
   });
-  this.setState({ clickedOrders: [] }, this.removeAllClickedState);
-};
+  canceledOrders.map(order => {
+    dispatch(api.updateOrderItem(order));
+  });
+  clickedOrders.map(order => {
+    dispatch(actions.orderItemClick(order));
+  });
+}
 
 var voidButton = function() {
   var submittedOrders = this.state.clickedOrders.filter(function(order) {
@@ -93,6 +98,7 @@ var sub = function() {
 
 export default function utilityButtonClick(button) {
   return (dispatch, getState) => {
+    const clickedOrders = getState().clickedOrders;
     switch(button){
       case 'Change Table':
         changeTable(dispatch);
@@ -104,10 +110,10 @@ export default function utilityButtonClick(button) {
         ticketNote();
         break;
       case 'Gift':
-        gift(dispatch, getState);
+        gift(dispatch, clickedOrders);
         break;
       case 'Cancel Gift':
-        cancelGift();
+        cancelGift(dispatch, clickedOrders);
         break;
       case 'Void':
         voidButton();
