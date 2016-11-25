@@ -14,7 +14,7 @@ var ticketNote = function() {
 
 function gift(dispatch, clickedOrders) {
   const submittedOrders = clickedOrders.filter(order => {
-    return order.is_submitted;
+    return order.is_submitted && !order.is_void;
   });
   let giftOrders = submittedOrders.map(order => {
     let is_gift = order.is_void ? false : true;
@@ -30,7 +30,7 @@ function gift(dispatch, clickedOrders) {
 
 function cancelGift(dispatch, clickedOrders) {
   const giftOrders = clickedOrders.filter(order => {
-    return order.is_gift;
+    return order.is_gift && !order.is_void;
   });
   const canceledOrders = giftOrders.map(order => {
     return { ...order, is_gift: false }

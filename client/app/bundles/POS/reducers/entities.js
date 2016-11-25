@@ -9,7 +9,7 @@ function entity(entity = {}, action) {
   }
 }
 
-const defaultEntities = {
+export const defaultEntities = {
   orderGroups: {},
   orderItems: {},
   menuItems: {},
