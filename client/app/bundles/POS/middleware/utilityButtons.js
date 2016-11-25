@@ -33,8 +33,7 @@ function cancelGift(dispatch, clickedOrders) {
     return order.is_gift;
   });
   const canceledOrders = giftOrders.map(order => {
-    let is_gift = !order.is_gift
-    return { ...order, is_gift }
+    return { ...order, is_gift: false }
   });
   canceledOrders.map(order => {
     dispatch(api.updateOrderItem(order));
@@ -44,41 +43,55 @@ function cancelGift(dispatch, clickedOrders) {
   });
 }
 
-var voidButton = function() {
-  var submittedOrders = this.state.clickedOrders.filter(function(order) {
-    return order.status === 'submitted';
+function voidButton(dispatch, clickedOrders) {
+  const submittedOrders = clickedOrders.filter(order => {
+    return order.is_submitted;
   });
-  submittedOrders.forEach(function(order) {
-    order.is_void = true;
-    order.is_gift = false;
-    this.updateOrder(order, order.id);
-  }.bind(this));
-  this.setState({ clickedOrders: [] }, this.removeAllClickedState);
-};
+  const voidOrders = submittedOrders.map(order => {
+    return { ...order, is_void: true }
+  });
+  voidOrders.map(order => {
+    dispatch(api.updateOrderItem(order));
+  });
+  clickedOrders.map(order => {
+    dispatch(actions.orderItemClick(order));
+  });
+}
 
-var cancelVoid = function() {
-  var voidOrders = this.state.clickedOrders.filter(function(order) {
+function cancelVoid(dispatch, clickedOrders) {
+  const voidOrders = clickedOrders.filter(order => {
     return order.is_void;
   });
-  voidOrders.forEach( (order) => {
-    order.is_void = false;
-    this.updateOrder(order, order.id);
+  const cancelVoidOrders = voidOrders.map(order => {
+    return { ...order, is_void: false }
   });
-  this.setState({ clickedOrders: [] }, this.removeAllClickedState);
-};
+  cancelVoidOrders.map(order => {
+    dispatch(api.updateOrderItem(order));
+  });
+  clickedOrders.map(order => {
+    dispatch(actions.orderItemClick(order));
+  });
+}
 
-var cancel = function() {
-  // Remove clickedOrders with status = 'new'
-  var cancelOrders = this.state.clickedOrders.filter(function(clickedOrder) {
-    return clickedOrder.status === 'new';
+function cancel(dispatch, clickedOrders, getState) {
+  const { nextOrderGroupId, entities } = getState();
+  const newOrders = clickedOrders.filter(order => {
+    return !order.is_submitted
   });
-  var orderList = this.state.orderList;
-  orderList = this.removeArrayFromArray(cancelOrders, orderList);
-  this.setState({
-    orderList: orderList,
-    clickedOrders: []
-  }, this.removeAllClickedState);
-};
+  newOrders.map(order => {
+    dispatch(actions.removeOrderItem(order, nextOrderGroupId));
+  });
+  
+  const newOrderGroup = entities.orderGroups[nextOrderGroupId];
+  if(newOrderGroup) {
+    if(newOrderGroup.orders.length == 0) {
+      dispatch(actions.removeOrderGroup(newOrderGroup));
+    }
+  }
+  clickedOrders.map(order => {
+    dispatch(actions.orderItemClick(order));
+  });
+}
 
 var move = function() {
 
@@ -104,10 +117,10 @@ export default function utilityButtonClick(button) {
         changeTable(dispatch);
         break;
       case 'Select Customer':
-        selectCustomer();
+        selectCustomer(dispatch, clickedOrders);
         break;
       case 'Ticket Note':
-        ticketNote();
+        ticketNote(dispatch, clickedOrders);
         break;
       case 'Gift':
         gift(dispatch, clickedOrders);
@@ -116,25 +129,25 @@ export default function utilityButtonClick(button) {
         cancelGift(dispatch, clickedOrders);
         break;
       case 'Void':
-        voidButton();
+        voidButton(dispatch, clickedOrders);
         break;
       case 'Cancel Void':
-        cancelVoid();
+        cancelVoid(dispatch, clickedOrders);
         break;
       case 'Cancel':
-        cancel();
+        cancel(dispatch, clickedOrders, getState);
         break;
       case 'Move':
-        move();
+        move(dispatch, clickedOrders);
         break;
       case 'Change Price':
-        changePrice();
+        changePrice(dispatch, clickedOrders);
         break;
       case '(+)':
-        add();
+        add(dispatch, clickedOrders);
         break;
       case '(-)':
-        sub();
+        sub(dispatch, clickedOrders);
         break;
     }
 

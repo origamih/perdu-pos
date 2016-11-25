@@ -3,14 +3,14 @@ import React, { PropTypes } from 'react'
 const OrderItemWidget = ({ orderItem, quantity, menuItem, isNew, onClick, clickedOrders }) => {
   let aStyle = {};
   let extraStatus = '';
-  if(orderItem.is_gift){
-    aStyle = {};
-    extraStatus = ', gift';
+  if(orderItem.is_void){
+    aStyle = { color: '#777' };
+    extraStatus = ', void';
   }
   else {
-    if(orderItem.is_void){
-      aStyle = { color: '#777' };
-      extraStatus = ', void';
+    if(orderItem.is_gift){
+      aStyle = {};
+      extraStatus = ', gift';
     }
     else {
       if(isNew){

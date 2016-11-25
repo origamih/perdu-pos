@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { ActionTypes } from '../actions/index'
 import entities from './entities'
+import update from 'immutability-helper'
 function tables(tables = [], action) {
   switch (action.type) {
     case ActionTypes.GET_TABLES:
@@ -37,6 +38,10 @@ function orderGroupIds(orderGroupIds = [], action) {
       return orderGroupIds;
     case ActionTypes.CREATE_ORDER_GROUP:
       return [...orderGroupIds, action.id];
+    case ActionTypes.REMOVE_ORDER_GROUP: {
+      const index = orderGroupIds.indexOf(action.orderGroup.id);
+      return update(orderGroupIds, { $splice: [[index, 1]] });
+    }
     default:
       return orderGroupIds;
   }
@@ -48,6 +53,8 @@ function nextOrderGroupId(nextOrderGroupId = 0, action) {
       let index = action.response.result.length;
       return index > 0 ? action.response.result[index - 1] + 1 : 0;
     }
+    case ActionTypes.REMOVE_ORDER_GROUP:
+      return nextOrderGroupId + 1;
     default:
       return nextOrderGroupId;
   }

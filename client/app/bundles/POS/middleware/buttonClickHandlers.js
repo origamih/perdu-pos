@@ -8,6 +8,7 @@ export function menuItemClick(menuItem) {
       menu_item: menuItem.id, 
       quantity: 1, 
       order_group_id: nextOrderGroupId,
+      is_submitted: false,
       id: `new${nextOrderItemId}`
     }
     if(!entities.orderGroups[nextOrderGroupId]) {

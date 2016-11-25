@@ -53,8 +53,13 @@ export default function entities(entities = defaultEntities, action) {
       return { ...entities, orderGroups }
     }
 
-    case ActionTypes.GIFT_ORDERS: {
-      return { ...entities.orderItems, [action.id]: action.orderItem }
+    case ActionTypes.REMOVE_ORDER_ITEM: {
+      const orderItemIds = entities.orderGroups[action.orderGroupId].orders;
+      const index = orderItemIds.indexOf(action.orderItem.id);
+      orderItemIds.splice(index, 1);
+      const orderGroup = { ...entities.orderGroups[action.orderGroupId], orders: orderItemIds }
+      const orderGroups = { ...entities.orderGroups, [action.orderGroupId]: orderGroup }
+      return { ...entities, orderGroups }
     }
 
     default:
