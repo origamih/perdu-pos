@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import AllTablesWidget from '../../app/bundles/POS/components/AllTablesWidget'
 import MenuCategoriesWidget from '../../app/bundles/POS/components/MenuCategoriesWidget'
+import MenuItemsWidget from '../../app/bundles/POS/components/MenuItemsWidget'
 import sinon from 'sinon'
 
 describe('AllTablesWidget', function () {

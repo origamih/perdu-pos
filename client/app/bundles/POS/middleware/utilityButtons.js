@@ -97,9 +97,9 @@ var move = function() {
 
 };
 
-var changePrice = function() {
-
-};
+function changePrice(dispatch, clickedOrders) {
+  
+}
 
 var add = function() {
 

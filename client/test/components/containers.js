@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 import jsdom from 'jsdom';
 
+// setup document and window so that enzyme mount can run
 global.document = jsdom.jsdom("hello world");
 global.window = document.defaultView;
 
