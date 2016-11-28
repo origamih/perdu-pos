@@ -82,12 +82,11 @@ export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   }
 }
 
-export const fetchOrderGroups = function(ticket, testURL = '') {
-  const ticketId = ticket ? ticket.id : '';
+export const fetchOrderGroups = function(ticketId, testURL = '') {
   return dispatch => {
     return fetch(testURL + '/order_groups/show_by_params', {
       ...fetchParams('POST'),
-      body: JSON.stringify({ order_group: { ticket_id: ticketId } })
+      body: JSON.stringify({ order_group: { ticket_id: ticketId || null } })
     })
     .then(response => response.json())
     .then(json => { 

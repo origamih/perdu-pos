@@ -16,7 +16,8 @@ export const ActionTypes = {
   UPDATE_USERS: 'UPDATE_USERS',
   UPDATE_ORDER_ITEM: 'UPDATE_ORDER_ITEM',
   REMOVE_ORDER_ITEM: 'REMOVE_ORDER_ITEM',
-  REMOVE_ORDER_GROUP: 'REMOVE_ORDER_GROUP'
+  REMOVE_ORDER_GROUP: 'REMOVE_ORDER_GROUP',
+  TICKET_CLICK: 'TICKET_CLICK'
 }
 
 /* ===========================================================
@@ -86,4 +87,8 @@ export function removeOrderItem(orderItem, orderGroupId) {
 
 export function removeOrderGroup(orderGroup) {
   return { type: ActionTypes.REMOVE_ORDER_GROUP, orderGroup }
+}
+
+export function ticketClick(ticket) {
+  return { type: ActionTypes.TICKET_CLICK, ticket }
 }

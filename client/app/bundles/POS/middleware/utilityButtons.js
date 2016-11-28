@@ -1,7 +1,9 @@
 import * as actions from '../actions/index'
 import * as api from './api'
+import { orderItemClick } from './buttonClickHandlers'
+
 var changeTable = function() {
-  alert('s')
+  $('#tableModal').modal();
 };
 
 var selectCustomer = function() {
@@ -24,7 +26,7 @@ function gift(dispatch, clickedOrders) {
     dispatch(api.updateOrderItem(order));
   });
   clickedOrders.map(order => {
-    dispatch(actions.orderItemClick(order));
+    dispatch(orderItemClick(order));
   });
 }
 
@@ -39,7 +41,7 @@ function cancelGift(dispatch, clickedOrders) {
     dispatch(api.updateOrderItem(order));
   });
   clickedOrders.map(order => {
-    dispatch(actions.orderItemClick(order));
+    dispatch(orderItemClick(order));
   });
 }
 
@@ -54,7 +56,7 @@ function voidButton(dispatch, clickedOrders) {
     dispatch(api.updateOrderItem(order));
   });
   clickedOrders.map(order => {
-    dispatch(actions.orderItemClick(order));
+    dispatch(orderItemClick(order));
   });
 }
 
@@ -69,7 +71,7 @@ function cancelVoid(dispatch, clickedOrders) {
     dispatch(api.updateOrderItem(order));
   });
   clickedOrders.map(order => {
-    dispatch(actions.orderItemClick(order));
+    dispatch(orderItemClick(order));
   });
 }
 
@@ -89,7 +91,7 @@ function cancel(dispatch, clickedOrders, getState) {
     }
   }
   clickedOrders.map(order => {
-    dispatch(actions.orderItemClick(order));
+    dispatch(orderItemClick(order));
   });
 }
 
@@ -98,7 +100,10 @@ var move = function() {
 };
 
 function changePrice(dispatch, clickedOrders) {
-  
+  $('#myModal').modal();
+  // const newOrder = { ...clickedOrders[0], price: 4 }
+  // dispatch(actions.updateOrderItem(newOrder));
+  dispatch(orderItemClick(clickedOrders[0]));
 }
 
 var add = function() {

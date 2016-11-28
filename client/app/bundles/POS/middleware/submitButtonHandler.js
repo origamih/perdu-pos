@@ -1,5 +1,6 @@
 import * as actions from '../actions/index'
 import * as api from './api'
+import { orderItemClick } from './buttonClickHandlers'
 
 // return an array of Promises so that Promise.all can invoke after all these
 function createOrderItems(orderItems, orderGroupId) {
@@ -11,23 +12,25 @@ function createOrderItems(orderItems, orderGroupId) {
   });
 }
 
-export const submitButtonClick = function(tableId = '', customerId = '') {
+export const submitButtonClick = function(ticketId, tableId = '', customerId = '') {
   return (dispatch, getState) => {
-    const { openedTicket, entities, nextOrderGroupId } = getState();
+    const { entities, nextOrderGroupId, clickedOrders } = getState();
+    clickedOrders.map(order => {
+      dispatch(orderItemClick(order));
+    });
     const newOrderGroup = entities.orderGroups[nextOrderGroupId];
-    let ticket = openedTicket;
-    let orderGroup = { ...newOrderGroup, user_id: newOrderGroup.user };
+    // let ticket = openedTicket[0];
 
     if(newOrderGroup){
-
+      let orderGroup = { ...newOrderGroup, user_id: newOrderGroup.user };
       const newOrderItems = newOrderGroup.orders.map(id => {
         return entities.orderItems[id];
       });
 
       // check if the ticket has already created
       // if no, create one
-      if(!openedTicket) {
-        ticket = {
+      if(!ticketId) {
+        let ticket = {
           table_id: tableId,
           customer_id: customerId,
           is_open: true
@@ -39,18 +42,18 @@ export const submitButtonClick = function(tableId = '', customerId = '') {
           api.fetchCreateOrderGroup(orderGroup)
           .then(createdOrderGroup => { 
             Promise.all(createOrderItems(newOrderItems, createdOrderGroup.id))
-            .then(() => dispatch(api.fetchOrderGroups(createdTicket)));
+            .then(() => dispatch(api.fetchOrderGroups(createdTicket.id)));
           });
         });
       }
 
       // if yes, create the order_group and order_items
       else {
-        orderGroup.ticket_id = ticket.id;
+        orderGroup.ticket_id = ticketId;
         api.fetchCreateOrderGroup(orderGroup)
         .then(createdOrderGroup => {
           Promise.all(createOrderItems(newOrderItems, createdOrderGroup.id))
-          .then(() => dispatch(api.fetchOrderGroups(ticket)));
+          .then(() => dispatch(api.fetchOrderGroups(ticketId)));
         });
       }
     }

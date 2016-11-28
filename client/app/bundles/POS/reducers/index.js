@@ -78,7 +78,7 @@ function currentUser(currentUser = {}, action){
   }
 }
 
-function openedTicket(openedTicket = {}, action) {
+function openedTicket(openedTicket = [], action) {
   switch(action.type) {
     case ActionTypes.GET_OPENED_TICKET: 
       return action.ticket;
@@ -115,6 +115,23 @@ function clickedOrders(clickedOrders = [], action) {
   }
 }
 
+function clickedTickets(clickedTickets = [], action) {
+  switch(action.type) {
+    case ActionTypes.TICKET_CLICK:
+      var filteredTickets = clickedTickets.filter(clickedTicket => {
+        return !(clickedTicket === action.ticket)
+      });
+      if(filteredTickets.length == clickedTickets.length) {
+        return [...clickedTickets, action.ticket]
+      }
+      else {
+        return filteredTickets;
+      }
+    default:
+      return clickedTickets;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -133,6 +150,7 @@ const posApp = combineReducers({
   openedTicket,
   utilityButtons,
   clickedOrders,
-  orderGroupIds
+  orderGroupIds,
+  clickedTickets
 });
 export default posApp

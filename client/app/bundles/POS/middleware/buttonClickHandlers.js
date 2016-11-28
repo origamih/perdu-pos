@@ -62,3 +62,9 @@ export const orderItemClick = function(orderItem) {
     dispatch(actions.getUtilityButtons(buttons));
   }
 }
+
+export const ticketClick = ticket => {
+  return dispatch => {
+    dispatch(actions.ticketClick(ticket));
+  }
+}

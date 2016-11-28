@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { fetchOpenedTicket, fetchOrderGroups } from '../middleware/api'
+import { fetchOrderGroups } from '../middleware/api'
 import OrderGroupsWidget from '../components/OrderGroupsWidget'
 
 export class OrderGroups extends Component {
@@ -11,9 +11,15 @@ export class OrderGroups extends Component {
     customerId: PropTypes.string
   }
   componentDidMount() {
-    const { dispatch, tableId, customerId } = this.props; 
-    dispatch(fetchOpenedTicket(tableId, customerId))
-    .then(action => dispatch(fetchOrderGroups(action.ticket)));
+    const { dispatch, ticketId } = this.props; 
+    dispatch(fetchOrderGroups(ticketId));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.ticketId !== this.props.ticketId) {
+      const { dispatch, ticketId } = nextProps; 
+      dispatch(fetchOrderGroups(ticketId));
+    }
   }
 
   render() {
@@ -35,8 +41,7 @@ function mapStateToProps(state, ownProps) {
   return {
     orderGroups,
     users: state.entities.users,
-    tableId: ownProps.tableId,
-    customerId: ownProps.customerId
+    ticketId: ownProps.ticketId
   }
 }
 

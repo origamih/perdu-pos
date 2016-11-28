@@ -1,34 +1,19 @@
-// Create this container so that OrderWidget will be able to hot-reload
-
-import OrdersWidget from '../components/OrdersWidget';
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import OrdersWidget from '../components/OrdersWidget'
 import { submitButtonClick } from '../middleware/submitButtonHandler'
-import { getCurrentUser } from '../actions/index'
 
-export class Orders extends Component {
-  static propTypes = { 
-    params: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
-  }
-  componentDidMount() {
-    this.props.dispatch(getCurrentUser(this.props.user));
-  }
-  render() {
-    const { params, dispatch } = this.props;
-    return (
-      <OrdersWidget 
-        params={params} 
-        submitButtonClick={(tableId, customerId) => dispatch(submitButtonClick(tableId, customerId))}>
-      </OrdersWidget>
-    );
-  }
-}
 function mapStateToProps(state, ownProps) {
-  return {
-    params: ownProps.params,
-    user: ownProps.route.user
+  const { ticket_id, table_id, customer_id } = ownProps.params;
+  return { ticket_id, table_id, customer_id }
+}
+
+function mapDispatchToProps(dispatch) {
+  return { 
+    submitButtonClick: (ticketId, tableId, customerId) => {
+      dispatch(submitButtonClick(ticketId, tableId, customerId))
+    }
   }
 }
-export default connect(mapStateToProps)(Orders);
+const Orders = connect(mapStateToProps, mapDispatchToProps)(OrdersWidget);
+export default Orders

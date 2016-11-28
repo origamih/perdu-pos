@@ -2,11 +2,12 @@ import { Router, Route, IndexRedirect, hashHistory } from 'react-router';
 import ReactOnRails from 'react-on-rails';
 import React from 'react';
 import { Provider } from 'react-redux';
-import POSIndexWidget from '../components/POSIndexWidget';
+import POSIndex from '../containers/POSIndex';
 import POSHomeWidget from '../components/POSHomeWidget';
 import AllTables from '../containers/AllTables';
-import Orders from '../containers/Orders';
+import Tickets from '../containers/Tickets';
 import configureStore from './configureStore';
+import Orders from '../containers/Orders'
 // Import at least once style so that webpack will render an output css
 import style from './POSRouter';
 
@@ -16,7 +17,7 @@ class POSRouter extends React.Component {
     return (
       <Provider store={store}>
         <Router history={hashHistory}>
-          <Route path="/" component={POSIndexWidget}>
+          <Route path="/" user={this.props.user} component={POSIndex}>
             <IndexRedirect to="/home"></IndexRedirect>
             <Route path="home" component={POSHomeWidget}>
               <IndexRedirect to="/home/all_tables"></IndexRedirect>
@@ -25,7 +26,8 @@ class POSRouter extends React.Component {
               <Route path="customer_tickets" ></Route>
               <Route path="all_tickets" ></Route>
             </Route>
-            <Route path="/all_tables/:table_id" user={this.props.user} component={Orders}></Route>
+            <Route path="/all_tables/:table_id" component={Tickets}></Route>
+            <Route path="/all_tables/:table_id/:ticket_id" component={Orders}></Route>
           </Route>
         </Router>
       </Provider>

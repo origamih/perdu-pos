@@ -14,7 +14,7 @@ class TicketsController < ApplicationController
 
   #POST
   def show_by_params
-    @tickets = Ticket.where(ticket_params).first
+    @tickets = Ticket.where(ticket_params)
     respond_to do |format|
       format.json { render json: @tickets }
     end

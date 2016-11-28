@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for actions/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">actions</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>16/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>18/18</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const ActionTypes = {
+  GET_TABLES: 'GET_TABLES',
+  GET_MENU_CATEGORIES: 'GET_MENU_CATEGORIES',
+  GET_MENU_ITEMS: 'GET_MENU_ITEMS',
+  GET_OPENED_TICKET: 'GET_OPENED_TICKET',
+  GET_ORDER_GROUPS: 'GET_ORDER_GROUPS',
+  GET_NEW_ORDERS: 'GET_NEW_ORDERS',
+  GET_CURRENT_USER: 'GET_CURRENT_USER',
+  CREATE_ORDER_GROUP: 'CREATE_ORDER_GROUP',
+  UPDATE_ORDER_GROUPS: 'UPDATE_ORDER_GROUPS',
+  SUBMIT_BUTTON_CLICK: 'SUBMIT_BUTTON_CLICK',
+  GET_UTILITY_BUTTONS: 'GET_UTILITY_BUTTONS',
+  ORDER_ITEM_CLICK: 'ORDER_ITEM_CLICK',
+  UPDATE_MENU_ITEMS: 'UPDATE_MENU_ITEMS',
+  CREATE_ORDER_ITEM: 'CREATE_ORDER_ITEM',
+  UPDATE_USERS: 'UPDATE_USERS',
+  UPDATE_ORDER_ITEM: 'UPDATE_ORDER_ITEM',
+  REMOVE_ORDER_ITEM: 'REMOVE_ORDER_ITEM',
+  REMOVE_ORDER_GROUP: 'REMOVE_ORDER_GROUP'
+}
+&nbsp;
+/* ===========================================================
+  action creators
+=============================================================*/ 
+export function getTables(tables) {
+  return { type: ActionTypes.GET_TABLES, tables: tables };
+}
+&nbsp;
+export function getMenuCategories(menuCategories) {
+  return { type: ActionTypes.GET_MENU_CATEGORIES, menuCategories: menuCategories };
+}
+&nbsp;
+export function getMenuItems(menuItems) {
+  return { type: ActionTypes.GET_MENU_ITEMS, menuItems: menuItems }
+}
+&nbsp;
+export function getOpenedTicket(ticket) {
+  return { type: ActionTypes.GET_OPENED_TICKET, ticket: ticket }
+}
+&nbsp;
+export function getOrderGroups(response) {
+  return { type: ActionTypes.GET_ORDER_GROUPS, response }
+}
+&nbsp;
+export function getCurrentUser(user) {
+  return { type: ActionTypes.GET_CURRENT_USER, user }
+}
+&nbsp;
+export function createOrderGroup(id, orderGroup) {
+  return { type: ActionTypes.CREATE_ORDER_GROUP, orderGroup, id }
+}
+&nbsp;
+export function updateOrderGroups(id, orderItem) {
+  return { type: ActionTypes.UPDATE_ORDER_GROUPS, id, orderItem }
+}
+&nbsp;
+export function getUtilityButtons(utilityButtons = <span class="branch-1 cbranch-no" title="branch not covered" >[</span>
+  'Change Table', 'Select Customer', 'Ticket Note'
+]) {
+  return { type: ActionTypes.GET_UTILITY_BUTTONS, utilityButtons: utilityButtons }
+}
+&nbsp;
+export function orderItemClick(orderItem) {
+  return { type: ActionTypes.ORDER_ITEM_CLICK, clickedOrder: orderItem }
+}
+&nbsp;
+export function updateMenuItems(menuItem) {
+  return { type: ActionTypes.UPDATE_MENU_ITEMS, menuItem }
+}
+&nbsp;
+export function updateUsers(user) {
+  return { type: ActionTypes.UPDATE_USERS, user }
+}
+&nbsp;
+export function createOrderItem(id, orderItem) {
+  return { type: ActionTypes.CREATE_ORDER_ITEM, orderItem, id }
+}
+&nbsp;
+export function updateOrderItem(orderItem) {
+  return { type: ActionTypes.UPDATE_ORDER_ITEM, orderItem }
+}
+&nbsp;
+export function removeOrderItem(orderItem, orderGroupId) {
+  return { type: ActionTypes.REMOVE_ORDER_ITEM, orderItem, orderGroupId }
+}
+&nbsp;
+export function removeOrderGroup(orderGroup) {
+  return { type: ActionTypes.REMOVE_ORDER_GROUP, orderGroup }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Nov 25 2016 23:08:05 GMT+0700 (ICT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

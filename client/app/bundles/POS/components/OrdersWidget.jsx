@@ -1,15 +1,13 @@
-import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, { PropTypes } from 'react'
 import MenuCategories from '../containers/MenuCategories';
 import MenuItems from '../containers/MenuItems';
 import OrderGroups from '../containers/OrderGroups'
 import UtilityButtons from '../containers/UtilityButtons'
+import { Link } from 'react-router';
 
-const OrdersWidget = ({ params, submitButtonClick }) => {
-  const { table_id, customer_id } = params;
+const OrdersWidget = ({ ticket_id, customer_id, table_id, submitButtonClick }) => {
   return (
-    <div className='row' id='orderBody'>
-
+    <div>
       <div id='utilityButtons' className='col-sm-4 col-md-2'>
         <UtilityButtons></UtilityButtons>
       </div>
@@ -17,15 +15,12 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
       <div id='orderItems' className='col-sm-8 col-md-4'>
         <div className='panel panel-default'>
           <div className='panel-heading'>
-            <p>Table: {params.table_id}</p>
+            <p>Table: </p>
             <p>Customer: </p>
             <p>Status: </p>
           </div>
           <div id='orderListBody' className='panel-body'>
-            <OrderGroups 
-              tableId={table_id || null} 
-              customerId={customer_id || null}>
-            </OrderGroups>
+            <OrderGroups ticketId={ticket_id}></OrderGroups>
           </div>
           <div className='panel-footer'>
             <div>
@@ -56,12 +51,8 @@ const OrdersWidget = ({ params, submitButtonClick }) => {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
-OrdersWidget.propTypes = {
-  params: PropTypes.object.isRequired,
-  submitButtonClick: PropTypes.func.isRequired
-}
+
 export default OrdersWidget
