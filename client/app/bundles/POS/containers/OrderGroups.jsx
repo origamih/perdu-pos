@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 import { fetchOrderGroups } from '../middleware/api'
+import { getOrderGroups } from '../actions/index'
 import OrderGroupsWidget from '../components/OrderGroupsWidget'
 
 export class OrderGroups extends Component {
@@ -30,7 +31,8 @@ export class OrderGroups extends Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(fetchOrderGroups(undefined));
+    // dispatch getOrderGroups with default entities
+    this.props.dispatch(getOrderGroups({ entities: {}, result: [] }));
   }
 }
 

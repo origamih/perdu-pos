@@ -4,6 +4,7 @@ import { fetchOpenedTicket } from '../middleware/api'
 import { ticketClick } from '../middleware/buttonClickHandlers'
 import TicketsWidget from '../components/TicketsWidget'
 import Orders from '../containers/Orders'
+import { requestTickets } from '../actions/index'
 
 export class Tickets extends Component {
   static propTypes = { 
@@ -16,9 +17,17 @@ export class Tickets extends Component {
     const { table_id, customer_id } = params;
     dispatch(fetchOpenedTicket(table_id || null, customer_id || null));
   }
+
+  componentWillUnmount() {
+    this.props.dispatch(requestTickets());
+  }
+
   render() {
-    const { tickets, clickedTickets, dispatch } = this.props;
+    const { tickets, clickedTickets, dispatch, receiveTickets } = this.props;
     const child = () => {
+      if(!receiveTickets) {
+        return <h2>Loading...</h2>
+      }
       if(tickets.length > 1) {
         return <TicketsWidget 
           tickets={tickets} 
@@ -42,7 +51,8 @@ function mapStateToProps(state, ownProps) {
   return {
     params: ownProps.params,
     tickets: state.openedTicket,
-    clickedTickets: state.clickedTickets
+    clickedTickets: state.clickedTickets,
+    receiveTickets: state.receiveTickets
   }
 }
 export default connect(mapStateToProps)(Tickets);

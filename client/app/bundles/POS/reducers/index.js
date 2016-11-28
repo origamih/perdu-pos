@@ -132,6 +132,17 @@ function clickedTickets(clickedTickets = [], action) {
   }
 }
 
+function receiveTickets(receiveTickets = false, action) {
+  switch(action.type) {
+    case ActionTypes.REQUEST_TICKETS:
+      return false;
+    case ActionTypes.RECEIVE_TICKETS:
+      return true;
+    default:
+      return receiveTickets;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -151,6 +162,7 @@ const posApp = combineReducers({
   utilityButtons,
   clickedOrders,
   orderGroupIds,
-  clickedTickets
+  clickedTickets,
+  receiveTickets
 });
 export default posApp

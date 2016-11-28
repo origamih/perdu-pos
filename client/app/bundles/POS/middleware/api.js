@@ -72,13 +72,16 @@ export const fetchMenuItems = function(id, testURL = '') {
 
 export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   return dispatch => {
+    dispatch(actions.requestTickets());
     return fetch(testURL + '/tickets/show_by_params', {
       ...fetchParams('POST'),
       body: JSON.stringify({ ticket: { table_id: tableId, customer_id: customerId, is_open: true } })
     })
     .then(response => response.json())
-    .then(json => dispatch(actions.getOpenedTicket(json)))
-    .catch(err => console.log(err));
+    .then(json => {
+      dispatch(actions.getOpenedTicket(json));
+      dispatch(actions.receiveTickets());
+    });
   }
 }
 
