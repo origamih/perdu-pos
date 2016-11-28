@@ -143,6 +143,15 @@ function receiveTickets(receiveTickets = false, action) {
   }
 }
 
+function currentTicket(currentTicket = {}, action) {
+  switch(action.type) {
+    case ActionTypes.GET_CURRENT_TICKET:
+      return action.ticket;
+    default:
+      return currentTicket;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -163,6 +172,33 @@ const posApp = combineReducers({
   clickedOrders,
   orderGroupIds,
   clickedTickets,
-  receiveTickets
+  receiveTickets,
+  currentTicket
 });
 export default posApp
+
+export const initialState = {
+  clickedOrders: [],
+  clickedTickets: [],
+  currentUser: {},
+  entities: {
+    menuItems: {},
+    orderGroups: {},
+    orderItems: {},
+    ticket: {},
+    users: {}
+  },
+  menuCategories: [],
+  menuItems: [],
+  nextOrderGroupId: 0,
+  nextOrderItemId: 0,
+  openedTicket: [],
+  orderGroupIds: [],
+  tables: [],
+  utilityButtons: [
+    "Change Table",
+    "Select Customer",
+    "Ticket Note",
+  ],
+  receiveTickets: false
+};

@@ -135,3 +135,18 @@ export const updateOrderItem = (orderItem, testURL = '') => {
     .then(() => dispatch(actions.updateOrderItem(orderItem)));
   }
 }
+
+export const fetchCurrentTicket = (ticketId, testURL = '') => {
+  return dispatch => {
+    if(!ticketId) {
+      return dispatch(actions.getCurrentTicket({}))
+    }
+    // dispatch(actions.requestTickets())
+    return fetch(testURL + `/tickets/${ticketId}.json`)
+    .then(response => response.json())
+    .then(json => {
+      dispatch(actions.getCurrentTicket(json));
+      dispatch(actions.receiveTickets());
+    });
+  }
+}

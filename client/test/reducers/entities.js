@@ -1,7 +1,6 @@
 import * as actions from '../../app/bundles/POS/actions/index';
-import posApp from '../../app/bundles/POS/reducers/index';
+import posApp, { initialState } from '../../app/bundles/POS/reducers/index';
 import { defaultEntities } from '../../app/bundles/POS/reducers/entities'
-import { initialState } from './index'
 
 describe('Reducers: entities', function () {
 

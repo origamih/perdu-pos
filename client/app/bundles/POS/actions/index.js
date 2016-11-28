@@ -19,7 +19,8 @@ export const ActionTypes = {
   REMOVE_ORDER_GROUP: 'REMOVE_ORDER_GROUP',
   TICKET_CLICK: 'TICKET_CLICK',
   REQUEST_TICKETS: 'REQUEST_TICKETS',
-  RECEIVE_TICKETS: 'RECEIVE_TICKETS'
+  RECEIVE_TICKETS: 'RECEIVE_TICKETS',
+  GET_CURRENT_TICKET: 'GET_CURRENT_TICKET'
 }
 
 /* ===========================================================
@@ -101,4 +102,8 @@ export function requestTickets() {
 
 export function receiveTickets() {
   return { type: ActionTypes.RECEIVE_TICKETS }
+}
+
+export function getCurrentTicket(ticket) {
+  return { type: ActionTypes.GET_CURRENT_TICKET, ticket }
 }

@@ -37,7 +37,7 @@ export const submitButtonClick = function(ticketId, tableId = '', customerId = '
         }
         api.createTicket(ticket)
         .then(createdTicket => {
-          dispatch(actions.getOpenedTicket(createdTicket));
+          dispatch(actions.getCurrentTicket(createdTicket));
           orderGroup.ticket_id = createdTicket.id;
           api.fetchCreateOrderGroup(orderGroup)
           .then(createdOrderGroup => { 

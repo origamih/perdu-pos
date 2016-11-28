@@ -4,7 +4,7 @@ import { fetchOpenedTicket } from '../middleware/api'
 import { ticketClick } from '../middleware/buttonClickHandlers'
 import TicketsWidget from '../components/TicketsWidget'
 import Orders from '../containers/Orders'
-import { requestTickets } from '../actions/index'
+import * as actions from '../actions/index'
 
 export class Tickets extends Component {
   static propTypes = { 
@@ -19,7 +19,12 @@ export class Tickets extends Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(requestTickets());
+    const { clickedTickets, dispatch } = this.props;
+    dispatch(actions.requestTickets());
+    dispatch(actions.getCurrentTicket({}));
+    clickedTickets.map(ticket => {
+      dispatch(actions.ticketClick(ticket));
+    });
   }
 
   render() {

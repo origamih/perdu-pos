@@ -11,6 +11,8 @@ export function menuItemClick(menuItem) {
       is_submitted: false,
       id: `new${nextOrderItemId}`
     }
+    dispatch(actions.updateMenuItems(menuItem));
+    
     if(!entities.orderGroups[nextOrderGroupId]) {
       let orderGroup = {
         id: nextOrderGroupId,
@@ -19,12 +21,10 @@ export function menuItemClick(menuItem) {
         orders: [orderItem.id]
       }
       dispatch(actions.createOrderGroup(nextOrderGroupId, orderGroup));
-      dispatch(actions.updateMenuItems(menuItem));
       dispatch(actions.updateUsers(currentUser));
       dispatch(actions.createOrderItem(nextOrderItemId, orderItem));
     }
     else {
-      dispatch(actions.updateMenuItems(menuItem));
       const newOrderItems = entities.orderGroups[nextOrderGroupId].orders.map(id => {
         return entities.orderItems[id];
       });

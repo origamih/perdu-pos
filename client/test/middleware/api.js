@@ -143,7 +143,7 @@ describe('api:', function () {
       const store = mockStore({});
       return store.dispatch(api.fetchOpenedTicket(null, null, url))
       .then(() => {
-        expect(store.getActions()[0]).to.deep.equal(getOpenedTicket);
+        expect(store.getActions()[1]).to.deep.equal(getOpenedTicket);
       })
     });
   });
@@ -156,7 +156,7 @@ describe('api:', function () {
     beforeEach(function () {
       dispatch = sinon.stub();
       nock(url)
-      .post('/order_groups/show_by_params', { order_group: { ticket_id: '' } })
+      .post('/order_groups/show_by_params', { order_group: { ticket_id: null } })
       .reply(200, fixtureObject);
     });
  

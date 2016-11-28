@@ -1,29 +1,6 @@
 import * as actions from '../../app/bundles/POS/actions/index';
-import posApp from '../../app/bundles/POS/reducers/index';
+import posApp, { initialState } from '../../app/bundles/POS/reducers/index';
 
-export const initialState = {
-  clickedOrders: [],
-  currentUser: {},
-  entities: {
-    menuItems: {},
-    orderGroups: {},
-    orderItems: {},
-    ticket: {},
-    users: {}
-  },
-  menuCategories: [],
-  menuItems: [],
-  nextOrderGroupId: 0,
-  nextOrderItemId: 0,
-  openedTicket: {},
-  orderGroupIds: [],
-  tables: [],
-  utilityButtons: [
-    "Change Table",
-    "Select Customer",
-    "Ticket Note",
-  ]
-};
 describe('Reducers', function () {
 
   it('should return the default state when the action is unknown', function () {
@@ -137,6 +114,17 @@ describe('Reducers', function () {
       expect(newState.clickedOrders).to.deep.equal([clickedOrders]);
 
       let nextState = posApp(newState, actions.orderItemClick(clickedOrders));
+      expect(nextState).to.deep.equal(initialState);
+    });
+  });
+
+  describe('clickedTickets', function () {
+    it('should handle TICKET_CLICK action', function () {
+      let clickedTickets = { id: 1 };
+      let newState = posApp(undefined, actions.ticketClick(clickedTickets));
+      expect(newState.clickedTickets).to.deep.equal([clickedTickets]);
+
+      let nextState = posApp(newState, actions.ticketClick(clickedTickets));
       expect(nextState).to.deep.equal(initialState);
     });
   });

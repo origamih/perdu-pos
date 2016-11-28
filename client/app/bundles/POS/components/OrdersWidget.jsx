@@ -5,7 +5,7 @@ import OrderGroups from '../containers/OrderGroups'
 import UtilityButtons from '../containers/UtilityButtons'
 import { Link } from 'react-router';
 
-const OrdersWidget = ({ ticket_id, customer_id, table_id, submitButtonClick }) => {
+const OrdersWidget = ({ currentTicket, customer_id, table_id, submitButtonClick }) => {
   return (
     <div>
       <div id='utilityButtons' className='col-sm-4 col-md-2'>
@@ -20,7 +20,7 @@ const OrdersWidget = ({ ticket_id, customer_id, table_id, submitButtonClick }) =
             <p>Status: </p>
           </div>
           <div id='orderListBody' className='panel-body'>
-            <OrderGroups ticketId={ticket_id}></OrderGroups>
+            <OrderGroups ticketId={currentTicket.id}></OrderGroups>
           </div>
           <div className='panel-footer'>
             <div>
@@ -29,7 +29,7 @@ const OrdersWidget = ({ ticket_id, customer_id, table_id, submitButtonClick }) =
             <button className='btn btn-default'>Settle</button>
             <button 
               className='btn btn-warning' 
-              onClick={() => submitButtonClick(table_id, customer_id)}>
+              onClick={() => submitButtonClick(currentTicket.id, table_id, customer_id)}>
               Submit
             </button>
             <Link to="/home/all_tables" className='btn btn-danger'>Close</Link>
@@ -53,6 +53,10 @@ const OrdersWidget = ({ ticket_id, customer_id, table_id, submitButtonClick }) =
       </div>
     </div>
   );
+}
+
+OrdersWidget.propTypes = {
+  currentTicket: PropTypes.object.isRequired
 }
 
 export default OrdersWidget
