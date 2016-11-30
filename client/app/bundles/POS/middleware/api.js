@@ -92,7 +92,7 @@ export const fetchOrderGroups = function(ticketId, testURL = '') {
     .then(response => response.json())
     .then(json => { 
       const normalized = normalize(json, arrayOf(orderGroupSchema));
-      dispatch(actions.getOrderGroups(normalized))
+      return dispatch(actions.getOrderGroups(normalized))
     });
     // .catch(err => console.log(err));
   }
@@ -180,5 +180,30 @@ export const fetchCurrentCustomer = (customerId, testURL = '') => {
 export const deleteOrderGroup = (orderGroup, testURL = '') => {
   return fetch(testURL + `/order_groups/${orderGroup.id}.json`, {
     ...fetchParams('DELETE')
+  });
+}
+
+export const updateOrderGroup = (orderGroup, testURL = '') => {
+  return fetch(`${testURL}/order_groups/${orderGroup.id}.json`, {
+    ...fetchParams('PUT'),
+    body: JSON.stringify({ order_group: orderGroup })
+  })
+  .then(response => response.json);
+}
+
+export const deleteTicket = (ticket, testURL = '') => {
+  return fetch(`${testURL}/tickets/${ticket.id}.json`, {
+    ...fetchParams('DELETE')
+  });
+}
+
+export const getOrderGroups = function(ticketId, testURL = '') {
+  return fetch(testURL + '/order_groups/show_by_params', {
+    ...fetchParams('POST'),
+    body: JSON.stringify({ order_group: { ticket_id: ticketId || null } })
+  })
+  .then(response => response.json())
+  .then(json => { 
+    return normalize(json, arrayOf(orderGroupSchema));
   });
 }

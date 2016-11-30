@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 import { fetchOpenedTicket } from '../middleware/api'
-import { ticketClick } from '../middleware/buttonClickHandlers'
+import { ticketClick, mergeTickets } from '../middleware/buttonClickHandlers'
 import TicketsWidget from '../components/TicketsWidget'
 import * as actions from '../actions/index'
 import { push } from 'react-router-redux'
@@ -51,7 +51,8 @@ export class Tickets extends Component {
         return <TicketsWidget 
           tickets={tickets} 
           clickedTickets={clickedTickets}
-          ticketClick={ticket => dispatch(ticketClick(ticket))}>
+          ticketClick={ticket => dispatch(ticketClick(ticket))}
+          mergeTickets={clickedTickets => dispatch(mergeTickets(clickedTickets))}>
         </TicketsWidget>;
       }
     }

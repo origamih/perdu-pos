@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import style from './TicketsWidget.scss'
 
-const TicketsWidget = ({ tickets, ticketClick, clickedTickets }) => {
+const TicketsWidget = ({ tickets, ticketClick, clickedTickets, mergeTickets }) => {
   const button = () => {
     if(clickedTickets.length === 0) {
       return
@@ -14,7 +14,7 @@ const TicketsWidget = ({ tickets, ticketClick, clickedTickets }) => {
       }
     }
     if(clickedTickets.length > 1) {
-      return <button className='btn btn-default'>Merge Tickets</button>
+      return <button className='btn btn-default' onClick={() => mergeTickets(clickedTickets)}>Merge Tickets</button>
     }
   }
 

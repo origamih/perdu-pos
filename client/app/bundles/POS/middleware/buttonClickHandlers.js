@@ -1,4 +1,6 @@
 import * as actions from '../actions/index'
+import * as api from './api'
+import { push } from 'react-router-redux'
 
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
@@ -65,5 +67,44 @@ export const orderItemClick = function(orderItem) {
 export const ticketClick = ticket => {
   return dispatch => {
     dispatch(actions.ticketClick(ticket));
+  }
+}
+
+function updateOrderGroups(orderGroups) {
+  return orderGroups.map(og => {
+    return api.updateOrderGroup(og);
+  });
+}
+
+function processOrderGroups(response, newTicketId) {
+  const orderGroupIds = response.result;
+  const orderGroups = orderGroupIds.map(id => {
+    return response.entities.orderGroups[id];
+  });
+  const newOrderGroups = orderGroups.map(og => {
+    return { ...og, ticket_id: newTicketId }
+  });
+  return Promise.all(updateOrderGroups(newOrderGroups));
+}
+
+function updateTickets(oldTickets, newTicketId) {
+  return oldTickets.map(ticket => {
+    return api.getOrderGroups(ticket.id)
+    .then(response => processOrderGroups(response, newTicketId))
+    .then(() => api.deleteTicket(ticket));
+  });
+}
+export const mergeTickets = (tickets) => {
+  return dispatch => {
+    const newTicketId = tickets[0].id;
+    const oldTickets = tickets.filter(ticket => {
+      return ticket.id !== newTicketId;
+    });
+
+    Promise.all(updateTickets(oldTickets, newTicketId))
+    .then(() => {
+      // redirect to new ticket
+      dispatch(push(`/all_tables/4/${newTicketId}`));
+    });
   }
 }
