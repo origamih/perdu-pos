@@ -3,12 +3,15 @@ import * as api from './api'
 import { orderItemClick } from './buttonClickHandlers'
 
 // return an array of Promises so that Promise.all can invoke after all these
-function createOrderItems(orderItems, orderGroupId) {
+export function createOrderItems(orderItems, orderGroupId) {
   return orderItems.map(item => {
-    item.order_group_id = orderGroupId;
-    item.menu_item_id = item.menu_item;
-    item.is_submitted = true;
-    return api.fetchCreateOrderItem(item);
+    const newItem = { 
+      ...item,
+      order_group_id: orderGroupId,
+      menu_item_id: item.menu_item,
+      is_submitted: true
+    }
+    return api.fetchCreateOrderItem(newItem);
   });
 }
 

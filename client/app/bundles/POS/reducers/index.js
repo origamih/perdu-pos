@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import { ActionTypes } from '../actions/index'
 import entities from './entities'
 import update from 'immutability-helper'
+import { routerReducer } from 'react-router-redux'
+
 function tables(tables = [], action) {
   switch (action.type) {
     case ActionTypes.GET_TABLES:
@@ -152,6 +154,24 @@ function currentTicket(currentTicket = {}, action) {
   }
 }
 
+function currentTable(currentTable = {}, action) {
+  switch(action.type) {
+    case ActionTypes.GET_CURRENT_TABLE:
+      return action.table;
+    default:
+      return currentTable;
+  }
+}
+
+function currentCustomer(currentCustomer = {}, action) {
+  switch(action.type) {
+    case ActionTypes.GET_CURRENT_CUSTOMER:
+      return action.customer;
+    default:
+      return currentCustomer;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -173,7 +193,10 @@ const posApp = combineReducers({
   orderGroupIds,
   clickedTickets,
   receiveTickets,
-  currentTicket
+  currentTicket,
+  currentTable,
+  currentCustomer,
+  routing: routerReducer
 });
 export default posApp
 

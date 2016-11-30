@@ -20,7 +20,9 @@ export const ActionTypes = {
   TICKET_CLICK: 'TICKET_CLICK',
   REQUEST_TICKETS: 'REQUEST_TICKETS',
   RECEIVE_TICKETS: 'RECEIVE_TICKETS',
-  GET_CURRENT_TICKET: 'GET_CURRENT_TICKET'
+  GET_CURRENT_TICKET: 'GET_CURRENT_TICKET',
+  GET_CURRENT_TABLE: 'GET_CURRENT_TABLE',
+  GET_CURRENT_CUSTOMER: 'GET_CURRENT_CUSTOMER'
 }
 
 /* ===========================================================
@@ -106,4 +108,12 @@ export function receiveTickets() {
 
 export function getCurrentTicket(ticket) {
   return { type: ActionTypes.GET_CURRENT_TICKET, ticket }
+}
+
+export function getCurrentTable(table) {
+  return { type: ActionTypes.GET_CURRENT_TABLE, table }
+}
+
+export function getCurrentCustomer(customer) {
+  return { type: ActionTypes.GET_CURRENT_CUSTOMER, customer }
 }

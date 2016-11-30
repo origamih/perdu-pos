@@ -8,15 +8,17 @@ import AllTables from '../containers/AllTables';
 import Tickets from '../containers/Tickets';
 import configureStore from './configureStore';
 import Orders from '../containers/Orders'
+import { syncHistoryWithStore } from 'react-router-redux'
 // Import at least once style so that webpack will render an output css
 import style from './POSRouter';
 
 const store = configureStore();
+const history = syncHistoryWithStore(hashHistory, store);
 class POSRouter extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Router history={hashHistory}>
+        <Router history={history}>
           <Route path="/" user={this.props.user} component={POSIndex}>
             <IndexRedirect to="/home"></IndexRedirect>
             <Route path="home" component={POSHomeWidget}>

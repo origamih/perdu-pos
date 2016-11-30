@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { fetchOpenedTicket } from '../middleware/api'
 import { ticketClick } from '../middleware/buttonClickHandlers'
 import TicketsWidget from '../components/TicketsWidget'
-import Orders from '../containers/Orders'
 import * as actions from '../actions/index'
+import { push } from 'react-router-redux'
 
 export class Tickets extends Component {
   static propTypes = { 
@@ -12,14 +12,28 @@ export class Tickets extends Component {
     dispatch: PropTypes.func.isRequired,
     clickedTickets: PropTypes.array.isRequired
   }
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch, params } = this.props;
     const { table_id, customer_id } = params;
-    dispatch(fetchOpenedTicket(table_id || null, customer_id || null));
+    dispatch(actions.requestTickets());
+    dispatch(fetchOpenedTicket(table_id || null, customer_id || null))
+    .then(action => {
+      if(action.ticket.length == 1) {
+        dispatch(push(`/all_tables/${params.table_id}/${action.ticket[0].id}`));
+      }
+      if(action.ticket.length == 0) {
+        dispatch(push(`/all_tables/${params.table_id}/0`));
+      }
+      if(action.ticket.length > 1) {
+        dispatch(actions.receiveTickets());
+      }
+    });
   }
 
   componentWillUnmount() {
     const { clickedTickets, dispatch } = this.props;
+    // set requestTickets and currentTicket to default so that 
+    // when redirect to Order from TicketsWidget it won't render the previous state
     dispatch(actions.requestTickets());
     dispatch(actions.getCurrentTicket({}));
     clickedTickets.map(ticket => {
@@ -30,20 +44,15 @@ export class Tickets extends Component {
   render() {
     const { tickets, clickedTickets, dispatch, receiveTickets } = this.props;
     const child = () => {
-      if(!receiveTickets) {
-        return <h2>Loading...</h2>
-      }
-      if(tickets.length > 1) {
+      {
+        if(!receiveTickets) {
+          return <h2></h2>
+        }
         return <TicketsWidget 
           tickets={tickets} 
           clickedTickets={clickedTickets}
           ticketClick={ticket => dispatch(ticketClick(ticket))}>
         </TicketsWidget>;
-      }
-      else {
-        let params = this.props.params;
-        params.ticket_id = tickets[0] ? tickets[0].id : undefined;
-        return <Orders params={params}></Orders>;
       }
     }
     

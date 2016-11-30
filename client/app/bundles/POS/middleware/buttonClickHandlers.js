@@ -1,6 +1,5 @@
 import * as actions from '../actions/index'
 
-
 export function menuItemClick(menuItem) {
   return (dispatch, getState) => {
     const { nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();

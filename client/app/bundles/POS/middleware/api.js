@@ -72,15 +72,13 @@ export const fetchMenuItems = function(id, testURL = '') {
 
 export const fetchOpenedTicket = function(tableId, customerId, testURL = '') {
   return dispatch => {
-    dispatch(actions.requestTickets());
     return fetch(testURL + '/tickets/show_by_params', {
       ...fetchParams('POST'),
       body: JSON.stringify({ ticket: { table_id: tableId, customer_id: customerId, is_open: true } })
     })
     .then(response => response.json())
     .then(json => {
-      dispatch(actions.getOpenedTicket(json));
-      dispatch(actions.receiveTickets());
+      return dispatch(actions.getOpenedTicket(json));
     });
   }
 }
@@ -138,10 +136,12 @@ export const updateOrderItem = (orderItem, testURL = '') => {
 
 export const fetchCurrentTicket = (ticketId, testURL = '') => {
   return dispatch => {
-    if(!ticketId) {
-      return dispatch(actions.getCurrentTicket({}))
+    dispatch(actions.requestTickets());
+    if(ticketId == 0) {
+      dispatch(actions.getCurrentTicket({}));
+      dispatch(actions.receiveTickets());
+      return
     }
-    // dispatch(actions.requestTickets())
     return fetch(testURL + `/tickets/${ticketId}.json`)
     .then(response => response.json())
     .then(json => {
@@ -149,4 +149,36 @@ export const fetchCurrentTicket = (ticketId, testURL = '') => {
       dispatch(actions.receiveTickets());
     });
   }
+}
+
+export const fetchCurrentTable = (tableId, testURL = '') => {
+  return dispatch => {
+    if(!tableId) {
+      return dispatch(actions.getCurrentTable({}))
+    }
+    return fetch(testURL + `/tables/${tableId}.json`)
+    .then(response => response.json())
+    .then(json => {
+      dispatch(actions.getCurrentTable(json));
+    });
+  }
+}
+
+export const fetchCurrentCustomer = (customerId, testURL = '') => {
+  return dispatch => {
+    if(!customerId) {
+      return dispatch(actions.getCurrentCustomer({}))
+    }
+    return fetch(testURL + `/customers/${customerId}.json`)
+    .then(response => response.json())
+    .then(json => {
+      dispatch(actions.getCurrentCustomer(json));
+    });
+  }
+}
+
+export const deleteOrderGroup = (orderGroup, testURL = '') => {
+  return fetch(testURL + `/order_groups/${orderGroup.id}.json`, {
+    ...fetchParams('DELETE')
+  });
 }

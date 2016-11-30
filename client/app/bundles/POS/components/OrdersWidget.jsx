@@ -5,7 +5,7 @@ import OrderGroups from '../containers/OrderGroups'
 import UtilityButtons from '../containers/UtilityButtons'
 import { Link } from 'react-router';
 
-const OrdersWidget = ({ currentTicket, customer_id, table_id, submitButtonClick }) => {
+const OrdersWidget = ({ currentTicket, currentCustomer, currentTable, submitButtonClick }) => {
   return (
     <div>
       <div id='utilityButtons' className='col-sm-4 col-md-2'>
@@ -15,8 +15,8 @@ const OrdersWidget = ({ currentTicket, customer_id, table_id, submitButtonClick 
       <div id='orderItems' className='col-sm-8 col-md-4'>
         <div className='panel panel-default'>
           <div className='panel-heading'>
-            <p>Table: </p>
-            <p>Customer: </p>
+            <p>Table: {currentTable.name}</p>
+            <p>Customer: {currentCustomer.name}</p>
             <p>Status: </p>
           </div>
           <div id='orderListBody' className='panel-body'>
@@ -29,7 +29,7 @@ const OrdersWidget = ({ currentTicket, customer_id, table_id, submitButtonClick 
             <button className='btn btn-default'>Settle</button>
             <button 
               className='btn btn-warning' 
-              onClick={() => submitButtonClick(currentTicket.id, table_id, customer_id)}>
+              onClick={() => submitButtonClick(currentTicket.id, currentTable.id, currentCustomer.id)}>
               Submit
             </button>
             <Link to="/home/all_tables" className='btn btn-danger'>Close</Link>
