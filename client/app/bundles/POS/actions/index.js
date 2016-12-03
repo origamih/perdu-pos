@@ -60,9 +60,7 @@ export function updateOrderGroups(id, orderItem) {
   return { type: ActionTypes.UPDATE_ORDER_GROUPS, id, orderItem }
 }
 
-export function getUtilityButtons(utilityButtons = [
-  'Change Table', 'Select Customer', 'Ticket Note'
-]) {
+export function getUtilityButtons(utilityButtons = ['Change Table']) {
   return { type: ActionTypes.GET_UTILITY_BUTTONS, utilityButtons: utilityButtons }
 }
 

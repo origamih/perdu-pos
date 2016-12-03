@@ -89,9 +89,7 @@ function openedTicket(openedTicket = [], action) {
   }
 }
 
-function utilityButtons(utilityButtons = [
-  'Change Table', 'Select Customer', 'Ticket Note'
-], action) {
+function utilityButtons(utilityButtons = ['Change Table'], action) {
   switch(action.type) {
     case ActionTypes.GET_UTILITY_BUTTONS:
       return action.utilityButtons;

@@ -16,7 +16,6 @@ const OrdersWidget = ({ currentTicket, currentCustomer, currentTable, submitButt
         <div className='panel panel-default'>
           <div className='panel-heading'>
             <p>Table: {currentTable.name}</p>
-            <p>Customer: {currentCustomer.name}</p>
             <p>Status: </p>
           </div>
           <div id='orderListBody' className='panel-body'>

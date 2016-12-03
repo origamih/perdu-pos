@@ -13,7 +13,7 @@ export default class ChangeTableModal extends Component {
                 <h4 className="modal-title">Modal title</h4>
               </div>
               <div className="modal-body">
-                <AllTables></AllTables>
+                <AllTables route={{ shouldRedirect: false }}></AllTables>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>

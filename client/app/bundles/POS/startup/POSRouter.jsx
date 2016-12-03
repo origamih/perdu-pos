@@ -23,7 +23,7 @@ class POSRouter extends React.Component {
             <IndexRedirect to="/home"></IndexRedirect>
             <Route path="home" component={POSHomeWidget}>
               <IndexRedirect to="/home/all_tables"></IndexRedirect>
-              <Route path="all_tables" component={AllTables}></Route>
+              <Route path="all_tables" component={AllTables} shouldRedirect={true}></Route>
               <Route path="customer_search" ></Route>
               <Route path="customer_tickets" ></Route>
               <Route path="all_tickets" ></Route>

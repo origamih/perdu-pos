@@ -207,3 +207,11 @@ export const getOrderGroups = function(ticketId, testURL = '') {
     return normalize(json, arrayOf(orderGroupSchema));
   });
 }
+
+export const updateTicket = (ticket, testURL = '') => {
+  return fetch(`${testURL}/tickets/${ticket.id}.json`, {
+    ...fetchParams('PUT'),
+    body: JSON.stringify({ ticket: ticket })
+  })
+  .then(response => response.json());
+}

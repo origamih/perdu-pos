@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const AllTablesWidget = ({ tables }) => {
+const AllTablesWidget = ({ tables, onClick, shouldRedirect }) => {
   if(tables instanceof Array){
     var tableLinks = tables.map(function(table) {
       var status = '';
@@ -16,7 +16,13 @@ const AllTablesWidget = ({ tables }) => {
           status = 'danger';
           break;
       }
-      return <Link to={`/all_tables/${table.id}`} key={table.id} className={`btn btn-${status}`}>{table.name}</Link>
+      return <button 
+        data-dismiss="modal"
+        key={table.id}
+        onClick={() => onClick(table, shouldRedirect)}
+        className={`btn btn-${status}`}>
+        {table.name}
+      </button>
     });
   }
 

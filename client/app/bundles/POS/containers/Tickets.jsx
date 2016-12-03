@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { fetchOpenedTicket } from '../middleware/api'
+import { fetchOpenedTicket, fetchCurrentTable } from '../middleware/api'
 import { ticketClick, mergeTickets } from '../middleware/buttonClickHandlers'
 import TicketsWidget from '../components/TicketsWidget'
 import * as actions from '../actions/index'
@@ -15,6 +15,7 @@ export class Tickets extends Component {
   componentWillMount() {
     const { dispatch, params } = this.props;
     const { table_id, customer_id } = params;
+    dispatch(fetchCurrentTable(table_id));
     dispatch(actions.requestTickets());
     dispatch(fetchOpenedTicket(table_id || null, customer_id || null))
     .then(action => {
@@ -42,17 +43,18 @@ export class Tickets extends Component {
   }
 
   render() {
-    const { tickets, clickedTickets, dispatch, receiveTickets } = this.props;
+    const { tickets, clickedTickets, dispatch, receiveTickets, currentTable } = this.props;
     const child = () => {
       {
         if(!receiveTickets) {
           return <h2></h2>
         }
         return <TicketsWidget 
+          currentTable={currentTable}
           tickets={tickets} 
           clickedTickets={clickedTickets}
           ticketClick={ticket => dispatch(ticketClick(ticket))}
-          mergeTickets={clickedTickets => dispatch(mergeTickets(clickedTickets))}>
+          mergeTickets={(clickedTickets, currentTable) => dispatch(mergeTickets(clickedTickets, currentTable))}>
         </TicketsWidget>;
       }
     }
@@ -67,7 +69,8 @@ function mapStateToProps(state, ownProps) {
     params: ownProps.params,
     tickets: state.openedTicket,
     clickedTickets: state.clickedTickets,
-    receiveTickets: state.receiveTickets
+    receiveTickets: state.receiveTickets,
+    currentTable: state.currentTable
   }
 }
 export default connect(mapStateToProps)(Tickets);

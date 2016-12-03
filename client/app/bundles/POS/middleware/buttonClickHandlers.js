@@ -52,12 +52,9 @@ export const orderItemClick = function(orderItem) {
     const clickedOrders = getState().clickedOrders;
     var buttons = [];
     if(clickedOrders.length === 0) {
-      buttons = [ 'Change Table', 'Select Customer', 'Ticket Note' ];
+      buttons = [ 'Change Table' ];
     }
-    if(clickedOrders.length === 1) {
-      buttons = [ 'Gift', 'Cancel Gift', 'Void', 'Cancel Void', 'Cancel', 'Move', 'Change Price', '(+)', '(-)' ];
-    }
-    if(clickedOrders.length > 1) {
+    if(clickedOrders.length > 0) {
       buttons = [ 'Gift', 'Cancel Gift', 'Void', 'Cancel Void', 'Cancel', 'Move' ];
     }
     dispatch(actions.getUtilityButtons(buttons));
@@ -94,7 +91,7 @@ function updateTickets(oldTickets, newTicketId) {
     .then(() => api.deleteTicket(ticket));
   });
 }
-export const mergeTickets = (tickets) => {
+export const mergeTickets = (tickets, currentTable) => {
   return dispatch => {
     const newTicketId = tickets[0].id;
     const oldTickets = tickets.filter(ticket => {
@@ -104,7 +101,23 @@ export const mergeTickets = (tickets) => {
     Promise.all(updateTickets(oldTickets, newTicketId))
     .then(() => {
       // redirect to new ticket
-      dispatch(push(`/all_tables/4/${newTicketId}`));
+      dispatch(push(`/all_tables/${currentTable.id}/${newTicketId}`));
     });
+  }
+}
+
+export const tableClick = (table, shouldRedirect) => {
+  return (dispatch, getState) => {
+    if(shouldRedirect) {
+      dispatch(push(`/all_tables/${table.id}`))
+    }
+    else {
+      const currentTicket = getState().currentTicket;
+      const newTicket = { ...currentTicket, table_id: table.id };
+      api.updateTicket(newTicket)
+      .then(() => {
+        dispatch(push(`/all_tables/${table.id}`));
+      });
+    }
   }
 }
