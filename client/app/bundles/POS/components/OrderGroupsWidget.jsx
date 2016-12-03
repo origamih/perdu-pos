@@ -9,16 +9,19 @@ const OrderGroupsWidget = ({ orderGroups, users }) => {
         {orderGroups.map(orderGroup => {
           return (
             <tbody key={orderGroup.id}>
-              {
-                !orderGroup.is_new &&
-                  <tr>
-                    <td>
-                      <span className={style.createdBy}>
-                        Created by {users[orderGroup.user].email} at {new Date(orderGroup.created_at).toLocaleString()}
-                      </span>
-                    </td>
-                  </tr>
-              }
+              <tr>
+                <td>
+                  {!orderGroup.is_new &&
+                  <span className={style.createdBy}>
+                    Created by {users[orderGroup.user].email} at 
+                    {new Date(orderGroup.created_at).toLocaleString()}
+                  </span>}
+                  {orderGroup.is_new &&
+                  <span className={style.createdBy}>
+                    New Order
+                  </span>}
+                </td>
+              </tr>
               {
                 orderGroup.orders.map((orderItem, id) => {
                   return <OrderItem orderItemId={orderItem} isNew={orderGroup.is_new} key={id}></OrderItem>

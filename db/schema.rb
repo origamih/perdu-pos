@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117164835) do
+ActiveRecord::Schema.define(version: 20161203102630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,18 @@ ActiveRecord::Schema.define(version: 20161117164835) do
     t.index ["menu_item_id"], name: "index_orders_on_menu_item_id", using: :btree
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.integer  "discount"
+    t.integer  "cash"
+    t.integer  "credit_card"
+    t.integer  "voucher"
+    t.integer  "total"
+    t.integer  "ticket_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["ticket_id"], name: "index_payments_on_ticket_id", using: :btree
+  end
+
   create_table "tables", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -99,6 +111,7 @@ ActiveRecord::Schema.define(version: 20161117164835) do
   add_foreign_key "order_groups", "users"
   add_foreign_key "orders", "menu_items"
   add_foreign_key "orders", "order_groups"
+  add_foreign_key "payments", "tickets"
   add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "tables"
 end

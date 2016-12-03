@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :payments do
+    collection do
+      post 'show_by_params'
+    end
+  end
   get 'user/show'
 
   devise_for :users

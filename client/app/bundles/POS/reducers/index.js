@@ -170,6 +170,29 @@ function currentCustomer(currentCustomer = {}, action) {
   }
 }
 
+function balance(balance = 0, action) {
+  switch(action.type) {
+    case ActionTypes.GET_BALANCE:
+      return action.balance;
+    default:
+      return balance;
+  }
+}
+
+function payment(payment = {}, action) {
+  switch(action.type) {
+    case ActionTypes.GET_PAYMENT:
+      if(action.payment) {
+        return action.payment;
+      }
+      else {
+        return {};
+      }
+    default:
+      return payment;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -194,6 +217,8 @@ const posApp = combineReducers({
   currentTicket,
   currentTable,
   currentCustomer,
+  balance,
+  payment,
   routing: routerReducer
 });
 export default posApp

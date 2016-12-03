@@ -22,10 +22,7 @@ const OrdersWidget = ({ currentTicket, currentCustomer, currentTable, submitButt
             <OrderGroups ticketId={currentTicket.id}></OrderGroups>
           </div>
           <div className='panel-footer'>
-            <div>
-              <h2>Balance: </h2>
-            </div>
-            <button className='btn btn-default'>Settle</button>
+            <Link to={`/all_tables/settle/${currentTable.id}/${currentTicket.id}`} className='btn btn-default'>Settle</Link>
             <button 
               className='btn btn-warning' 
               onClick={() => submitButtonClick(currentTicket.id, currentTable.id, currentCustomer.id)}>

@@ -4,7 +4,7 @@ class TablesController < ApplicationController
   # GET /tables
   # GET /tables.json
   def index
-    @tables = Table.all.order(:name)
+    @tables = Table.open_tickets
     respond_to do |format|
       format.html
       format.json { render json: @tables }

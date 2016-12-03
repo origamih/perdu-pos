@@ -215,3 +215,30 @@ export const updateTicket = (ticket, testURL = '') => {
   })
   .then(response => response.json());
 }
+
+export const fetchPayment = (ticketId, testURL = '') => {
+  return dispatch => {
+    return fetch(`${testURL}/payments/show_by_params`, {
+      ...fetchParams('POST'),
+      body: JSON.stringify({ payment: { ticket_id: ticketId } })
+    })
+    .then(response => response.json())
+    .then(json => dispatch(actions.getPayment(json)));
+  }
+}
+
+export const updatePayment = (payment, testURL = '') => {
+  return fetch(`${testURL}/payments/${payment.id}.json`, {
+    ...fetchParams('PUT'),
+    body: JSON.stringify({ payment })
+  })
+  .then(response => response.json());
+}
+
+export const createPayment = (payment, testURL = '') => {
+  return fetch(`${testURL}/payments.json`, {
+    ...fetchParams('POST'),
+    body: JSON.stringify({ payment })
+  })
+  .then(response => response.json());
+}

@@ -1,0 +1,12 @@
+.settleBody {
+  font-weight: bold;
+}
+.payment {
+  font-weight: normal;
+  padding-left: 10px;
+  color: #1ba51b;
+}
+.balance {
+  composes: settleBody;
+  color: rgb(206, 72, 68);
+}

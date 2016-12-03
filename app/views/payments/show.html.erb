@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Discount:</strong>
+  <%= @payment.discount %>
+</p>
+
+<p>
+  <strong>Cash:</strong>
+  <%= @payment.cash %>
+</p>
+
+<p>
+  <strong>Credit card:</strong>
+  <%= @payment.credit_card %>
+</p>
+
+<p>
+  <strong>Voucher:</strong>
+  <%= @payment.voucher %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @payment.total %>
+</p>
+
+<p>
+  <strong>Ticket:</strong>
+  <%= @payment.ticket %>
+</p>
+
+<%= link_to 'Edit', edit_payment_path(@payment) %> |
+<%= link_to 'Back', payments_path %>

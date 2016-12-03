@@ -8,6 +8,7 @@ import AllTables from '../containers/AllTables';
 import Tickets from '../containers/Tickets';
 import configureStore from './configureStore';
 import Orders from '../containers/Orders'
+import Settle from '../containers/Settle'
 import { syncHistoryWithStore } from 'react-router-redux'
 // Import at least once style so that webpack will render an output css
 import style from './POSRouter';
@@ -30,6 +31,7 @@ class POSRouter extends React.Component {
             </Route>
             <Route path="/all_tables/:table_id" component={Tickets}></Route>
             <Route path="/all_tables/:table_id/:ticket_id" component={Orders}></Route>
+            <Route path="/all_tables/settle/:table_id/:ticket_id" component={Settle}></Route>
           </Route>
         </Router>
       </Provider>

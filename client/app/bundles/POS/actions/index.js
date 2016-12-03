@@ -22,7 +22,9 @@ export const ActionTypes = {
   RECEIVE_TICKETS: 'RECEIVE_TICKETS',
   GET_CURRENT_TICKET: 'GET_CURRENT_TICKET',
   GET_CURRENT_TABLE: 'GET_CURRENT_TABLE',
-  GET_CURRENT_CUSTOMER: 'GET_CURRENT_CUSTOMER'
+  GET_CURRENT_CUSTOMER: 'GET_CURRENT_CUSTOMER',
+  GET_BALANCE: 'GET_BALANCE',
+  GET_PAYMENT: 'GET_PAYMENT'
 }
 
 /* ===========================================================
@@ -114,4 +116,12 @@ export function getCurrentTable(table) {
 
 export function getCurrentCustomer(customer) {
   return { type: ActionTypes.GET_CURRENT_CUSTOMER, customer }
+}
+
+export function getBalance(balance) {
+  return { type: ActionTypes.GET_BALANCE, balance }
+}
+
+export function getPayment(payment) {
+  return { type: ActionTypes.GET_PAYMENT, payment }
 }
