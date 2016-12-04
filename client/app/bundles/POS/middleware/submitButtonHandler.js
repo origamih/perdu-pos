@@ -1,6 +1,7 @@
 import * as actions from '../actions/index'
 import * as api from './api'
 import { orderItemClick } from './buttonClickHandlers'
+import { push } from 'react-router-redux'
 
 // return an array of Promises so that Promise.all can invoke after all these
 export function createOrderItems(orderItems, orderGroupId) {
@@ -45,7 +46,7 @@ export const submitButtonClick = function(ticketId, tableId = '', customerId = '
           api.fetchCreateOrderGroup(orderGroup)
           .then(createdOrderGroup => { 
             Promise.all(createOrderItems(newOrderItems, createdOrderGroup.id))
-            .then(() => dispatch(api.fetchOrderGroups(createdTicket.id)));
+            .then(() => dispatch(push('/home/all_tables')));
           });
         });
       }
@@ -56,10 +57,12 @@ export const submitButtonClick = function(ticketId, tableId = '', customerId = '
         api.fetchCreateOrderGroup(orderGroup)
         .then(createdOrderGroup => {
           Promise.all(createOrderItems(newOrderItems, createdOrderGroup.id))
-          .then(() => dispatch(api.fetchOrderGroups(ticketId)));
+          .then(() => dispatch(push('/home/all_tables')));
         });
       }
     }
-
+    else {
+      dispatch(push('/home/all_tables'));
+    }
   };
 }

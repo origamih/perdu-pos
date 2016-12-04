@@ -115,8 +115,9 @@ export const tableClick = (table, shouldRedirect) => {
       const currentTicket = getState().currentTicket;
       const newTicket = { ...currentTicket, table_id: table.id };
       api.updateTicket(newTicket)
-      .then(() => {
+      .then((ticket) => {
         dispatch(push(`/all_tables/${table.id}`));
+        dispatch(push(`/all_tables/${table.id}/${ticket.id}`));
       });
     }
   }

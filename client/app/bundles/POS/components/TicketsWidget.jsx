@@ -52,7 +52,7 @@ const TicketsWidget = ({ tickets, ticketClick, clickedTickets, mergeTickets, cur
           }
         </ul>
 
-        <div className='panel-footer'>
+        <div className={`panel-footer ${style.panelFooter}`}>
           <Link to="/home/all_tables" className='btn btn-danger'>Close</Link>
           {button()}
         </div>

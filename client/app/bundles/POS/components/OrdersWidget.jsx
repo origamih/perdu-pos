@@ -7,6 +7,13 @@ import { Link } from 'react-router';
 import style from './OrdersWidget.scss'
 
 const OrdersWidget = ({ currentTicket, currentCustomer, currentTable, submitButtonClick, quantityChange }) => {
+  let status = '';
+  if(!currentTicket.id) {
+    status = 'New';
+  }
+  else {
+    status = currentTicket.is_open ? 'Unpaid' : 'Paid';
+  }
   return (
     <div>
       <div id='utilityButtons' className='col-sm-4 col-md-2'>
@@ -15,9 +22,9 @@ const OrdersWidget = ({ currentTicket, currentCustomer, currentTable, submitButt
       
       <div id='orderItems' className='col-sm-8 col-md-4'>
         <div className='panel panel-default'>
-          <div className='panel-heading'>
+          <div className={`panel-heading ${style.panelHeading}`}>
             <p>Table: {currentTable.name}</p>
-            <p>Status: </p>
+            <p>Status: {status}</p>
           </div>
           <div id='orderListBody' className='panel-body'>
             <OrderGroups ticketId={currentTicket.id}></OrderGroups>
@@ -25,11 +32,10 @@ const OrdersWidget = ({ currentTicket, currentCustomer, currentTable, submitButt
           <div className={`panel-footer ${style.footer}`}>
             <Link to={`/all_tables/settle/${currentTable.id}/${currentTicket.id}`} className='btn btn-default'>Settle</Link>
             <button 
-              className='btn btn-default' 
+              className='btn btn-default pull-right' 
               onClick={() => submitButtonClick(currentTicket.id, currentTable.id, currentCustomer.id)}>
-              Submit
+              Close
             </button>
-            <Link to="/home/all_tables" className='btn btn-danger pull-right'>Close</Link>
           </div>
         </div>
       </div>
