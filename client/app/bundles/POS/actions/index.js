@@ -24,7 +24,8 @@ export const ActionTypes = {
   GET_CURRENT_TABLE: 'GET_CURRENT_TABLE',
   GET_CURRENT_CUSTOMER: 'GET_CURRENT_CUSTOMER',
   GET_BALANCE: 'GET_BALANCE',
-  GET_PAYMENT: 'GET_PAYMENT'
+  GET_PAYMENT: 'GET_PAYMENT',
+  QUANTITY_CHANGE: 'QUANTITY_CHANGE'
 }
 
 /* ===========================================================
@@ -124,4 +125,8 @@ export function getBalance(balance) {
 
 export function getPayment(payment) {
   return { type: ActionTypes.GET_PAYMENT, payment }
+}
+
+export function quantityChange(value) {
+  return { type: ActionTypes.QUANTITY_CHANGE, value }
 }

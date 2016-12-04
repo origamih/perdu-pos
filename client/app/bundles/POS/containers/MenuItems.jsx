@@ -5,12 +5,15 @@ import { menuItemClick } from '../middleware/buttonClickHandlers'
 
 
 function mapStateToProps(state) {
-  return { menuItems: state.menuItems }
+  return { 
+    menuItems: state.menuItems,
+    quantity: state.quantity
+  }
 }
 function mapDispatchToProps(dispatch) {
   return { 
-    onClick: (menuItem) => {
-      dispatch(menuItemClick(menuItem))
+    onClick: (menuItem, quantity) => {
+      dispatch(menuItemClick(menuItem, quantity))
     }
   }
 }

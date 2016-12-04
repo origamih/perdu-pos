@@ -6,7 +6,10 @@ export const calculateBalance = ticketId => {
   return (dispatch) => {
     api.getOrderGroups(ticketId)
     .then(response => {
-      const orderItems = Object.values(response.entities.orderItems);
+      const allOrderItems = Object.values(response.entities.orderItems);
+      const orderItems = allOrderItems.filter(item => {
+        return !item.is_void && !item.is_gift
+      });
       let balance = 0;
       orderItems.forEach(item => {
         balance += item.quantity * response.entities.menuItems[item.menu_item].price;
@@ -16,9 +19,9 @@ export const calculateBalance = ticketId => {
   }
 }
 
-function updatePayment(payment, ticket_id) {
+function updatePayment(payment, ticket_id, totalBalance) {
   if(!payment.id) {
-    return api.createPayment({ ...payment, ticket_id });
+    return api.createPayment({ ...payment, ticket_id, total: totalBalance });
   }
   else {
     return api.updatePayment(payment);
@@ -28,7 +31,7 @@ function updatePayment(payment, ticket_id) {
 export const submitClick = (payment, ticket_id, totalBalance) => {
   return dispatch => {
     if(totalBalance > 0) {
-      updatePayment(payment, ticket_id)
+      updatePayment(payment, ticket_id, totalBalance)
       .then(() => dispatch(push('/home/all_tables')));
     }
     else {
@@ -36,7 +39,7 @@ export const submitClick = (payment, ticket_id, totalBalance) => {
         id: ticket_id,
         is_open: false
       };
-      updatePayment(payment, ticket_id)
+      updatePayment(payment, ticket_id, totalBalance)
       .then(api.updateTicket(ticket))
       .then(() => dispatch(push('/home/all_tables')))
     }

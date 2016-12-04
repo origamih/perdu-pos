@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import style from './AllTablesWidget.scss'
 
 const AllTablesWidget = ({ tables, onClick, shouldRedirect }) => {
   if(tables instanceof Array){
@@ -26,7 +27,11 @@ const AllTablesWidget = ({ tables, onClick, shouldRedirect }) => {
   }
 
   return (
-    <div>{tableLinks}</div>
+    <div className={style.content}>
+      <div className={style.tables}>
+        {tableLinks}
+      </div>
+    </div>
   );
 }
 

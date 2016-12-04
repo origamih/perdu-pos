@@ -2,12 +2,12 @@ import * as actions from '../actions/index'
 import * as api from './api'
 import { push } from 'react-router-redux'
 
-export function menuItemClick(menuItem) {
+export function menuItemClick(menuItem, quantity) {
   return (dispatch, getState) => {
     const { nextOrderGroupId, nextOrderItemId, currentUser, entities } = getState();
     let orderItem = { 
       menu_item: menuItem.id, 
-      quantity: 1, 
+      quantity: quantity, 
       order_group_id: nextOrderGroupId,
       is_submitted: false,
       id: `new${nextOrderItemId}`
@@ -118,6 +118,17 @@ export const tableClick = (table, shouldRedirect) => {
       .then(() => {
         dispatch(push(`/all_tables/${table.id}`));
       });
+    }
+  }
+}
+
+export const quantityChange = value => {
+  return dispatch => {
+    if(value <= 1){
+      dispatch(actions.quantityChange(1));
+    }
+    else {
+      dispatch(actions.quantityChange(value));
     }
   }
 }

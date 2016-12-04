@@ -27,7 +27,7 @@ const SettleWidget = ({ balance, ticket_id, currentTable, payment, updatePayment
           <p>Ticket: {ticket_id}</p>
         </div>
 
-        <div id='orderListBody' className='panel-body'>
+        <div className='panel-body'>
           <div className={style.settleBody}>
             <p className='row'>
               <span className='pull-left'>Ticket Total:</span>
@@ -80,8 +80,9 @@ const SettleWidget = ({ balance, ticket_id, currentTable, payment, updatePayment
               <input 
                 placeholder="Input"
                 autoFocus 
-                type="number" 
-                className="form-control" 
+                type="number"
+                defaultValue='0'
+                className={`form-control ${style.input}`} 
                 ref={value => input = value}/>
               <button 
                 className='btn btn-default pull-right' 
@@ -90,7 +91,7 @@ const SettleWidget = ({ balance, ticket_id, currentTable, payment, updatePayment
               </button>
             </form>
           </div>
-          <div className='row'>
+          <div className={`row ${style.paymentMethod}`}>
             <button 
               onClick={() => {
                 const newCash = parseFloat(input.value) + parseFloat(cash);

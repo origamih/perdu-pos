@@ -9,4 +9,16 @@
 .balance {
   composes: settleBody;
   color: rgb(206, 72, 68);
+  margin-bottom: 30px;
+}
+.input {
+  width: 360px !important;
+}
+.paymentMethod {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  button {
+    margin-right: 10px;
+    width: 100px;
+  }
 }

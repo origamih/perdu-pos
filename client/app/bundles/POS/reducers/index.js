@@ -193,6 +193,15 @@ function payment(payment = {}, action) {
   }
 }
 
+function quantity(quantity = 1, action) {
+  switch(action.type) {
+    case ActionTypes.QUANTITY_CHANGE:
+      return action.value;
+    default:
+      return quantity;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -219,6 +228,7 @@ const posApp = combineReducers({
   currentCustomer,
   balance,
   payment,
+  quantity,
   routing: routerReducer
 });
 export default posApp

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import OrdersWidget from '../components/OrdersWidget'
 import { submitButtonClick } from '../middleware/submitButtonHandler'
+import { quantityChange } from '../middleware/buttonClickHandlers'
 import * as api from '../middleware/api'
 
 export class Orders extends React.Component {
@@ -10,6 +11,7 @@ export class Orders extends React.Component {
     dispatch(api.fetchCurrentTable(table_id));
     dispatch(api.fetchCurrentTicket(ticket_id));
     dispatch(api.fetchCurrentCustomer(customer_id));
+    dispatch(quantityChange(1));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,7 +24,8 @@ export class Orders extends React.Component {
     return (
       <div>
         {!receiveTickets && <h2></h2>}
-        {receiveTickets && <OrdersWidget 
+        {receiveTickets && <OrdersWidget
+          quantityChange={value => dispatch(quantityChange(value))}
           submitButtonClick={(ticketId, tableId, customerId) => {
             dispatch(submitButtonClick(ticketId, tableId, customerId))
           }}
