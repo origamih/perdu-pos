@@ -2,3 +2,4 @@ rails: REACT_ON_RAILS_ENV= rails s -b 0.0.0.0 -p 3000
 
 # Build client assets, watching for changes.
 client: sh -c 'cd client && npm run build:dev:client'
+# client: sh -c 'rm app/assets/webpack/* || true && cd client && npm run build:dev:client'
