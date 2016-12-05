@@ -14,7 +14,7 @@ const AllTicketsWidget = ({ tickets, startDate, endDate, startDateChange,
           <DatePicker label='Start Date' value={startDate} autoOk={true}
           onChange={(value) => startDateChange(value)}/>
         </div>
-        <div className={`col-md-1 ${style.buttons}`}>
+        <div className={`col-md-2 ${style.buttons}`}>
           <button className='btn btn-default' onClick={startDateBack}>{`<<`}</button>
           <button className='btn btn-default' onClick={startDateNext}>>></button>
         </div>
@@ -22,7 +22,7 @@ const AllTicketsWidget = ({ tickets, startDate, endDate, startDateChange,
           <DatePicker label='End Date' value={endDate} autoOk={true}
           onChange={(value) => endDateChange(value)}/>
         </div>
-        <div className={`col-md-1 ${style.buttons}`}>
+        <div className={`col-md-2 ${style.buttons}`}>
           <button className='btn btn-default' onClick={endDateBack}>{`<<`}</button>
           <button className='btn btn-default' onClick={endDateNext}>>></button>
         </div>
