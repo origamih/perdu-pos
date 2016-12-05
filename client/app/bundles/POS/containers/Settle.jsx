@@ -3,14 +3,14 @@ import SettleWidget from '../components/SettleWidget'
 import { fetchCurrentTable, fetchPayment } from '../middleware/api'
 import { calculateBalance, submitClick } from '../middleware/payment'
 import { connect } from 'react-redux'
-import { getPayment } from '../actions/index'
+import { getPayment, getBalance } from '../actions/index'
 
 export class Settle extends Component {
   componentDidMount() {
     const { dispatch, params } = this.props;
     const { table_id, ticket_id } = params;
     dispatch(fetchCurrentTable(table_id));
-    dispatch(calculateBalance(ticket_id));
+    calculateBalance(ticket_id).then(balance => dispatch(getBalance(balance)));
     dispatch(fetchPayment(ticket_id));
   }
   render() {

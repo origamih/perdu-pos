@@ -1,5 +1,6 @@
 import * as actions from '../actions/index'
 import { normalize, Schema, arrayOf } from 'normalizr';
+import { calculateBalance } from './payment'
 
 export const orderGroupSchema = new Schema('orderGroups');
 const orderSchema = new Schema('orderItems');
@@ -134,6 +135,11 @@ export const updateOrderItem = (orderItem, testURL = '') => {
   }
 }
 
+export const getTicket = (ticketId, testURL = '') => {
+  return fetch(testURL + `/tickets/${ticketId}.json`)
+  .then(response => response.json());
+}
+
 export const fetchCurrentTicket = (ticketId, testURL = '') => {
   return dispatch => {
     dispatch(actions.requestTickets());
@@ -142,8 +148,7 @@ export const fetchCurrentTicket = (ticketId, testURL = '') => {
       dispatch(actions.receiveTickets());
       return
     }
-    return fetch(testURL + `/tickets/${ticketId}.json`)
-    .then(response => response.json())
+    return getTicket(ticketId)
     .then(json => {
       dispatch(actions.getCurrentTicket(json));
       dispatch(actions.receiveTickets());
@@ -241,4 +246,20 @@ export const createPayment = (payment, testURL = '') => {
     body: JSON.stringify({ payment })
   })
   .then(response => response.json());
+}
+
+function addBalanceToTicket(tickets) {
+  return tickets.map(ticket => {
+    return calculateBalance(ticket.id)
+    .then(balance => { return { ...ticket, balance } })
+  });
+}
+
+export const getTicketsByParams = (params, testURL = '') => {
+  return fetch(`${testURL}/tickets/show_by_date`, {
+    ...fetchParams('POST'),
+    body: JSON.stringify({ ticket: { ...params } })
+  })
+  .then(response => response.json())
+  .then(tickets => Promise.all(addBalanceToTicket(tickets)));
 }

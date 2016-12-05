@@ -202,6 +202,51 @@ function quantity(quantity = 1, action) {
   }
 }
 
+function allTickets(allTickets = [], action) {
+  switch(action.type) {
+    case ActionTypes.GET_ALL_TICKETS:
+      return action.tickets;
+    default:
+      return allTickets;
+  }
+}
+
+function startDate(startDate = new Date(), action) {
+  switch(action.type) {
+    case ActionTypes.GET_START_DATE:
+      return action.date;
+    default:
+      return startDate;
+  }
+}
+
+function endDate(endDate = new Date(), action) {
+  switch(action.type) {
+    case ActionTypes.GET_END_DATE:
+      return action.date;
+    default:
+      return endDate;
+  }
+}
+
+function ticketNumber(ticketNumber = 0, action) {
+  switch(action.type) {
+    case ActionTypes.GET_TICKET_NUMBER:
+      return action.ticketNumber;
+    default:
+      return ticketNumber;
+  }
+}
+
+function filterValue(filterValue = 0, action) {
+  switch(action.type) {
+    case ActionTypes.GET_FILTER_VALUE:
+      return action.value;
+    default:
+      return filterValue;
+  }
+}
+
 // Reducer, equivalent to below code, key of returned object must match the state slice
 // function posApp(state = {}, action) {
 //   return { tables: tables(state.tables, action) }
@@ -229,6 +274,11 @@ const posApp = combineReducers({
   balance,
   payment,
   quantity,
+  allTickets,
+  startDate,
+  endDate,
+  ticketNumber,
+  filterValue,
   routing: routerReducer
 });
 export default posApp

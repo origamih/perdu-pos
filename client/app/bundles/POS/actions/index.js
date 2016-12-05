@@ -25,7 +25,12 @@ export const ActionTypes = {
   GET_CURRENT_CUSTOMER: 'GET_CURRENT_CUSTOMER',
   GET_BALANCE: 'GET_BALANCE',
   GET_PAYMENT: 'GET_PAYMENT',
-  QUANTITY_CHANGE: 'QUANTITY_CHANGE'
+  QUANTITY_CHANGE: 'QUANTITY_CHANGE',
+  GET_ALL_TICKETS: 'GET_ALL_TICKETS',
+  GET_START_DATE: 'GET_START_DATE',
+  GET_END_DATE: 'GET_END_DATE',
+  GET_TICKET_NUMBER: 'GET_TICKET_NUMBER',
+  GET_FILTER_VALUE: 'GET_FILTER_VALUE'
 }
 
 /* ===========================================================
@@ -129,4 +134,24 @@ export function getPayment(payment) {
 
 export function quantityChange(value) {
   return { type: ActionTypes.QUANTITY_CHANGE, value }
+}
+
+export function getAllTickets(tickets) {
+  return { type: ActionTypes.GET_ALL_TICKETS, tickets }
+}
+
+export function getStartDate(date) {
+  return { type: ActionTypes.GET_START_DATE, date }
+}
+
+export function getEndDate(date) {
+  return { type: ActionTypes.GET_END_DATE, date }
+}
+
+export function getTicketNumber(ticketNumber) {
+  return { type: ActionTypes.GET_TICKET_NUMBER, ticketNumber }
+}
+
+export function getFilterValue(value) {
+  return { type: ActionTypes.GET_FILTER_VALUE, value }
 }

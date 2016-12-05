@@ -12,12 +12,20 @@ class TicketsController < ApplicationController
   def show
   end
 
-  #POST
+  # POST
   def show_by_params
     @tickets = Ticket.where(ticket_params)
     respond_to do |format|
       format.json { render json: @tickets }
     end
+  end
+
+  # POST
+  def show_by_date
+    start_date = Date.parse(ticket_params[:start_date]).beginning_of_day
+    end_date = Date.parse(ticket_params[:end_date]).end_of_day
+    @tickets = Ticket.where(created_at: start_date..end_date).order(:created_at)
+    render json: @tickets, include: :table
   end
 
   # GET /tickets/new
@@ -82,6 +90,6 @@ class TicketsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:note, :table_id, :customer_id, :created_at, :is_open)
+      params.require(:ticket).permit(:note, :table_id, :customer_id, :created_at, :is_open, :start_date, :end_date)
     end
 end

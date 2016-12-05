@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :tickets do
     collection do
       post 'show_by_params'
+      post 'show_by_date'
     end
   end
   resources :menu_items do
