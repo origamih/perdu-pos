@@ -1,18 +1,17 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import AllTablesWidget from '../../app/bundles/POS/components/AllTablesWidget'
+import AllTablesWidget from '../../app/bundles/POS/components/AllTablesWidget.jsx'
 import MenuCategoriesWidget from '../../app/bundles/POS/components/MenuCategoriesWidget'
-import MenuItemsWidget from '../../app/bundles/POS/components/MenuItemsWidget'
 import sinon from 'sinon'
 
 describe('AllTablesWidget', function () {
-  const props = { tables : [{ id: 1, name: 'a' }, { id: 2, name: 'a' }] };
-  const wrapper = shallow(<AllTablesWidget {...props}/>);
+  const onClick = sinon.stub()
+  const shouldRedirect = false;
+  const tables = [{ id: 1, name: 'a' }, { id: 2, name: 'a' }];
+  const props = { tables, onClick, shouldRedirect };
+  const wrapper = shallow(<AllTablesWidget { ...props }/>);
   it('render the component', function () {
     expect(wrapper).to.have.lengthOf(1);
-  });
-  it('render props properly', function () {
-    expect(wrapper.find('Link').length).to.equal(2);
   });
 });
 

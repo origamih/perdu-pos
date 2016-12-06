@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import AllTablesWidget from '../components/AllTablesWidget';
+import AllTablesWidget from '../components/AllTablesWidget.jsx';
 import { fetchTables } from '../middleware/api'
 import React, { Component } from 'react';
 import { tableClick } from '../middleware/buttonClickHandlers'

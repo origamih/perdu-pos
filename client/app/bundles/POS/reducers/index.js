@@ -3,6 +3,15 @@ import { ActionTypes } from '../actions/index'
 import entities from './entities'
 import update from 'immutability-helper'
 import { routerReducer } from 'react-router-redux'
+import moment from 'moment'
+
+function getStartOfToday() {
+  return moment(new Date()).startOf('day').toDate();
+}
+
+function getEndOfToday() {
+  return moment(new Date()).endOf('day').toDate();
+}
 
 function tables(tables = [], action) {
   switch (action.type) {
@@ -211,7 +220,7 @@ function allTickets(allTickets = [], action) {
   }
 }
 
-function startDate(startDate = new Date(), action) {
+function startDate(startDate = getStartOfToday(), action) {
   switch(action.type) {
     case ActionTypes.GET_START_DATE:
       return action.date;
@@ -220,7 +229,7 @@ function startDate(startDate = new Date(), action) {
   }
 }
 
-function endDate(endDate = new Date(), action) {
+function endDate(endDate = getEndOfToday(), action) {
   switch(action.type) {
     case ActionTypes.GET_END_DATE:
       return action.date;
@@ -247,40 +256,17 @@ function filterValue(filterValue = 0, action) {
   }
 }
 
-// Reducer, equivalent to below code, key of returned object must match the state slice
-// function posApp(state = {}, action) {
-//   return { tables: tables(state.tables, action) }
-// }
-
-// Using combineReducers,  slices of state selected according to their keys
-// Or state.'tables' must match 'tables' reducer 
 const posApp = combineReducers({ 
-  tables, 
-  menuCategories, 
-  menuItems, 
-  entities, 
-  nextOrderGroupId,
-  nextOrderItemId,
-  currentUser,
-  openedTicket,
-  utilityButtons,
-  clickedOrders,
-  orderGroupIds,
-  clickedTickets,
-  receiveTickets,
-  currentTicket,
-  currentTable,
-  currentCustomer,
-  balance,
-  payment,
-  quantity,
-  allTickets,
-  startDate,
-  endDate,
-  ticketNumber,
-  filterValue,
+  tables, menuCategories, menuItems, entities, 
+  nextOrderGroupId, nextOrderItemId, currentUser,
+  openedTicket, utilityButtons, clickedOrders,
+  orderGroupIds, clickedTickets, receiveTickets,
+  currentTicket, currentTable, currentCustomer,
+  balance, payment, quantity, allTickets,
+  startDate, endDate, ticketNumber, filterValue,
   routing: routerReducer
 });
+
 export default posApp
 
 export const initialState = {
@@ -302,9 +288,19 @@ export const initialState = {
   orderGroupIds: [],
   tables: [],
   utilityButtons: [
-    "Change Table",
-    "Select Customer",
-    "Ticket Note",
+    "Change Table"
   ],
-  receiveTickets: false
+  receiveTickets: false,
+  "allTickets": [],
+  "balance": 0,
+  "currentCustomer": {},
+  "currentTable": {},
+  "currentTicket": {},
+  "endDate": getStartOfToday(),
+  "startDate": getEndOfToday(),
+  "filterValue": 0,
+  "payment": {},
+  "quantity": 1,
+  "ticketNumber": 0,
+  "routing": { "locationBeforeTransitions": [[null]] }
 };
