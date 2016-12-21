@@ -291,16 +291,16 @@ export const initialState = {
     "Change Table"
   ],
   receiveTickets: false,
-  "allTickets": [],
-  "balance": 0,
-  "currentCustomer": {},
-  "currentTable": {},
-  "currentTicket": {},
-  "endDate": getStartOfToday(),
-  "startDate": getEndOfToday(),
-  "filterValue": 0,
-  "payment": {},
-  "quantity": 1,
-  "ticketNumber": 0,
-  "routing": { "locationBeforeTransitions": [[null]] }
+  allTickets: [],
+  balance: 0,
+  currentCustomer: {},
+  currentTable: {},
+  currentTicket: {},
+  endDate: getEndOfToday(),
+  startDate: getStartOfToday(),
+  filterValue: 0,
+  payment: {},
+  quantity: 1,
+  ticketNumber: 0,
+  routing: { locationBeforeTransitions: [null] }
 };

@@ -139,13 +139,6 @@ describe('api:', function () {
       });
     });
  
-    it('should create GET_OPENED_TICKET when fetching is done', function () {
-      const store = mockStore({});
-      return store.dispatch(api.fetchOpenedTicket(null, null, url))
-      .then(() => {
-        expect(store.getActions()[1]).to.deep.equal(getOpenedTicket);
-      })
-    });
   });
  
   describe('fetchOrderGroups', function () {

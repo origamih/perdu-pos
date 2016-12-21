@@ -3,13 +3,6 @@ import posApp, { initialState } from '../../app/bundles/POS/reducers/index';
 
 describe('Reducers', function () {
 
-  it('should return the default state when the action is unknown', function () {
-    let action = { type: 'unknown' };
-    // undefined is the initial state pass to the reducer
-    let newState = posApp(undefined, action);
-    expect(newState).to.deep.equal(initialState);
-  });
-
   it('should handle tables reducer', function () {
     let tables = 'foo';
     let newState = posApp(undefined, actions.getTables(tables));
@@ -109,23 +102,25 @@ describe('Reducers', function () {
 
   describe('clickedOrders', function () {
     it('should handle ORDER_ITEM_CLICK action', function () {
+      const state = posApp(undefined, { type: 'unknown' });
       let clickedOrders = { id: 1 };
       let newState = posApp(undefined, actions.orderItemClick(clickedOrders));
       expect(newState.clickedOrders).to.deep.equal([clickedOrders]);
 
       let nextState = posApp(newState, actions.orderItemClick(clickedOrders));
-      expect(nextState).to.deep.equal(initialState);
+      expect(nextState).to.deep.equal(state);
     });
   });
 
   describe('clickedTickets', function () {
     it('should handle TICKET_CLICK action', function () {
+      const state = posApp(undefined, { type: 'unknown' });
       let clickedTickets = { id: 1 };
       let newState = posApp(undefined, actions.ticketClick(clickedTickets));
       expect(newState.clickedTickets).to.deep.equal([clickedTickets]);
 
       let nextState = posApp(newState, actions.ticketClick(clickedTickets));
-      expect(nextState).to.deep.equal(initialState);
+      expect(nextState).to.deep.equal(state);
     });
   });
 });
